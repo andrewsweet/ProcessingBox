@@ -15,9 +15,9 @@ class Tendril
 	}
 
 	// for changing tendril properties
-	public void changeStartPoint(Point p) { p1 = p; }
-	public void changeEndPoint(Point p) { p2 = p; }
-	public void changeAmplitude(float a) { amplitude = a; }
+	public void setStartPoint(Point p) { p1 = p; }
+	public void setEndPoint(Point p) { p2 = p; }
+	public void setAmplitude(float a) { amplitude = a; }
 
 	// draws the tendril
 	public void draw()
