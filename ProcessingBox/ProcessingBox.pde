@@ -1,6 +1,7 @@
 int y = 100;
 Box box;
 
+//TODO just a demo, remove for final
 Tendril tendril;
 
 // The statements in the setup() function 
@@ -16,6 +17,7 @@ void setup() {
   
   box = new Box(this, screenWidth/2.0, screenHeight/2.0, 50);
 
+  //TODO just a demo, remove for final
   tendril = new Tendril(new Point(screenWidth/2.0, screenHeight/2.0), new Point(600f, 400f), 3f, 2000f);
 }
 // The statements in draw() are executed until the 
@@ -25,6 +27,8 @@ void setup() {
 void draw() {
   background(0); 
   box.draw(); 
+
+  //TODO just a demo, remove for final
   tendril.draw();
 }
 
