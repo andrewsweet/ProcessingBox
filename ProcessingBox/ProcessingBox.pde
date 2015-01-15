@@ -16,7 +16,7 @@ void setup() {
   
   box = new Box(this, screenWidth/2.0, screenHeight/2.0, 50);
 
-  tendril = new Tendril(new Point(100f, 400f), new Point(600f, 400f), 7f, 10000f);
+  tendril = new Tendril(new Point(screenWidth/2.0, screenHeight/2.0), new Point(600f, 400f), 3f, 2000f);
 }
 // The statements in draw() are executed until the 
 // program is stopped. Each statement is executed in 
