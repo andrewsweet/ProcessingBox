@@ -48,6 +48,7 @@ void mousePressed(){
 void mouseDragged(){
   box.mouseDragged();
 
+  //TODO just a demo, remove for final
   for(int i = 0; i < tendrils.length; i++)
   {
     float x = mouseX + random(-5,5);

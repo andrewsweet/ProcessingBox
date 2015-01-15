@@ -3,6 +3,8 @@ class Point {
   public Point(float x_, float y_) { x = x_; y = y_; }
   
   float squareDistanceTo(Point p){
-    return sq(p.x - x) + sq(p.y - y);
+  	float dx = p.x - x;
+  	float dy = p.y - y;
+    return dx*dx + dy*dy;
   }
 }
