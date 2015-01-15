@@ -68,7 +68,7 @@ public class Box {
   
   // BAD POINT HIT DETECTION, CONSIDER CONVEX HULL
   boolean isPointInsideShape(Point p){
-    return p.distanceTo(center) < (size/2.0);
+    return p.squareDistanceTo(center) < (size*size/4.0);
   }
   
   void generateCrack(Point mouseP){

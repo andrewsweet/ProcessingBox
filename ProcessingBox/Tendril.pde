@@ -32,8 +32,23 @@ class Tendril
 	// draws the tendril
 	public void draw()
 	{
-		//TODO actual drawing tendrils, use
 		color(r,g,b);
+
+	  float d = p1.squareDistanceTo(p2);
+	  float a = atan2(p2.y-p1.y,p2.x-p1.x);
+	  /*
+	  pushMatrix();
+	    translate(p1.x,p1.y);
+	    rotate(a);
+	    beginShape();
+	      for (float i = 0; i*i <= d; i += 1) {
+	        vertex(i,sin(i*TWO_PI*freq/d)*amp);
+	      }
+	    endShape();
+	  popMatrix();
+	  */
+
+		//TODO actual drawing tendrils, use manhattan distance
 		line(p1.x, p1.y, p2.x, p2.y);
 	}
 }
