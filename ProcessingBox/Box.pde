@@ -108,6 +108,9 @@ public class Box {
   }
   
   void generateCrack(Point mouseP){
+    
+    /* 1) Generate a crack point at a random point between 
+     * the center of the square and where the mouse is */
     float x1 = center.x;
     float y1 = center.y;
     float x2 = mouseP.x;
@@ -116,6 +119,13 @@ public class Box {
     float r = random(0.3, 0.95);
     
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
+    
+    /* 2) Find the line perpendicular to the line segment 
+     * from crackPoint to the center of the polygon */
+    
+    /* 3) Generate the crack based on the given line, 
+     * with variation on the crack for both pieces */
+     
     
     // Simplify crackPoint to nearest existing point within 
     // radius if possible to reduce polygon complexity
