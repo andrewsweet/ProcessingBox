@@ -56,9 +56,9 @@ public class Box {
   }
   
   void generateCrack(Point mouseP){
-    crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
-    
-    mouseP.
+//    crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
+//    
+//    mouseP.
   }
   
   void mouseDragged(){
