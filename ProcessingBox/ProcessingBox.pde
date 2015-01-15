@@ -7,8 +7,8 @@ Tendril[] tendrils;
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
-  int screenWidth = 700;
-  int screenHeight = 500;
+  int screenWidth = 1024;
+  int screenHeight = 768;
   
   size(screenWidth, screenHeight);  // Size must be the first statement
   stroke(255);     // Set line drawing color to white
