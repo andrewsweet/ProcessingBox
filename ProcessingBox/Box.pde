@@ -5,6 +5,31 @@ float MAX_CRACK_VARIATION = 1.4;
 // larger values lead to better performance, simplified polygons
 float MIN_CRACK_VERTEX_DISTANCE = 10;
 
+/*
+ The class inherit all the fields, constructors and functions 
+ of the java.awt.Polygon class, including contains(), xpoint,ypoint,npoint
+*/
+ 
+ // Call .invalidate() any time the points change
+class Poly extends java.awt.Polygon{
+  public Poly(){
+    super();
+  }
+  
+  public Poly(int[] x,int[] y, int n){
+    //call the java.awt.Polygon constructor
+    super(x,y,n);
+  }
+ 
+  void drawMe(){
+    beginShape();
+    for(int i=0; i<npoints; i++){
+      vertex(xpoints[i],ypoints[i]);
+    }
+    endShape(CLOSE);
+  }
+}
+
 public class Box {
   PApplet parent;
   Point center;
@@ -15,7 +40,24 @@ public class Box {
   boolean startInsideShape;
   
   ArrayList<Point> coords;
+  Poly poly;
   Point crackPoint;
+  
+  public void updatePoly(){
+    int n = coords.size();
+    
+    int[] xs = new int[n];
+    int[] ys = new int[n];
+    
+    for (int i = 0; i < n; ++i){
+      Point p = coords.get(i);
+      
+      xs[i] = int(p.x);
+      ys[i] = int(p.y);
+    }
+    
+    poly = new Poly(xs, ys, n);
+  }
   
   public void setupCoordinates(){
     coords.add(new Point(this.center.x - radius, 
@@ -29,6 +71,8 @@ public class Box {
     
     coords.add(new Point(this.center.x - radius,
                          this.center.y + radius));
+                         
+    updatePoly();
   }
   
   public Box(PApplet parent, float x, float y, float size) {
@@ -50,15 +94,7 @@ public class Box {
     parent.fill(fillColor);
     parent.noStroke();
     
-    parent.beginShape();
-    
-    for (int i = 0; i < coords.size(); i++){
-      Point p = coords.get(i);
-      
-      parent.vertex(p.x, p.y);
-    }
-    
-    parent.endShape();
+    poly.drawMe();
     
     if (crackPoint != null){
       parent.fill(255, 0, 0);
@@ -68,8 +104,7 @@ public class Box {
   
   // BAD POINT HIT DETECTION, CONSIDER CONVEX HULL
   boolean isPointInsideShape(Point p){
-//    return (abs(p.x - center.x) < radius && abs(p.y - center.y) < radius);
-    return p.squareDistanceTo(center) < (size*size/4.0);
+    return poly.contains(p.x, p.y);
   }
   
   void generateCrack(Point mouseP){
