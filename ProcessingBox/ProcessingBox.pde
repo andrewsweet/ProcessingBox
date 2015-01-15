@@ -22,6 +22,10 @@ void draw() {
   box.draw(); 
 }
 
+void mousePressed(){
+  box.mousePressed();
+}
+
 void mouseDragged(){
   box.mouseDragged();
 }

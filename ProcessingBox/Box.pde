@@ -8,7 +8,7 @@ float MIN_CRACK_VERTEX_DISTANCE = 10;
 public class Box {
   PApplet parent;
   Point center;
-  float size;
+  float radius;
   color fillColor;
   
   boolean didStartDrag;
@@ -18,23 +18,23 @@ public class Box {
   Point crackPoint;
   
   public void setupCoordinates(){
-    coords.add(new Point(this.center.x - (size/2.0), 
-                         this.center.y - (size/2.0)));
+    coords.add(new Point(this.center.x - radius, 
+                         this.center.y - radius));
                          
-    coords.add(new Point(this.center.x + (size/2.0), 
-                         this.center.y - (size/2.0)));
+    coords.add(new Point(this.center.x + radius, 
+                         this.center.y - radius));
                          
-    coords.add(new Point(this.center.x + (size/2.0),
-                         this.center.y + (size/2.0)));
+    coords.add(new Point(this.center.x + radius,
+                         this.center.y + radius));
     
-    coords.add(new Point(this.center.x - (size/2.0),
-                         this.center.y + (size/2.0)));
+    coords.add(new Point(this.center.x - radius,
+                         this.center.y + radius));
   }
   
   public Box(PApplet parent, float x, float y, float size) {
     this.parent = parent;
     this.center = new Point(x, y);
-    this.size = size;
+    this.radius = size/2.0;
     
     coords = new ArrayList<Point>();
     
@@ -43,12 +43,12 @@ public class Box {
     didStartDrag = false;
     startInsideShape = false;
     
-    fillColor = color(255,255,255);
+    fillColor = color(255, 255, 255);
   }
   
   public void draw(){
     parent.fill(fillColor);
-    parent.strokeWeight(0);
+    parent.noStroke();
     
     parent.beginShape();
     
@@ -68,7 +68,7 @@ public class Box {
   
   // BAD POINT HIT DETECTION, CONSIDER CONVEX HULL
   boolean isPointInsideShape(Point p){
-    return p.distanceTo(center) < (size/2.0);
+    return (abs(p.x - center.x) < radius && abs(p.y - center.y) < radius);
   }
   
   void generateCrack(Point mouseP){
@@ -81,24 +81,27 @@ public class Box {
     
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
     
+    // Simplify crackPoint to nearest existing point within 
+    // radius if possible to reduce polygon complexity
+    
 //    mouseP.
   }
   
-  void mouseDragged(){
+  void mousePressed(){
+    didStartDrag = true;
     
-    if (!didStartDrag){
-      didStartDrag = true;
-      
-      Point p = new Point(mouseX, mouseY);
-      
-      startInsideShape = isPointInsideShape(p);
-      
-      if (startInsideShape){
-        generateCrack(p);
-      }
-    } else if (startInsideShape){
+    Point p = new Point(mouseX, mouseY);
+    
+    startInsideShape = isPointInsideShape(p);
+    
+    if (startInsideShape){
+      generateCrack(p);
+    }
+  }
+  
+  void mouseDragged(){
+    if (startInsideShape){
       // Dragging only works if the drag started inside the shape
-      
       
       print("drag");
       
