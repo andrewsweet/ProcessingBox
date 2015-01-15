@@ -34,7 +34,7 @@ class Tendril
 	// draws the tendril
 	public void draw()
 	{
-		stroke(r,g,b);
+		stroke(r,g,b,150);
 		noFill();
 
 		// source: http://forum.processing.org/one/topic/draw-a-sine-curve-between-any-two-points.html

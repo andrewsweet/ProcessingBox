@@ -2,7 +2,7 @@ int y = 100;
 Box box;
 
 //TODO just a demo, remove for final
-Tendril tendril;
+Tendril[] tendrils;
 
 // The statements in the setup() function 
 // execute once when the program begins
@@ -18,7 +18,15 @@ void setup() {
   box = new Box(this, screenWidth/2.0, screenHeight/2.0, 50);
 
   //TODO just a demo, remove for final
-  tendril = new Tendril(new Point(screenWidth/2.0, screenHeight/2.0), new Point(600f, 400f), 3f, 2000f);
+  tendrils = new Tendril[10];
+  for(int i = 0; i < tendrils.length; i++)
+  {
+    float x = screenWidth/2.0 + random(-20,20);
+    float y = screenHeight/2.0 + random(-20,20);
+    float a = random(2f,7f);
+    float f = random(1000,10000);
+    tendrils[i] = new Tendril(new Point(x,y), new Point(600f, 400f), a, f);
+  }
 }
 // The statements in draw() are executed until the 
 // program is stopped. Each statement is executed in 
@@ -29,7 +37,8 @@ void draw() {
   box.draw(); 
 
   //TODO just a demo, remove for final
-  tendril.draw();
+  for(int i = 0; i < tendrils.length; i++)
+    tendrils[i].draw();
 }
 
 void mousePressed(){
@@ -39,7 +48,12 @@ void mousePressed(){
 void mouseDragged(){
   box.mouseDragged();
 
-  tendril.setEndPoint(new Point(mouseX, mouseY));
+  for(int i = 0; i < tendrils.length; i++)
+  {
+    float x = mouseX + random(-5,5);
+    float y = mouseY + random(-5,5);
+    tendrils[i].setEndPoint(new Point(x, y));
+  }
 }
 
 void mouseReleased(){
