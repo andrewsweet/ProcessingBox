@@ -20,4 +20,12 @@ void setup() {
 // line is executed again.
 void draw() { 
   box.draw(); 
-} 
+}
+
+void mouseDragged(){
+  box.mouseDragged();
+}
+
+void mouseReleased(){
+  box.mouseReleased();
+}
