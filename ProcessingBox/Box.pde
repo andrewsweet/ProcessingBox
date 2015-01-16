@@ -116,7 +116,7 @@ public class Box {
     float x2 = mouseP.x;
     float y2 = mouseP.y;
     
-    float r = random(0.3, 0.95);
+    float r = random(0.3, 0.65);
     
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
     
@@ -148,8 +148,6 @@ public class Box {
   void mouseDragged(){
     if (startInsideShape){
       // Dragging only works if the drag started inside the shape
-      
-      print("drag");
       
       Point p = new Point(mouseX, mouseY);
     }
