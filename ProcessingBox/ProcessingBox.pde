@@ -1,4 +1,3 @@
-int y = 100;
 Box box;
 
 //TODO just a demo, remove for final
@@ -9,6 +8,8 @@ Tendril[] tendrils;
 void setup() {
   int screenWidth = 1024;
   int screenHeight = 768;
+
+  randomSeed(1);
   
   size(screenWidth, screenHeight);  // Size must be the first statement
   stroke(255);     // Set line drawing color to white
