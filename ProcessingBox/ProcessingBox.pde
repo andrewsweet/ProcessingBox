@@ -34,11 +34,12 @@ void setup() {
 // line is executed again.
 void draw() {
   background(0); 
-  box.draw(); 
-
+  
   //TODO just a demo, remove for final
   for(int i = 0; i < tendrils.length; i++)
     tendrils[i].draw();
+  
+  box.draw();
 }
 
 void mousePressed(){
