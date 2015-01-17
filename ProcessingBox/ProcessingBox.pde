@@ -3,27 +3,27 @@ Box box;
 //TODO just a demo, remove for final
 Tendril[] tendrils;
 
+static int SCREEN_WIDTH = 1024;
+static int SCREEN_HEIGHT = 768;
+
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
-  int screenWidth = 1024;
-  int screenHeight = 768;
-
   randomSeed(1);
   
-  size(screenWidth, screenHeight);  // Size must be the first statement
+  size(SCREEN_WIDTH, SCREEN_HEIGHT);  // Size must be the first statement
   stroke(255);     // Set line drawing color to white
   frameRate(30);
   background(0,0,0);
   
-  box = new Box(this, screenWidth/2.0, screenHeight/2.0, 50);
+  box = new Box(this, SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0, 50);
 
   //TODO just a demo, remove for final
   tendrils = new Tendril[10];
   for(int i = 0; i < tendrils.length; i++)
   {
-    float x = screenWidth/2.0 + random(-20,20);
-    float y = screenHeight/2.0 + random(-20,20);
+    float x = SCREEN_WIDTH/2.0 + random(-20,20);
+    float y = SCREEN_HEIGHT/2.0 + random(-20,20);
     float a = random(2f,7f);
     float f = random(1000,10000);
     tendrils[i] = new Tendril(new Point(x,y), new Point(600f, 400f), a, f);

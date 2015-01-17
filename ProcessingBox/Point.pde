@@ -7,4 +7,12 @@ class Point {
   	float dy = p.y - y;
     return dx*dx + dy*dy;
   }
+  
+  Point addTo(Point p){
+    return new Point(p.x + this.x, p.y + this.y);
+  }
+  
+  Point subtractFrom(Point p){
+    return new Point(p.x - this.x, p.y - this.y);
+  }
 }
