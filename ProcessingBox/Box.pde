@@ -30,6 +30,22 @@ class Poly extends java.awt.Polygon{
   }
 }
 
+public Poly createPoly(ArrayList<Point>points){
+  int n = points.size();
+  
+  int[] x = new int[n];
+  int[] y = new int[n];
+  
+  for (int i = 0; i < n; ++i){
+    Point p = points.get(i);
+    
+    x[i] = (int)p.x;
+    y[i] = (int)p.y;
+  }
+  
+  return new Poly(x,y,n);
+}
+
 public class Box {
   PApplet parent;
   Point center;
@@ -38,11 +54,16 @@ public class Box {
   
   boolean didStartDrag;
   boolean startInsideShape;
+  boolean broken = false;
+  Point startDragPoint;
   
   ArrayList<Point> coords;
   Poly poly;
   Point crackPoint;
   ArrayList<Point> endPoints;
+  
+  Poly shape1;
+  Poly shape2;
   
   public void updatePoly(){
     int n = coords.size();
@@ -87,12 +108,13 @@ public class Box {
     
     didStartDrag = false;
     startInsideShape = false;
+    broken = false;
     
     fillColor = color(255, 255, 255);
   }
   
   // based on psuedo-code from http://geomalgorithms.com/a13-_intersect-4.html
-  ArrayList<Point> pointsOfIntersectionWithLineSegment(LineSegment seg){
+  ArrayList<Point> pointsOfIntersectionWithLineSegment(LineSegment seg, Point mouseP){
     Point p0 = seg.p1;
     Point p1 = seg.p2;
     
@@ -108,18 +130,45 @@ public class Box {
     
     seg.calculateSlopeAndIntercept();
     
+    boolean shouldAddToShape1 = true;
+    
+    ArrayList<Point> shape1Points = new ArrayList<Point>();
+    ArrayList<Point> shape2Points = new ArrayList<Point>();
+    
     for (int i = 0; i < coords.size(); ++i){
       v1 = coords.get(i);
       LineSegment c_seg = new LineSegment(v0, v1);
       
       Point intercept = seg.intersection(c_seg);
       
+      if (shouldAddToShape1){
+        shape1Points.add(v0);
+      } else {
+        shape2Points.add(v0);
+      }
+      
       if (c_seg.isPointOnSegment(intercept)){
         intersections.add(intercept);
+        
+        // Add point to both shapes
+        shape1Points.add(intercept);
+        shape2Points.add(intercept);
+        
+        shouldAddToShape1 = !shouldAddToShape1;
       }
       
       // After everything is done
       v0 = v1;
+    }
+    
+    shape1 = createPoly(shape1Points);
+    
+    // Ensures shape 2 is the one interacting with the mouse
+    if (!shape1.contains(mouseP.x, mouseP.y)){
+      shape2 = createPoly(shape2Points);
+    } else {
+      shape2 = shape1;
+      shape1 = createPoly(shape2Points);
     }
     
     return intersections;
@@ -172,7 +221,7 @@ public class Box {
     /* 3) Generate the crack based on the given line, 
      * with variation on the crack for both pieces */
     //ArrayList<Point> 
-    endPoints = this.pointsOfIntersectionWithLineSegment(crackLine);
+    endPoints = this.pointsOfIntersectionWithLineSegment(crackLine, mouseP);
 //    endPoints = new ArrayList<Point>();
 //    endPoints.add(crackLine.p1);
 //    endPoints.add(crackLine.p2);
@@ -187,6 +236,7 @@ public class Box {
     didStartDrag = true;
     
     Point p = new Point(mouseX, mouseY);
+    startDragPoint = p;
     
     startInsideShape = isPointInsideShape(p);
     
@@ -195,11 +245,23 @@ public class Box {
     }
   }
   
+  void breakPieceOff(){
+    broken = true;
+    
+    
+  }
+  
   void mouseDragged(){
     if (startInsideShape){
       // Dragging only works if the drag started inside the shape
       
       Point p = new Point(mouseX, mouseY);
+      
+      if (broken){ // Have box react to broken piece's movement
+      
+      } else if (p.squareDistanceTo(startDragPoint) > 400){
+        breakPieceOff();
+      }
     }
   }
   
@@ -225,6 +287,20 @@ public class Box {
         
         line(p1.x, p1.y, p2.x, p2.y);
       }
+    }
+    
+    if (shape2 != null){
+      fill(0, 255, 0);
+      
+      int n = shape2.npoints;
+      int[] x = shape2.xpoints;
+      int[] y = shape2.ypoints;
+      
+      beginShape();
+      for(int i=0; i<n; i++){
+        vertex(x[i], y[i]);
+      }
+      endShape(CLOSE);
     }
   }
 }
