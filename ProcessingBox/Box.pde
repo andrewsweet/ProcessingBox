@@ -112,31 +112,34 @@ public class Box {
       v1 = coords.get(i);
       LineSegment c_seg = new LineSegment(v0, v1);
       
-      c_seg.calculateSlopeAndIntercept();
-      
-      float m1 = seg.slope;
-      float m2 = c_seg.slope;
-      
-      float b1 = seg.yIntercept;
-      float b2 = seg.yIntercept;
-      
-//      (m1 * x) + b1 = (m2 * x) + b2;
-//      (m1 * x) = (m2 * x) + b2 - b1;
-//      (m1 * x) - (m2 * x) = b2 - b1;
-//      x * (m1 - m2) = (b2 - b1);
-      
-      float x = (b2 - b1) / (m1 - m2);
-      float y = (m1 * x) + b1;
-      
-      print("b1 =", b1, " m1 =", m1, " b2 =", b2,  " m2 =", m2, "\n");
-      print("x =", x, " y =", y, "\n");
-      
-      Point intercept = new Point(x, y);
+      Point intercept = seg.intersection(c_seg);
+//      
+//      c_seg.calculateSlopeAndIntercept();
+//      
+//      float m1 = seg.slope;
+//      float m2 = c_seg.slope;
+//      
+//      float b1 = seg.yIntercept;
+//      float b2 = c_seg.yIntercept;
+//      
+////      (m1 * x) + b1 = (m2 * x) + b2;
+////      (m1 * x) = (m2 * x) + b2 - b1;
+////      (m1 * x) - (m2 * x) = b2 - b1;
+////      x * (m1 - m2) = (b2 - b1);
+//      
+//      float x = (b2 - b1) / (m1 - m2);
+//      float y = (m1 * x) + b1;
+//      
+//      print("b1 =", b1, " m1 =", m1, " b2 =", b2,  " m2 =", m2, "\n");
+//      print("x =", x, " y =", y, "\n");
+//      
+//      Point intercept = new Point(x, y);
       
       if (c_seg.isPointOnSegment(intercept)){
         intersections.add(intercept);
         
         print("FOUND INTERSECTION\n");
+        print(intercept.x, intercept.y, "\n");
       }
       
       // After everything is done
@@ -159,6 +162,10 @@ public class Box {
     
     LineSegment seg = new LineSegment(center, mouseP);
     
+    if (abs(center.y - mouseP.y) < 0.001){
+      return new LineSegment(3f/0, crackPoint);
+    }
+    
     seg.calculateSlopeAndIntercept();
     
     float slope = seg.slope;
@@ -167,7 +174,7 @@ public class Box {
     
     float yIntercept = seg.yIntercept;
     
-    return new LineSegment(slope, yIntercept);
+    return new LineSegment(slope, crackPoint);
   }
   
   void generateCrack(Point mouseP){
@@ -180,6 +187,8 @@ public class Box {
     
     float r = random(0.3, 0.65);
     
+    print("\n\n");
+    
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
     
     /* 2) Find the line perpendicular to the line segment 
@@ -190,6 +199,9 @@ public class Box {
      * with variation on the crack for both pieces */
     //ArrayList<Point> 
     endPoints = this.pointsOfIntersectionWithLineSegment(crackLine);
+//    endPoints = new ArrayList<Point>();
+//    endPoints.add(crackLine.p1);
+//    endPoints.add(crackLine.p2);
     
     // Simplify crackPoint to nearest existing point within 
     // radius if possible to reduce polygon complexity
@@ -233,6 +245,7 @@ public class Box {
       ellipse(crackPoint.x, crackPoint.y, 3, 3);
       
       if (endPoints.size() > 1){
+        parent.stroke(255, 0, 0);
         Point p1 = endPoints.get(0);
         Point p2 = endPoints.get(1);
         
