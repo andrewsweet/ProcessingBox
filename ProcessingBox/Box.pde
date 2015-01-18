@@ -180,18 +180,12 @@ public class Box {
                 LineSegment crackLine = new LineSegment(a, b);
                 
                 ArrayList<Point> randomPoints = crackLine.getRandomPointsOffsetFromLine(3, 6.0);
-//                randomPoints = randomlyMovePoints(randomPoints, 4.0);
-        
-                print("LINE:", crackLine.p1.x, crackLine.p1.y, crackLine.p2.x, crackLine.p2.y, "\n");
-                print("RANDOM: ");
                 
                 int numRandomPts = randomPoints.size();
                 
                 for (int k = 0; k < numRandomPts; ++k){
                   Point pt1 = randomPoints.get(k);
                   Point pt2 = randomPoints.get(numRandomPts - (k + 1));
-                  
-                  print(pt1.x, pt1.y, "\n");
                   
                   if (!shouldAddToShape1){
                     shape1Points.add(pt1);

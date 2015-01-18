@@ -46,40 +46,6 @@ class LineSegment {
     return new Point(x1+(x2-x1)*progress, y1+(y2-y1)*progress);
   }
   
-//  ArrayList<Point> getRandomPointsOnLine(int numPoints){
-//    float progressLeft = 1.0;
-//    float progressSoFar = 0.0;
-//    float expectedProgress;
-//    
-//    // The higher, the less uniform
-//    // 0.0 is fully uniform, higher than 1.0 is disallowed
-//    float variance = 0.25;
-//    float r;
-//    
-//    ArrayList<Point> results = new ArrayList<Point>();
-//    
-//    print("Progress: ");
-//    
-//    for (int i = 0; i < numPoints; ++i){
-//      expectedProgress = (progressLeft/(numPoints-i + 1));
-//      
-//      r = random(1.0 - variance, 1.0 + variance);
-//      
-//      float progress = (expectedProgress * r) + progressSoFar;
-//      progressLeft -= progress;
-//      
-//      print(progress, "\n");
-//      
-//      Point p = this.pointAtProgress(progress);
-//      
-//      results.add(p);
-//    }
-//    
-//    print("\n");
-//    
-//    return results;
-//  }
-  
   float dotProductWith(LineSegment v){
     float dx = p2.x - p1.x;
     float dy = p2.y - p1.y;
@@ -112,14 +78,10 @@ class LineSegment {
     
     ArrayList<Point> results = new ArrayList<Point>();
     
-    print("Progress: ");
-    
     for (int i = 0; i < numPoints; ++i){
       expectedProgress = (progressLeft/(numPoints-i + 1));
       
       r = random(1.0 - variance, 1.0 + variance);
-      
-      print("so far:", progressSoFar, "\n");
       
       float progress = (expectedProgress * r) + progressSoFar;
       
@@ -127,8 +89,6 @@ class LineSegment {
       
       progressLeft -= progress;
       progressSoFar = 1.0 - progressLeft;
-      
-      print(progress, "\n");
       
       Point p = this.pointAtProgress(progress);
       
@@ -160,8 +120,6 @@ class LineSegment {
       
       results.add(p);
     }
-    
-    print("\n");
     
     return results;
   }
