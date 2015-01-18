@@ -46,6 +46,40 @@ class LineSegment {
     return new Point(x1+(x2-x1)*progress, y1+(y2-y1)*progress);
   }
   
+//  ArrayList<Point> getRandomPointsOnLine(int numPoints){
+//    float progressLeft = 1.0;
+//    float progressSoFar = 0.0;
+//    float expectedProgress;
+//    
+//    // The higher, the less uniform
+//    // 0.0 is fully uniform, higher than 1.0 is disallowed
+//    float variance = 0.25;
+//    float r;
+//    
+//    ArrayList<Point> results = new ArrayList<Point>();
+//    
+//    print("Progress: ");
+//    
+//    for (int i = 0; i < numPoints; ++i){
+//      expectedProgress = (progressLeft/(numPoints-i + 1));
+//      
+//      r = random(1.0 - variance, 1.0 + variance);
+//      
+//      float progress = (expectedProgress * r) + progressSoFar;
+//      progressLeft -= progress;
+//      
+//      print(progress, "\n");
+//      
+//      Point p = this.pointAtProgress(progress);
+//      
+//      results.add(p);
+//    }
+//    
+//    print("\n");
+//    
+//    return results;
+//  }
+  
   float dotProductWith(LineSegment v){
     float dx = p2.x - p1.x;
     float dy = p2.y - p1.y;
@@ -62,6 +96,74 @@ class LineSegment {
     // y = (m*x) + b
     // y - (m*x)
     yIntercept = (p1.y - (slope * p1.x));
+  }
+  
+  ArrayList<Point> getRandomPointsOffsetFromLine(int numPoints, float maxDistance){
+    float progressLeft = 1.0;
+    float progressSoFar = 0.0;
+    float expectedProgress;
+    
+    calculateSlopeAndIntercept();
+    
+    // The higher, the less uniform
+    // 0.0 is fully uniform, higher than 1.0 is disallowed
+    float variance = 0.12;
+    float r;
+    
+    ArrayList<Point> results = new ArrayList<Point>();
+    
+    print("Progress: ");
+    
+    for (int i = 0; i < numPoints; ++i){
+      expectedProgress = (progressLeft/(numPoints-i + 1));
+      
+      r = random(1.0 - variance, 1.0 + variance);
+      
+      print("so far:", progressSoFar, "\n");
+      
+      float progress = (expectedProgress * r) + progressSoFar;
+      
+      if (progress > 1.0) progress = 1.0;
+      
+      progressLeft -= progress;
+      progressSoFar = 1.0 - progressLeft;
+      
+      print(progress, "\n");
+      
+      Point p = this.pointAtProgress(progress);
+      
+      float c_slope = -(1.0/slope);
+      
+      float r2 = random(-maxDistance, maxDistance);
+      
+      float infinity = 3f/0;
+      
+      float dx, dy;
+      
+      if (c_slope == infinity){
+        dx = 0;
+        dy = r2;
+      } else {
+        
+        // asin(x) where x > abs(1.0) will return NaN
+        if (c_slope < -1.0) c_slope = -1.0;
+        if (c_slope > 1.0) c_slope = 1.0;
+        
+        float angle = asin(c_slope);
+        
+        dx = cos(angle) * r2;
+        dy = sin(angle) * r2;
+      }
+      
+      p.x += dx;
+      p.y += dy;
+      
+      results.add(p);
+    }
+    
+    print("\n");
+    
+    return results;
   }
   
   // point can be on line, but not on line segment

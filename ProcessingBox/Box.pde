@@ -1,3 +1,5 @@
+import java.util.*;
+
 // Greater values increase disparity between split pieces
 float MAX_CRACK_VARIATION = 1.4;
 
@@ -130,16 +132,93 @@ public class Box {
     
     seg.calculateSlopeAndIntercept();
     
+    Point intercept = null;
+    
+    int numCoords = coords.size();
+    
+    for (int i = 0; i < numCoords; ++i){
+      v1 = coords.get(i);
+      LineSegment c_seg = new LineSegment(v0, v1);
+      
+      intercept = seg.intersection(c_seg);
+      
+      if (c_seg.isPointOnSegment(intercept)){
+        intersections.add(intercept);
+      }
+      
+      v0 = v1;
+    }
+    
     boolean shouldAddToShape1 = true;
+    intercept = null;
+    v0 = coords.get(coords.size() - 1);
     
     ArrayList<Point> shape1Points = new ArrayList<Point>();
     ArrayList<Point> shape2Points = new ArrayList<Point>();
     
-    for (int i = 0; i < coords.size(); ++i){
+    HashSet<Integer> seenIntersectionPairs = new HashSet<Integer>();
+    
+    for (int i = 0; i < numCoords; ++i){
       v1 = coords.get(i);
       LineSegment c_seg = new LineSegment(v0, v1);
       
-      Point intercept = seg.intersection(c_seg);
+      if (intercept != null){
+        int pairNum = 0;
+        
+        if (intersections != null){
+          for (int j = 0; j < intersections.size(); ++j){
+            
+            Point p = intersections.get(j);
+            
+            if (p.isAlmostEqual(intercept)){
+              if (!seenIntersectionPairs.contains(pairNum)){
+                seenIntersectionPairs.add(pairNum);
+                
+                Point a = intersections.get(pairNum);
+                Point b = intersections.get(pairNum+1);
+                
+                LineSegment crackLine = new LineSegment(a, b);
+                
+                ArrayList<Point> randomPoints = crackLine.getRandomPointsOffsetFromLine(3, 6.0);
+//                randomPoints = randomlyMovePoints(randomPoints, 4.0);
+        
+                print("LINE:", crackLine.p1.x, crackLine.p1.y, crackLine.p2.x, crackLine.p2.y, "\n");
+                print("RANDOM: ");
+                
+                int numRandomPts = randomPoints.size();
+                
+                for (int k = 0; k < numRandomPts; ++k){
+                  Point pt1 = randomPoints.get(k);
+                  Point pt2 = randomPoints.get(numRandomPts - (k + 1));
+                  
+                  print(pt1.x, pt1.y, "\n");
+                  
+                  if (!shouldAddToShape1){
+                    shape1Points.add(pt1);
+                    shape2Points.add(pt2);
+                  } else {
+                    shape1Points.add(pt2);
+                    shape2Points.add(pt1);
+                  }
+                }
+              }
+              
+              // You can do something for inside vs outside edges if need be
+              // if (j % 2 == 0)
+              break;
+            }
+            if (j % 2 == 1) pairNum++;
+          }
+        }
+        
+        if (shouldAddToShape1){
+          shape1Points.add(intercept);
+        } else {
+          shape2Points.add(intercept);
+        }
+      }
+      
+      intercept = seg.intersection(c_seg);
       
       if (shouldAddToShape1){
         shape1Points.add(v0);
@@ -148,17 +227,27 @@ public class Box {
       }
       
       if (c_seg.isPointOnSegment(intercept)){
-        intersections.add(intercept);
-        
-        // Add point to both shapes
-        shape1Points.add(intercept);
-        shape2Points.add(intercept);
+        if (shouldAddToShape1){
+          shape1Points.add(intercept);
+        } else {
+          shape2Points.add(intercept);
+        }
         
         shouldAddToShape1 = !shouldAddToShape1;
+      } else {
+        intercept = null;
       }
       
       // After everything is done
       v0 = v1;
+    }
+    
+    if (intercept != null){
+      if (shouldAddToShape1){
+        shape1Points.add(intercept);
+      } else {
+        shape2Points.add(intercept);
+      }
     }
     
     shape1 = createPoly(shape1Points);
@@ -276,21 +365,23 @@ public class Box {
     
     poly.drawMe();
     
-    if (crackPoint != null){
-      parent.fill(255, 0, 0);
-      ellipse(crackPoint.x, crackPoint.y, 3, 3);
-      
-      if (endPoints.size() > 1){
-        parent.stroke(255, 0, 0);
-        Point p1 = endPoints.get(0);
-        Point p2 = endPoints.get(1);
-        
-        line(p1.x, p1.y, p2.x, p2.y);
-      }
-    }
+    parent.stroke(255, 0, 0);
+    
+//    if (crackPoint != null){
+//      parent.fill(255, 0, 0);
+//      ellipse(crackPoint.x, crackPoint.y, 3, 3);
+//      
+//      if (endPoints.size() > 1){
+//        
+//        Point p1 = endPoints.get(0);
+//        Point p2 = endPoints.get(1);
+//        
+//        line(p1.x, p1.y, p2.x, p2.y);
+//      }
+//    }
     
     if (shape2 != null){
-      fill(0, 255, 0);
+      parent.fill(0, 255, 0);
       
       int n = shape2.npoints;
       int[] x = shape2.xpoints;
