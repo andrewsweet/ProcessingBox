@@ -85,26 +85,6 @@ class LineSegment {
      }
      
      return false;
-
-//     float M = (y2 - y1) / (x2 - x1); // Slope
-//     float C = -(M * x1) + y1; // Y intercept
-//
-//     // Checking if (x, y) is on the line passing through the end points.
-//     return (std::fabs (y - (M * x + C)) <= tolerance);
-//    
-//    
-//    LineSegment seg = new LineSegment(p1, p);
-//    
-//    float result = this.dotProductWith(seg);
-//    
-//    if (abs((result * result) - this.lengthSquared()) < epsilon){
-//      print("YEP");
-//      return true;
-//    }
-//    
-//    print("seg", p1.x, p1.y, p.x, p.y, "\n");
-//    print("isPointOnLine", result, this.lengthSquared(), abs((result * result) - this.lengthSquared()), "\n");
-//    return false;
   }
   
   public Point intersection(LineSegment line2) {
@@ -150,25 +130,19 @@ class LineSegment {
       yBig = p1.y;
     }
     
-    print(xSmall, p.x, xBig, "\n");
-    
     if (abs(xBig - xSmall) < epsilon){
       if (abs(p.x - xSmall) > epsilon){
-        print("Not in range!\n");
         return false;
       }
     } else if (p.x < xSmall || p.x > xBig) {
-      print("Not in range!\n");
       return false;
     }
     
     if (abs(yBig - ySmall) < epsilon){
       if (abs(p.y - ySmall) > epsilon){
-        print("Not in range!\n");
         return false;
       }
     } else if (p.y < ySmall || p.y > yBig) {
-      print("Not in range!\n");
       return false;
     }
     

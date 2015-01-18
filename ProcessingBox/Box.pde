@@ -113,33 +113,9 @@ public class Box {
       LineSegment c_seg = new LineSegment(v0, v1);
       
       Point intercept = seg.intersection(c_seg);
-//      
-//      c_seg.calculateSlopeAndIntercept();
-//      
-//      float m1 = seg.slope;
-//      float m2 = c_seg.slope;
-//      
-//      float b1 = seg.yIntercept;
-//      float b2 = c_seg.yIntercept;
-//      
-////      (m1 * x) + b1 = (m2 * x) + b2;
-////      (m1 * x) = (m2 * x) + b2 - b1;
-////      (m1 * x) - (m2 * x) = b2 - b1;
-////      x * (m1 - m2) = (b2 - b1);
-//      
-//      float x = (b2 - b1) / (m1 - m2);
-//      float y = (m1 * x) + b1;
-//      
-//      print("b1 =", b1, " m1 =", m1, " b2 =", b2,  " m2 =", m2, "\n");
-//      print("x =", x, " y =", y, "\n");
-//      
-//      Point intercept = new Point(x, y);
       
       if (c_seg.isPointOnSegment(intercept)){
         intersections.add(intercept);
-        
-        print("FOUND INTERSECTION\n");
-        print(intercept.x, intercept.y, "\n");
       }
       
       // After everything is done
@@ -186,8 +162,6 @@ public class Box {
     float y2 = mouseP.y;
     
     float r = random(0.3, 0.65);
-    
-    print("\n\n");
     
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
     
