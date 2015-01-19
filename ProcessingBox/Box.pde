@@ -67,6 +67,9 @@ public class Box {
   Poly shape1;
   Poly shape2;
   
+  Box_Piece piece;
+  
+  // From coords, update poly
   public void updatePoly(){
     int n = coords.size();
     
@@ -81,6 +84,22 @@ public class Box {
     }
     
     poly = new Poly(xs, ys, n);
+  }
+  
+  // From poly, update coords
+  public void updateCoords(){
+    int n = poly.npoints;
+    int[] x = poly.xpoints;
+    int[] y = poly.ypoints;
+    
+    ArrayList<Point>toUpdate = new ArrayList<Point>();
+    
+    for (int i = 0; i < n; ++i){
+      Point p = new Point(x[i], y[i]);
+      toUpdate.add(p);
+    }
+    
+    coords = toUpdate;
   }
   
   public void setupCoordinates(){
@@ -331,7 +350,13 @@ public class Box {
   void breakPieceOff(){
     broken = true;
     
+    poly = shape1;
+    updateCoords();
     
+    piece = new Box_Piece(shape2, startDragPoint);
+    
+    shape1 = null;
+    shape2 = null;
   }
   
   void mouseDragged(){
@@ -351,6 +376,10 @@ public class Box {
   void mouseReleased(){
     didStartDrag = false;
     startInsideShape = false;
+    
+    if (piece != null){
+      piece.stopDrag();
+    }
   }
   
   public void draw(){
@@ -361,6 +390,7 @@ public class Box {
     
     parent.stroke(255, 0, 0);
     
+    // Draw the crack line
 //    if (crackPoint != null){
 //      parent.fill(255, 0, 0);
 //      ellipse(crackPoint.x, crackPoint.y, 3, 3);
@@ -386,6 +416,10 @@ public class Box {
         vertex(x[i], y[i]);
       }
       endShape(CLOSE);
+    }
+    
+    if (piece != null){
+      piece.drawMe();
     }
   }
 }
