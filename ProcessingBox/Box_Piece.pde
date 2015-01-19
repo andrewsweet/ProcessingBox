@@ -12,7 +12,7 @@ class Box_Piece {
   public void drawMe(){
     float x, y;
     
-    Point offset = startMouse;
+    Point offset = new Point(0, 0);
     
     if (isDragged){
       Point mouseP = new Point(mouseX, mouseY);
