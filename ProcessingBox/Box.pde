@@ -67,6 +67,9 @@ public class Box {
   Poly shape1;
   Poly shape2;
   
+  // Used to reconnect the pieces;
+  Poly border;
+  
   Box_Piece piece;
   
   // From coords, update poly
@@ -175,6 +178,8 @@ public class Box {
     ArrayList<Point> shape1Points = new ArrayList<Point>();
     ArrayList<Point> shape2Points = new ArrayList<Point>();
     
+    ArrayList<Point> borderPoints = new ArrayList<Point>();
+    
     HashSet<Integer> seenIntersectionPairs = new HashSet<Integer>();
     
     for (int i = 0; i < numCoords; ++i){
@@ -239,12 +244,16 @@ public class Box {
         shape2Points.add(v0);
       }
       
+      borderPoints.add(v0);
+      
       if (c_seg.isPointOnSegment(intercept)){
         if (shouldAddToShape1){
           shape1Points.add(intercept);
         } else {
           shape2Points.add(intercept);
         }
+        
+        borderPoints.add(v0);
         
         shouldAddToShape1 = !shouldAddToShape1;
       } else {
@@ -272,6 +281,8 @@ public class Box {
       shape2 = shape1;
       shape1 = createPoly(shape2Points);
     }
+    
+    border = createPoly(borderPoints);
     
     return intersections;
   }
@@ -379,7 +390,22 @@ public class Box {
     
     if (piece != null){
       piece.stopDrag();
+      reconnect();
     }
+  }
+  
+  public void reconnect(){
+    poly = border;
+    this.updateCoords();
+    
+    border = null;
+    piece = null;
+    shape1 = null;
+    shape2 = null;
+    broken = false;
+    crackPoint = null;
+    endPoints = null;
+    startDragPoint = null;
   }
   
   public void draw(){
