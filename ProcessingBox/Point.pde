@@ -2,6 +2,10 @@ class Point {
   public float x, y;
   public Point(float x_, float y_) { x = x_; y = y_; }
   
+  public String toString() {
+        return "(" + this.x + ", " + this.y + ")";
+  }   
+  
   float squareDistanceTo(Point p){
   	float dx = p.x - x;
   	float dy = p.y - y;
@@ -31,7 +35,7 @@ Point randomizeMovePoint(Point p, float maxDistance){
   float angle = random(0.0, 2 * PI);
   float distance = random(0.0, maxDistance);
   
-  return new Point(p.x + (cos(angle)*distance), p.y + (sin(angle)*distance));
+  return new Point(round(p.x + (cos(angle)*distance)), round(p.y + (sin(angle)*distance)));
 }
 
 ArrayList<Point>randomlyMovePoints(ArrayList<Point>points, float maxDistance){
@@ -44,6 +48,9 @@ ArrayList<Point>randomlyMovePoints(ArrayList<Point>points, float maxDistance){
     
     result.add(p);
   }
+  
+  print(points, "\n");
+  print(result, "\n\n");
   
   return result;
 }

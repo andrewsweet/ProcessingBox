@@ -171,9 +171,12 @@ public class Box {
       v0 = v1;
     }
     
+//    intersections = randomlyMovePoints(intersections, 0);
+    ArrayList<Point> c_coords = coords;//randomlyMovePoints(coords, 0);
+    
     boolean shouldAddToShape1 = true;
     intercept = null;
-    v0 = coords.get(coords.size() - 1);
+    v0 = c_coords.get(c_coords.size() - 1);
     
     ArrayList<Point> shape1Points = new ArrayList<Point>();
     ArrayList<Point> shape2Points = new ArrayList<Point>();
@@ -183,7 +186,7 @@ public class Box {
     HashSet<Integer> seenIntersectionPairs = new HashSet<Integer>();
     
     for (int i = 0; i < numCoords; ++i){
-      v1 = coords.get(i);
+      v1 = c_coords.get(i);
       LineSegment c_seg = new LineSegment(v0, v1);
       
       if (intercept != null){
@@ -368,6 +371,14 @@ public class Box {
     
     shape1 = null;
     shape2 = null;
+    
+    float brightness = brightness(fillColor);
+    
+    brightness = max(brightness - 15, 0);
+    
+    fillColor = color(brightness);
+    
+    print("BRIGHT",brightness);
   }
   
   void mouseDragged(){
