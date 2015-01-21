@@ -35,7 +35,7 @@ Point randomizeMovePoint(Point p, float maxDistance){
   float angle = random(0.0, 2 * PI);
   float distance = random(0.0, maxDistance);
   
-  return new Point(round(p.x + (cos(angle)*distance)), round(p.y + (sin(angle)*distance)));
+  return new Point(p.x + (cos(angle)*distance), p.y + (sin(angle)*distance));
 }
 
 ArrayList<Point>randomlyMovePoints(ArrayList<Point>points, float maxDistance){

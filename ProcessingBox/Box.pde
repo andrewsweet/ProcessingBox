@@ -171,7 +171,7 @@ public class Box {
       v0 = v1;
     }
     
-//    intersections = randomlyMovePoints(intersections, 0);
+//    intersections = randomlyMovePoints(intersections, 1.0);
     ArrayList<Point> c_coords = coords;//randomlyMovePoints(coords, 0);
     
     boolean shouldAddToShape1 = true;
@@ -201,26 +201,32 @@ public class Box {
               if (!seenIntersectionPairs.contains(pairNum)){
                 seenIntersectionPairs.add(pairNum);
                 
-                Point a = intersections.get(pairNum);
-                Point b = intersections.get(pairNum+1);
+                int next = pairNum+1;
                 
-                LineSegment crackLine = new LineSegment(a, b);
-                
-                ArrayList<Point> randomPoints = crackLine.getRandomPointsOffsetFromLine(3, 6.0);
-                
-                int numRandomPts = randomPoints.size();
-                
-                for (int k = 0; k < numRandomPts; ++k){
-                  Point pt1 = randomPoints.get(k);
-                  Point pt2 = randomPoints.get(numRandomPts - (k + 1));
+                if (next < intersections.size()){
+                  Point a = intersections.get(pairNum);
+                  Point b = intersections.get(next);
                   
-                  if (!shouldAddToShape1){
-                    shape1Points.add(pt1);
-                    shape2Points.add(pt2);
-                  } else {
-                    shape1Points.add(pt2);
-                    shape2Points.add(pt1);
+                  LineSegment crackLine = new LineSegment(a, b);
+                  
+                  ArrayList<Point> randomPoints = crackLine.getRandomPointsOffsetFromLine(3, 6.0);
+                  
+                  int numRandomPts = randomPoints.size();
+                  
+                  for (int k = 0; k < numRandomPts; ++k){
+                    Point pt1 = randomPoints.get(k);
+                    Point pt2 = randomPoints.get(numRandomPts - (k + 1));
+                    
+                    if (!shouldAddToShape1){
+                      shape1Points.add(pt1);
+                      shape2Points.add(pt2);
+                    } else {
+                      shape1Points.add(pt2);
+                      shape2Points.add(pt1);
+                    }
                   }
+                } else {
+                  print("\n\nTHIS IS BAD EDGE NOT PAIRWISE MATCHED\n\n");
                 }
               }
               
@@ -377,18 +383,15 @@ public class Box {
     brightness = max(brightness - 15, 0);
     
     fillColor = color(brightness);
-    
-    print("BRIGHT",brightness);
   }
   
   void mouseDragged(){
     if (startInsideShape){
       // Dragging only works if the drag started inside the shape
-      
       Point p = new Point(mouseX, mouseY);
       
       if (broken){ // Have box react to broken piece's movement
-      
+        moveTendrils();
       } else if (p.squareDistanceTo(startDragPoint) > 400){
         breakPieceOff();
       }
