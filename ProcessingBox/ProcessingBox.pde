@@ -2,6 +2,7 @@ Box box;
 
 //TODO just a demo, remove for final
 Tendril[] tendrils;
+boolean isMouseDown;
 
 static int SCREEN_WIDTH = 1024;
 static int SCREEN_HEIGHT = 768;
@@ -26,7 +27,7 @@ void setup() {
     float y = SCREEN_HEIGHT/2.0 + random(-20,20);
     float a = random(2f,7f);
     float f = random(1000,10000);
-    tendrils[i] = new Tendril(new Point(x,y), new Point(600f, 400f), a, f);
+    tendrils[i] = new Tendril(new Point(x,y), new Point(600f, 400f), a, f, 80000);
   }
 }
 // The statements in draw() are executed until the 
@@ -45,6 +46,7 @@ void draw() {
 
 void mousePressed(){
   box.mousePressed();
+  isMouseDown = true;
 }
 
 void mouseDragged(){
@@ -61,4 +63,5 @@ void mouseDragged(){
 
 void mouseReleased(){
   box.mouseReleased();
+  isMouseDown = false;
 }

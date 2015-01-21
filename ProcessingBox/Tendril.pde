@@ -4,18 +4,19 @@ class Tendril
 	private Point p1, p2;
 
 	// how crazy the tendril is
-	private float amplitude, frequency;
+	private float amplitude, frequency, length;
 
 	// color of tendril
 	private int r, g, b;
 
 	// point, end point, amplitude
-	public Tendril(Point p1, Point p2, float a, float f)
+	public Tendril(Point p1, Point p2, float a, float f, float l)
 	{
 		this.p1	= p1;
 		this.p2	= p2;
 		this.amplitude = a;
 		this.frequency = f;
+		this.length = l;
 
 		this.r = 255;
 		this.g = 255;
@@ -31,6 +32,7 @@ class Tendril
 	{
 		this.r = r; this.g = g; this.b = b;
 	}
+	public void setSquareLength(float l) { length = l; }
 
 	// retracts tendril
 	public void update()
@@ -48,7 +50,7 @@ class Tendril
 
 		// source: http://forum.processing.org/one/topic/draw-a-sine-curve-between-any-two-points.html
 	  float d = p1.squareDistanceTo(p2);
-	  d = min(d,80000);
+	  d = min(d,length);
 
 	  float a = atan2(p2.y-p1.y,p2.x-p1.x);
 	  pushMatrix();
@@ -63,6 +65,7 @@ class Tendril
 	    endShape();
 	  popMatrix();
 
-	  this.update();
+	  if(!isMouseDown)
+	  	this.update();
 	}
 }
