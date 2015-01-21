@@ -44,7 +44,6 @@ class Tendril
 	// draws the tendril
 	public void draw()
 	{
-
 		stroke(r,g,b,150);
 		noFill();
 

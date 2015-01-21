@@ -1,12 +1,13 @@
 class Particle {
-  float x, y, vx, vy, ax, ay;
-  float lifespan, particleWidth;
+  private float x, y, vx, vy, ax, ay;
+  private float lifespan, particleWidth;
 
   Particle(float x, float y, float vx, float vy, float w) {
     this.x = x;
     this.y = y;
     this.vx = vx;
     this.vy = vy;
+    // TODO set acceleration
     this.ax = 0f;
     this.ay = 0f;
     this.particleWidth = w;
@@ -36,7 +37,7 @@ class Particle {
 
 class ParticleSystem {
   ArrayList<Particle> particles;
-  float x, y, dx, dy;
+  public float x, y, dx, dy;
   float particleWidth, leftToGen;
 
   ParticleSystem(float x, float y, float dx, float dy, float w, float l) {
@@ -56,7 +57,7 @@ class ParticleSystem {
     if(leftToGen > 0)
     {
       //TODO
-      particles.add(new Particle(x, y, x, y, particleWidth));
+      particles.add(new Particle(x, y, dx, dy, particleWidth));
       leftToGen--;
     }
 
