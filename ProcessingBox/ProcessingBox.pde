@@ -51,17 +51,18 @@ void mousePressed(){
 
 void mouseDragged(){
   box.mouseDragged();
+}
 
-  //TODO just a demo, remove for final
+void mouseReleased(){
+  box.mouseReleased();
+  isMouseDown = false;
+}
+
+public void moveTendrils(){
   for(int i = 0; i < tendrils.length; i++)
   {
     float x = mouseX + random(-5,5);
     float y = mouseY + random(-5,5);
     tendrils[i].setEndPoint(new Point(x, y));
   }
-}
-
-void mouseReleased(){
-  box.mouseReleased();
-  isMouseDown = false;
 }
