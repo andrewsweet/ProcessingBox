@@ -21,6 +21,7 @@ void setup() {
 
   //TODO just a demo, remove for final
   tendrils = new Tendril[10];
+
   for(int i = 0; i < tendrils.length; i++)
   {
     float x = SCREEN_WIDTH/2.0 + random(-20,20);
@@ -29,6 +30,8 @@ void setup() {
     float f = random(1000,10000);
     tendrils[i] = new Tendril(new Point(x,y), new Point(600f, 400f), a, f, 80000);
   }
+
+  tendrils[0].setBaseTendril(true);
 }
 // The statements in draw() are executed until the 
 // program is stopped. Each statement is executed in 
@@ -59,10 +62,14 @@ void mouseReleased(){
 }
 
 public void moveTendrils(){
-  for(int i = 0; i < tendrils.length; i++)
-  {
-    float x = mouseX + random(-5,5);
-    float y = mouseY + random(-5,5);
-    tendrils[i].setEndPoint(new Point(x, y));
+  if (tendrils.length > 0){
+    tendrils[0].setEndPoint(new Point(mouseX, mouseY));
+
+    for(int i = 1; i < tendrils.length; i++)
+    {
+      float x = mouseX + random(-5,5);
+      float y = mouseY + random(-5,5);
+      tendrils[i].setEndPoint(new Point(x, y));
+    }
   }
 }
