@@ -1,6 +1,7 @@
 class Particle {
   private float x, y, vx, vy, ax, ay;
-  private float lifespan, particleWidth;
+  private float particleWidth;
+  private int lifespan;
 
   Particle(float x, float y, float vx, float vy, float w) {
     this.x = x;
@@ -11,23 +12,27 @@ class Particle {
     this.ax = 0f;
     this.ay = 0f;
     this.particleWidth = w;
+    // TODO set the life span
+    this.lifespan = 10000;
   }
 
-  public boolean isAlive() { return lifespan == 0; }
+  public boolean isAlive() { return lifespan != 0; }
 
   // Method to update location
-  public void update() {
+  public void update() 
+  {
     // euler integration
-    vx += ax; vy += ay;
-    x += vx; y += vy;
-
-    lifespan -= 1.0;
+    vx += ax; 
+    vy += ay;
+    x += vx;
+    y += vy;
+    lifespan -= 1;
   }
 
   // Method to display
   public void draw() {
     fill(255);
-
+    println(this.isAlive());
     ellipse(x, y, particleWidth, particleWidth);
   }
 }
@@ -40,14 +45,15 @@ class Particle {
 class ParticleSystem {
   ArrayList<Particle> particles;
   public float x, y, dx, dy;
-  float particleWidth, leftToGen;
+  float particleWidth;
+  int leftToGenCount;
 
-  ParticleSystem(float x, float y, float dx, float dy, float w, float l) {
+  ParticleSystem(float x, float y, float dx, float dy, float w, int c) {
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
-    this.leftToGen = l;
+    this.leftToGenCount = c;
 
     particles = new ArrayList<Particle>();
     particleWidth = w;
@@ -56,23 +62,31 @@ class ParticleSystem {
 
   public void update()
   {
-    if(leftToGen > 0)
+    if(leftToGenCount > 0)
     {
       //TODO
+      //float pdx = dx;
       particles.add(new Particle(x, y, dx, dy, particleWidth));
-      leftToGen--;
+      leftToGenCount--;
     }
+
 
     // update particles
     for (int i = particles.size()-1; i >= 0; i--)
     {
       Particle p = particles.get(i);
       if(p.isAlive())
+      {
         p.update();
+      }
+
     }
   }
 
   public void draw() {
+
+    this.update();
+
     for (int i = particles.size()-1; i >= 0; i--) 
     {
       particles.get(i).draw();
