@@ -13,6 +13,8 @@ class Particle {
     this.particleWidth = w;
   }
 
+  public boolean isAlive() { return lifespan == 0; }
+
   // Method to update location
   public void update() {
     // euler integration
@@ -52,7 +54,7 @@ class ParticleSystem {
   }
 
 
-  void update()
+  public void update()
   {
     if(leftToGen > 0)
     {
@@ -63,10 +65,14 @@ class ParticleSystem {
 
     // update particles
     for (int i = particles.size()-1; i >= 0; i--)
-      particles.get(i).update();
+    {
+      Particle p = particles.get(i);
+      if(p.isAlive())
+        p.update();
+    }
   }
 
-  void draw() {
+  public void draw() {
     for (int i = particles.size()-1; i >= 0; i--) 
     {
       particles.get(i).draw();
