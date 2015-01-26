@@ -88,7 +88,13 @@ public class Box {
     
     poly = new Poly(xs, ys, n);
   }
-  
+
+  public void updatePiece(Point p){
+    if (piece != null){
+      piece.update(p);
+    }
+  }
+
   // From poly, update coords
   public void updateCoords(){
     int n = poly.npoints;

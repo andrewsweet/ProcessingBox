@@ -2,6 +2,8 @@ class Box_Piece {
   Poly poly;
   Point startMouse; // For transformation, where the mouse was
   boolean isDragged;
+
+  Point pt;
   
   public Box_Piece(Poly poly_, Point startMouse_) { 
     poly = poly_; 
@@ -9,22 +11,29 @@ class Box_Piece {
     isDragged = true;
   }
   
-  public void drawMe(){
+  public void update(Point p){
+    pt = p;
+
     float x, y;
     
     Point offset = new Point(0, 0);
     
-    if (isDragged){
-      Point mouseP = new Point(mouseX, mouseY);
-      offset = startMouse.subtractFrom(mouseP);
+    if (isDragged){;
+      offset = startMouse.subtractFrom(pt);
     }
-    
-    print(offset.x, offset.y, "\n");
-    
+
     pushMatrix();
     translate(offset.x, offset.y);
     poly.drawMe();
     popMatrix();
+  }
+
+  public void drawMe(){
+    if (isDragged){
+      update(new Point(mouseX, mouseY));
+    } else {
+      update(pt);
+    }
   }
   
   public void stopDrag(){

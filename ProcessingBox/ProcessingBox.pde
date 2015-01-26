@@ -17,11 +17,9 @@ void setup() {
   background(0,0,0);
   
   box = new Box(this, SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0, 50);
-
   tendrils = new Tendrils(10, 2f, 7f, 1000f, 10000f, 300);
-
-  
 }
+
 // The statements in draw() are executed until the 
 // program is stopped. Each statement is executed in 
 // sequence and after the last line is read, the first 
@@ -47,7 +45,6 @@ void mouseReleased(){
   box.mouseReleased();
   isMouseDown = false;
 }
-
 
 void moveTendrils()
 {

@@ -9,6 +9,8 @@ class Tendril
 	// color of tendril
 	private int r, g, b;
 
+	private boolean baseTendril = false;
+
 	// point, end point, amplitude
 	public Tendril(Point p1, Point p2, float a, float f, float l)
 	{
@@ -34,11 +36,23 @@ class Tendril
 	}
 	public void setSquareLength(float l) { squaredLength = l*l; }
 
+	public Point endpoint(){
+		return p2;
+	}
+
 	// retracts tendril
 	public void update()
 	{
 		p2.x = (0.96 * p2.x + 0.04 * p1.x);
 		p2.y = (0.96 * p2.y + 0.04 * p1.y);
+
+		if (baseTendril){
+			box.updatePiece(p2);
+		}
+	}
+
+	public void setBaseTendril(boolean isBase){
+		baseTendril = isBase;
 	}
 
 	// draws the tendril
