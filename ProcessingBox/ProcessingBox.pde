@@ -17,7 +17,10 @@ void setup() {
   background(0,0,0);
   
   box = new Box(this, SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0, 50);
-  tendrils = new Tendrils(10, 2f, 7f, 1000f, 10000f, 300);
+  tendrils = new Tendrils(10, 
+                          2f, 7f, 0.1f, 2f,
+                          1000f, 10000f, 0.97f, 1f,
+                          300);
 }
 
 // The statements in draw() are executed until the 
