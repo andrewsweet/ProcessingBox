@@ -6,6 +6,9 @@ class Tendril
 	// how crazy the tendril is
 	private float amplitude, frequency, squaredLength;
 
+	// 
+	private float lowAmpPercent, highAmpPercent, lowFreqPercent, highFreqPercent;
+
 	// color of tendril
 	private int r, g, b;
 

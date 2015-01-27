@@ -1,6 +1,6 @@
 class Tendrils
 {
-	Tendril[] tendrils;
+	private Tendril[] tendrils;
 
 	/*
 	 c: number of tendrils
@@ -26,7 +26,31 @@ class Tendrils
 	    tendrils[i] = new Tendril(p, p, pa, pf, l);
 	  }
 	}
-	
+
+
+	public void setFrequency(float lowFreq, float highFreq)
+	{
+		for(int i = 0; i < tendrils.length; i++)
+	  {
+	  	tendrils[i].setFrequency(random(lowFreq,highFreq));
+	  }
+	}
+
+	public void setAmplitude(float lowAmp, float highAmp)
+	{
+		for(int i = 0; i < tendrils.length; i++)
+	  {
+	  	tendrils[i].setAmplitude(random(lowAmp,highAmp));
+	  }
+	}
+
+	public void setColor(int r, int g, int b)
+	{
+		for(int i = 0; i < tendrils.length; i++)
+	  {
+	  	tendrils[i].setColor(r,g,b);
+	  }
+	}
 
 	public void setEndPoint(Point p)
 	{
