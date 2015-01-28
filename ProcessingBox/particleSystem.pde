@@ -2,7 +2,7 @@ class Particle {
   private Point position, velocity, acceleration;
   private float particleWidth;
   private int lifespan;
-  private float r, g, b;
+  private float h, s, v;
   private boolean isRed;
   private float angle, deltaAngle;
 
@@ -12,18 +12,30 @@ class Particle {
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
-
-
-    this.r = random(255);
-    this.g = random(255);
-    this.b = random(255);
-    float redPercentage = 0.0f;
     this.angle = random(0,1);
-    deltaAngle = random(-0.05f, 0.05f);
-
+    this.deltaAngle = random(-0.05f, 0.05f);
+    
+    float redPercentage = 0.8f;
     isRed = false;
     if(random(0,1) < redPercentage)
       isRed = true;
+
+    if(isRed)
+    {
+      this.h = 0;
+      this.s = 100;
+      this.v = random(70, 100);
+    }
+    else
+    {
+      this.h = random(100);
+      this.s = random(75, 100);
+      this.v = random(75, 100);
+    }
+    
+    
+
+    
   }
 
   public boolean isAlive() { return lifespan != 0; }
@@ -48,11 +60,8 @@ class Particle {
 
     if(this.isAlive())
       this.update();
-
-    if(isRed)
-      fill(255,0,0);
-    else
-      fill(r, g, b);
+    
+    fill(h, s, v);
     
     pushMatrix();
       translate(position.x,position.y);
@@ -122,10 +131,14 @@ class ParticleSystem {
 
     this.update();
     noStroke();
+    rectMode(CENTER);
 
+    colorMode(HSB, 100);
     for (int i = 0; i < particles.size(); i++) 
     {
       particles.get(i).draw();
     }
+    colorMode(RGB, 255);
+    rectMode(CORNER);
   }
 }
