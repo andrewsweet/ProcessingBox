@@ -2,7 +2,9 @@ class Particle {
   private Point position, velocity, acceleration;
   private float particleWidth;
   private int lifespan;
-  private float r, g, b, redPercentage;
+  private float r, g, b;
+  private boolean isRed;
+  private float angle, deltaAngle;
 
   Particle(Point p, Point v, Point a, float w, int l) {
     this.position = p;
@@ -15,7 +17,13 @@ class Particle {
     this.r = random(255);
     this.g = random(255);
     this.b = random(255);
-    this.redPercentage = 0f;
+    float redPercentage = 0.0f;
+    this.angle = random(0,1);
+    deltaAngle = random(-0.05f, 0.05f);
+
+    isRed = false;
+    if(random(0,1) < redPercentage)
+      isRed = true;
   }
 
   public boolean isAlive() { return lifespan != 0; }
@@ -28,8 +36,11 @@ class Particle {
     velocity.y += acceleration.y;
     position.x += velocity.x;
     position.y += velocity.y;
+    angle += deltaAngle;
 
     lifespan -= 1;
+    if(lifespan == 0)
+      particleWidth *= 1.1f;
   }
 
   // Method to display
@@ -38,11 +49,17 @@ class Particle {
     if(this.isAlive())
       this.update();
 
-    if(random(0,1) < redPercentage)
+    if(isRed)
       fill(255,0,0);
     else
       fill(r, g, b);
-    ellipse(position.x, position.y, particleWidth, particleWidth);
+    
+    pushMatrix();
+      translate(position.x,position.y);
+      rotate(angle);
+      rect(0f, 0f, particleWidth, particleWidth);
+    popMatrix();
+    
   }
 }
 
@@ -95,8 +112,8 @@ class ParticleSystem {
       particles.add(new Particle(new Point(source.x, source.y), 
                                  new Point(2f*dx,2f*dy), 
                                  new Point(dvx, dvy), 
-                                 particleWidth, 
-                                 100+(int)random(-100,200)));
+                                 particleWidth + random(-particleWidth/30f, particleWidth/30f), 
+                                 100+(int)random(-50,200)));
       leftToGenCount--;
     }
   }
@@ -106,7 +123,7 @@ class ParticleSystem {
     this.update();
     noStroke();
 
-    for (int i = particles.size()-1; i >= 0; i--) 
+    for (int i = 0; i < particles.size(); i++) 
     {
       particles.get(i).draw();
     }
