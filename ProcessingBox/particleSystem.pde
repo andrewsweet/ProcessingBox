@@ -2,6 +2,7 @@ class Particle {
   private Point position, velocity, acceleration;
   private float particleWidth;
   private int lifespan;
+  private float r, g, b, redPercentage;
 
   Particle(Point p, Point v, Point a, float w, int l) {
     this.position = p;
@@ -9,6 +10,12 @@ class Particle {
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
+
+
+    this.r = random(255);
+    this.g = random(255);
+    this.b = random(255);
+    this.redPercentage = 0f;
   }
 
   public boolean isAlive() { return lifespan != 0; }
@@ -31,7 +38,10 @@ class Particle {
     if(this.isAlive())
       this.update();
 
-    fill(255);
+    if(random(0,1) < redPercentage)
+      fill(255,0,0);
+    else
+      fill(r, g, b);
     ellipse(position.x, position.y, particleWidth, particleWidth);
   }
 }
@@ -47,6 +57,13 @@ class ParticleSystem {
   float particleWidth;
   int leftToGenCount;
 
+  /*
+    source: source of target 
+    target: target point of the particle
+    w: width of each particle
+    c: number of particles of emit
+    
+  */
   ParticleSystem(Point source, Point target, float w, int c) {
     this.source = source;
     this.target = target;
@@ -76,12 +93,10 @@ class ParticleSystem {
       float dvx = random(-0.01f, 0.01f);
       float dvy = random(-0.01f, 0.01f);
       particles.add(new Particle(new Point(source.x, source.y), 
-                                 new Point(dx,dy), 
+                                 new Point(2f*dx,2f*dy), 
                                  new Point(dvx, dvy), 
                                  particleWidth, 
-                                 10000));
-
-      println(dx);
+                                 100+(int)random(-100,200)));
       leftToGenCount--;
     }
   }
@@ -89,6 +104,7 @@ class ParticleSystem {
   public void draw() {
 
     this.update();
+    noStroke();
 
     for (int i = particles.size()-1; i >= 0; i--) 
     {

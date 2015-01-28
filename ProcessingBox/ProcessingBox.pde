@@ -1,6 +1,6 @@
 Box box;
 Tendrils tendrils;
-ParticleSystem particleSystem;
+ParticleSystem[] particleSystems;
 
 boolean isMouseDown;
 
@@ -22,7 +22,10 @@ void setup() {
                           2f, 7f, 0.1f, 2f,
                           1000f, 10000f, 0.97f, 1f,
                           300);
-  particleSystem = new ParticleSystem(new Point(100f,100f), new Point(300f,300f),10f,100);
+
+  particleSystems = new ParticleSystem[30];
+  for(int i = 0; i < 30; i++)
+    particleSystems[i] = new ParticleSystem(new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), new Point(300f,300f),10f,100);
 }
 
 // The statements in draw() are executed until the 
@@ -32,8 +35,10 @@ void setup() {
 void draw() {
   background(0); 
 
+  for(int i = 0; i < 30; i++)
+    particleSystems[i].draw();
+
   tendrils.draw();
-  particleSystem.draw();
   box.draw();
 }
 
