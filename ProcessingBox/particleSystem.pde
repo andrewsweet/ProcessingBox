@@ -17,7 +17,7 @@ class Particle {
     this.r = random(255);
     this.g = random(255);
     this.b = random(255);
-    float redPercentage = 0.0f;
+    float redPercentage = 0.7f;
     this.angle = random(0,1);
     deltaAngle = random(-0.05f, 0.05f);
 
