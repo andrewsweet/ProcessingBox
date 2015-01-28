@@ -1,19 +1,14 @@
 class Particle {
-  private float x, y, vx, vy, ax, ay;
+  private Point position, velocity, acceleration;
   private float particleWidth;
   private int lifespan;
 
-  Particle(float x, float y, float vx, float vy, float w) {
-    this.x = x;
-    this.y = y;
-    this.vx = vx;
-    this.vy = vy;
-    // TODO set acceleration
-    this.ax = 0f;
-    this.ay = 0f;
+  Particle(Point p, Point v, Point a, float w, int l) {
+    this.position = p;
+    this.velocity = v;
+    this.acceleration = a;
     this.particleWidth = w;
-    // TODO set the life span
-    this.lifespan = 10000;
+    this.lifespan = l;
   }
 
   public boolean isAlive() { return lifespan != 0; }
@@ -22,18 +17,22 @@ class Particle {
   public void update() 
   {
     // euler integration
-    vx += ax; 
-    vy += ay;
-    x += vx;
-    y += vy;
+    velocity.x += acceleration.x; 
+    velocity.y += acceleration.y;
+    position.x += velocity.x;
+    position.y += velocity.y;
+
     lifespan -= 1;
   }
 
   // Method to display
   public void draw() {
+
+    if(this.isAlive())
+      this.update();
+
     fill(255);
-    println(this.isAlive());
-    ellipse(x, y, particleWidth, particleWidth);
+    ellipse(position.x, position.y, particleWidth, particleWidth);
   }
 }
 
@@ -44,15 +43,14 @@ class Particle {
 
 class ParticleSystem {
   ArrayList<Particle> particles;
-  public float x, y, dx, dy;
+  public Point source, target;
   float particleWidth;
   int leftToGenCount;
 
-  ParticleSystem(float x, float y, float dx, float dy, float w, int c) {
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
+  ParticleSystem(Point source, Point target, float w, int c) {
+    this.source = source;
+    this.target = target;
+    this.particleWidth = w;
     this.leftToGenCount = c;
 
     particles = new ArrayList<Particle>();
@@ -60,26 +58,31 @@ class ParticleSystem {
   }
 
 
+  public void setTarget(Point t)
+  {
+    target = t;
+  }
+
+
   public void update()
   {
     if(leftToGenCount > 0)
     {
-      //TODO
-      //float pdx = dx;
-      particles.add(new Particle(x, y, dx, dy, particleWidth));
+      float dx = target.x - source.x;
+      float dy = target.y - source.y;
+      float distance = dx*dx + dy*dy;
+      dx = dx/sqrt(distance) + random(-0.1,0.1);
+      dy = dy/sqrt(distance) + random(-0.1,0.1);
+      float dvx = random(-0.01f, 0.01f);
+      float dvy = random(-0.01f, 0.01f);
+      particles.add(new Particle(new Point(source.x, source.y), 
+                                 new Point(dx,dy), 
+                                 new Point(dvx, dvy), 
+                                 particleWidth, 
+                                 10000));
+
+      println(dx);
       leftToGenCount--;
-    }
-
-
-    // update particles
-    for (int i = particles.size()-1; i >= 0; i--)
-    {
-      Particle p = particles.get(i);
-      if(p.isAlive())
-      {
-        p.update();
-      }
-
     }
   }
 
