@@ -25,7 +25,7 @@ class SoundControls {
 //      sp.setRateEnvelope(rateEnvelope);
 
       //loop the sample at its end points
-      sp.setLoopType(SamplePlayer.LoopType.LOOP_ALTERNATING);
+      sp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
       sp.getLoopStartEnvelope().setValue(0);
       sp.getLoopEndEnvelope().setValue((float)sample.getLength());
     
