@@ -4,6 +4,7 @@ import java.util.Arrays;
 AudioContext ac;
 
 UGen rateUGen;
+SamplePlayer sp;
 
 class SoundControls {
   
@@ -17,7 +18,7 @@ class SoundControls {
     try{
       Sample sample = new Sample(sourceFile);
       
-      SamplePlayer sp = new SamplePlayer(ac, sample);
+      sp = new SamplePlayer(ac, sample);
       
       rateUGen = new Glide(ac, 1.0);
     
@@ -52,5 +53,9 @@ class SoundControls {
     float speed = 4.0 * ((float)mouseX - (width/2.0))/width;
     
     updateSound(speed);
+  }
+  
+  void pause(boolean shouldPause){
+    sp.pause(shouldPause);
   }
 }

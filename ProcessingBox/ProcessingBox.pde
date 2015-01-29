@@ -8,6 +8,8 @@ boolean isMouseDown;
 static int SCREEN_WIDTH = 1024;
 static int SCREEN_HEIGHT = 768;
 
+boolean shouldPause = true;
+
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
@@ -48,6 +50,10 @@ void draw() {
 
 void mousePressed(){
   box.mousePressed();
+  
+  sc.pause(shouldPause);
+  shouldPause = !shouldPause;
+  
   isMouseDown = true;
 }
 
