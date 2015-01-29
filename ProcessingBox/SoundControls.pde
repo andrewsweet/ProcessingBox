@@ -5,6 +5,7 @@ AudioContext ac;
 
 UGen rateUGen;
 SamplePlayer sp;
+Gain gain;
 
 class SoundControls {
   
@@ -30,9 +31,9 @@ class SoundControls {
       sp.getLoopStartEnvelope().setValue(0);
       sp.getLoopEndEnvelope().setValue((float)sample.getLength());
     
-      Gain g = new Gain(ac, 1, 0.1);
-      g.addInput(sp);
-      ac.out.addInput(g);
+      gain = new Gain(ac, 1, 0.1);
+      gain.addInput(sp);
+      ac.out.addInput(gain);
       ac.start();
     } catch (Exception e) {
       //do anything you want to handle the exception
@@ -45,14 +46,22 @@ class SoundControls {
     this.initialize();
   }
   
-  void updateSound(float speed){//updateSound(float speed, float distortion, float pitch) {
+  void setPlaybackRate(float speed){
     rateUGen.setValue(speed);
+  }
+  
+  void setVolume(float volume){
+    gain.setGain(max(min(volume, 1.0), 0.0));
   }
   
   void update(){
     float speed = 4.0 * ((float)mouseX - (width/2.0))/width;
+    float volume = (float)mouseY / (height * 1.0);
     
-    updateSound(speed);
+    setPlaybackRate(speed);
+    setVolume(volume);
+    
+    println(speed, gain.getGain());
   }
   
   void pause(boolean shouldPause){
