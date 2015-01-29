@@ -6,31 +6,30 @@ class Particle {
   private float angle, deltaAngle;
 
   Particle(Point p, Point v, Point a, float w, int l, float redPercentage) {
+    // record property
     this.position = p;
     this.velocity = v;
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
-    
+      
+    // set rotation
     this.angle = random(0f,3.14f);
     this.deltaAngle = random(-0.05f, 0.05f);
 
+    // determine if this is red or not
     if(random(0,1) < redPercentage)
-    {
-      this.h = 0;
-      this.s = 100;
-      this.v = random(70, 100);
-    }
+    { 
+      this.h = 0; 
+      this.s = 100; 
+      this.v = random(70, 100); 
+    } 
     else
     {
-      this.h = random(100);
-      this.s = random(75, 100);
+      this.h = random(100); 
+      this.s = random(75, 100); 
       this.v = random(75, 100);
     }
-    
-    
-
-    
   }
 
   public boolean isAlive() { return lifespan != 0; }
@@ -82,9 +81,10 @@ class ParticleSystem {
   /*
     source: source of target 
     target: target point of the particle
+    speed: speed of particle
     w: width of each particle
     c: number of particles of emit
-    
+    percentRed: proability of this being red (0f - 1f)
   */
   ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed) {
     this.source = source;
@@ -107,19 +107,24 @@ class ParticleSystem {
 
   public void update()
   {
+    // add a point
     if(leftToGenCount > 0)
     {
+      // distance and direction
       float dx = target.x - source.x;
       float dy = target.y - source.y;
       float sqrtDistance = fastSqrt(dx*dx + dy*dy);
       dx = dx/sqrtDistance + random(-0.1,0.1);
       dy = dy/sqrtDistance + random(-0.1,0.1);
-      float dvx = random(-0.01f, 0.01f);
-      float dvy = random(-0.01f, 0.01f);
+
+      // acceleration
+      float ax = random(-0.01f, 0.01f);
+      float ay = random(-0.01f, 0.01f);
+
       particles.add(new Particle(new Point(source.x, source.y), 
                                  new Point(speed*random(0.7f,1.3f)*dx,
                                            speed*random(0.7f,1.3f)*dy), 
-                                 new Point(dvx, dvy), 
+                                 new Point(ax, ay), 
                                  particleWidth + random(-particleWidth/30f, particleWidth/30f), 
                                  100+(int)random(-50,200), 
                                  percentRed));
