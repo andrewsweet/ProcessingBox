@@ -43,7 +43,7 @@ void draw() {
 
   tendrils.draw();
   box.draw();
-  sc.updateSound();
+  sc.update();
 }
 
 void mousePressed(){
