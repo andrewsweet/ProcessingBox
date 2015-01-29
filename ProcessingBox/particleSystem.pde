@@ -2,8 +2,9 @@ class Particle {
   private Point position, velocity, acceleration;
   private float particleWidth;
   private int lifespan;
-  private float h, s, v;
+  private float h, s, v, origS, origV;
   private float angle, deltaAngle;
+  private int startPhase;
 
   Particle(Point p, Point v, Point a, float w, int l, float redPercentage) {
     // record property
@@ -12,6 +13,8 @@ class Particle {
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
+
+    this.startPhase = numberOfTimesPulled;
       
     // set rotation
     this.angle = random(0f,3.14f);
@@ -30,6 +33,9 @@ class Particle {
       this.s = random(75, 100); 
       this.v = random(75, 100);
     }
+
+    this.origS = this.s;
+    this.origV = this.v;
   }
 
   public boolean isAlive() { return lifespan != 0; }
@@ -55,6 +61,16 @@ class Particle {
     if(this.isAlive())
       this.update();
     
+    // decrease saturation and value as time goes on
+    if(h != 0f)
+    {
+      s = Math.max(origS - 30*(numberOfTimesPulled - startPhase), 0);
+      float tempV = origV - 10*(numberOfTimesPulled - startPhase);
+      if(tempV > 50)
+        v = tempV;
+
+    }
+
     fill(h, s, v);
     
     pushMatrix();
@@ -126,7 +142,7 @@ class ParticleSystem {
                                            speed*random(0.7f,1.3f)*dy), 
                                  new Point(ax, ay), 
                                  particleWidth + random(-particleWidth/30f, particleWidth/30f), 
-                                 100+(int)random(-50,200), 
+                                 100+(int)random(-50,50), 
                                  percentRed));
       leftToGenCount--;
     }

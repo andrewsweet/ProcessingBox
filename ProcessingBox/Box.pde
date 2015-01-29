@@ -374,6 +374,9 @@ public class Box {
   }
   
   void breakPieceOff(){
+
+    increasePullCount();
+    
     broken = true;
     
     poly = shape1;
@@ -393,6 +396,7 @@ public class Box {
   
   void mouseDragged(){
     if (startInsideShape){
+
       // Dragging only works if the drag started inside the shape
       Point p = new Point(mouseX, mouseY);
       

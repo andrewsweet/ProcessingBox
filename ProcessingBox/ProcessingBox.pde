@@ -1,7 +1,8 @@
 Box box;
 Tendrils tendrils;
 ParticleSystem[] particleSystems;
-//SoundControls sc;
+SoundControls sc;
+int numberOfTimesPulled;
 
 boolean isMouseDown;
 
@@ -26,14 +27,15 @@ void setup() {
                           1000f, 10000f, 0.97f, 1f,
                           300);
                           
-  //sc = new SoundControls();
+  sc = new SoundControls();
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
     particleSystems[i] = new ParticleSystem(
                           new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), 
                           new Point(300f,300f),
-                          4f, 20f, 1000, 0.5f);
+                          4f, 20f, 100, 0.5f);
+  numberOfTimesPulled = 0;
 }
 
 // The statements in draw() are executed until the 
@@ -48,13 +50,13 @@ void draw() {
 
   tendrils.draw();
   box.draw();
-  //sc.update();
+  sc.update();
 }
 
 void mousePressed(){
   box.mousePressed();
   
-  //sc.pause(shouldPause);
+  sc.pause(shouldPause);
   shouldPause = !shouldPause;
   
   isMouseDown = true;
@@ -82,4 +84,12 @@ public float fastSqrt(float x) {
   int i = Float.floatToRawIntBits(x);
   i = 532676608 + (i >> 1);
   return Float.intBitsToFloat(i);
+}
+
+
+// increase the pulled count
+public void increasePullCount()
+{
+  updateTendril();
+  numberOfTimesPulled++;
 }
