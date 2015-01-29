@@ -12,9 +12,9 @@ class SoundControls {
   void initialize() {
     ac = new AudioContext();
     
-    String sourceFile = dataPath("test.wav");
+    String sourceFile = dataPath("test.mp3");
     
-    print(dataPath("test.wav"));
+    println(sourceFile);
     
     try{
       Sample sample = new Sample(sourceFile);
