@@ -30,7 +30,10 @@ void setup() {
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
-    particleSystems[i] = new ParticleSystem(new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), new Point(300f,300f),20f,1000);
+    particleSystems[i] = new ParticleSystem(
+                          new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), 
+                          new Point(300f,300f),
+                          4f, 20f, 1000, 0.5f);
 }
 
 // The statements in draw() are executed until the 

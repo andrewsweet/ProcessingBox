@@ -75,7 +75,7 @@ class Particle {
 class ParticleSystem {
   ArrayList<Particle> particles;
   public Point source, target;
-  float particleWidth;
+  float particleWidth, speed;
   int leftToGenCount;
   float percentRed;
   
@@ -86,9 +86,10 @@ class ParticleSystem {
     c: number of particles of emit
     
   */
-  ParticleSystem(Point source, Point target, float w, int c, float percentRed, ) {
+  ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed) {
     this.source = source;
     this.target = target;
+    this.speed = speed;
     this.particleWidth = w;
     this.leftToGenCount = c;
     this.percentRed = percentRed;
@@ -116,10 +117,12 @@ class ParticleSystem {
       float dvx = random(-0.01f, 0.01f);
       float dvy = random(-0.01f, 0.01f);
       particles.add(new Particle(new Point(source.x, source.y), 
-                                 new Point(2f*dx,2f*dy), 
+                                 new Point(speed*random(0.7f,1.3f)*dx,
+                                           speed*random(0.7f,1.3f)*dy), 
                                  new Point(dvx, dvy), 
                                  particleWidth + random(-particleWidth/30f, particleWidth/30f), 
-                                 100+(int)random(-50,200),0.7f));
+                                 100+(int)random(-50,200), 
+                                 percentRed));
       leftToGenCount--;
     }
   }
