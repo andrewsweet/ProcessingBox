@@ -1,7 +1,7 @@
 Box box;
 Tendrils tendrils;
 ParticleSystem[] particleSystems;
-SoundControls sc;
+//SoundControls sc;
 
 boolean isMouseDown;
 
@@ -26,7 +26,7 @@ void setup() {
                           1000f, 10000f, 0.97f, 1f,
                           300);
                           
-  sc = new SoundControls();
+  //sc = new SoundControls();
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
@@ -45,13 +45,13 @@ void draw() {
 
   tendrils.draw();
   box.draw();
-  sc.update();
+  //sc.update();
 }
 
 void mousePressed(){
   box.mousePressed();
   
-  sc.pause(shouldPause);
+  //sc.pause(shouldPause);
   shouldPause = !shouldPause;
   
   isMouseDown = true;
@@ -70,4 +70,13 @@ void mouseReleased(){
 void moveTendrils()
 {
   tendrils.setEndPoint(new Point(mouseX, mouseY));
+}
+
+
+// super hax fast sqrt function
+// source: http://forum.processing.org/one/topic/super-fast-square-root.html
+public float fastSqrt(float x) {
+  int i = Float.floatToRawIntBits(x);
+  i = 532676608 + (i >> 1);
+  return Float.intBitsToFloat(i);
 }

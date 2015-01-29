@@ -1,6 +1,7 @@
 class Point {
   public float x, y;
   public Point(float x_, float y_) { x = x_; y = y_; }
+  private final float epsilon = 0.1f;
   
   public String toString() {
         return "(" + this.x + ", " + this.y + ")";
@@ -13,13 +14,7 @@ class Point {
   }
   
   boolean isAlmostEqual(Point p){
-    float epsilon = 0.1;
-    
-    if ((abs(p.x - x) > epsilon) || (abs(p.y - y) > epsilon)){
-      return false;
-    }
-    
-    return true;
+    return !((abs(p.x - x) > epsilon) || (abs(p.y - y) > epsilon));
   }
   
   Point addTo(Point p){

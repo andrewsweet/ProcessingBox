@@ -3,25 +3,19 @@ class Particle {
   private float particleWidth;
   private int lifespan;
   private float h, s, v;
-  private boolean isRed;
   private float angle, deltaAngle;
 
-  Particle(Point p, Point v, Point a, float w, int l) {
+  Particle(Point p, Point v, Point a, float w, int l, float redPercentage) {
     this.position = p;
     this.velocity = v;
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
     
-    this.angle = random(0,1);
+    this.angle = random(0f,3.14f);
     this.deltaAngle = random(-0.05f, 0.05f);
-    
-    float redPercentage = 0.8f;
-    isRed = false;
-    if(random(0,1) < redPercentage)
-      isRed = true;
 
-    if(isRed)
+    if(random(0,1) < redPercentage)
     {
       this.h = 0;
       this.s = 100;
@@ -115,15 +109,15 @@ class ParticleSystem {
       float dx = target.x - source.x;
       float dy = target.y - source.y;
       float distance = dx*dx + dy*dy;
-      dx = dx/sqrt(distance) + random(-0.1,0.1);
-      dy = dy/sqrt(distance) + random(-0.1,0.1);
+      dx = dx/fastSqrt(distance) + random(-0.1,0.1);
+      dy = dy/fastSqrt(distance) + random(-0.1,0.1);
       float dvx = random(-0.01f, 0.01f);
       float dvy = random(-0.01f, 0.01f);
       particles.add(new Particle(new Point(source.x, source.y), 
                                  new Point(2f*dx,2f*dy), 
                                  new Point(dvx, dvy), 
                                  particleWidth + random(-particleWidth/30f, particleWidth/30f), 
-                                 100+(int)random(-50,200)));
+                                 100+(int)random(-50,200),0.7f));
       leftToGenCount--;
     }
   }
