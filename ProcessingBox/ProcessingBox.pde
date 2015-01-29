@@ -1,6 +1,7 @@
 Box box;
 Tendrils tendrils;
 ParticleSystem[] particleSystems;
+SoundControls sc;
 
 boolean isMouseDown;
 
@@ -22,6 +23,8 @@ void setup() {
                           2f, 7f, 0.1f, 2f,
                           1000f, 10000f, 0.97f, 1f,
                           300);
+                          
+  sc = new SoundControls();
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
@@ -40,6 +43,7 @@ void draw() {
 
   tendrils.draw();
   box.draw();
+  sc.updateSound();
 }
 
 void mousePressed(){
