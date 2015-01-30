@@ -94,6 +94,14 @@ public class Box {
       piece.update(p);
     }
   }
+  
+  public float angle(){
+    if (piece != null){
+      return piece.angle;
+    }
+    
+    return 0;
+  }
 
   // From poly, update coords
   public void updateCoords(){
@@ -431,7 +439,7 @@ public class Box {
     translate(boxCenter.x, boxCenter.y);
     
     if (piece != null){
-      rotate(piece.angle);
+      rotate(angle());
     }
     
     parent.fill(fillColor);
