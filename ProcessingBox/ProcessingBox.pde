@@ -1,7 +1,8 @@
 Box box;
 Tendrils tendrils;
 ParticleSystem[] particleSystems;
-SoundControls sc;
+SoundControls song1;
+SoundControls song2;
 
 boolean isMouseDown;
 
@@ -11,6 +12,14 @@ static int SCREEN_HEIGHT = 768;
 static int tendrilLength = 300;
 
 static Point boxCenter;
+
+void setupAudio(){
+  song1 = new SoundControls();
+  song1.pause(true);
+  
+  song2 = new SoundControls();
+  song2.pause(true);
+}
 
 // The statements in the setup() function 
 // execute once when the program begins
@@ -30,8 +39,7 @@ void setup() {
                           1000f, 10000f, 0.97f, 1f,
                           tendrilLength);
                           
-  sc = new SoundControls();
-  sc.pause(true);
+  setupAudio();
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
@@ -53,15 +61,17 @@ void draw() {
   }
   
   box.draw();
-  sc.update();
+  song1.update();
 }
 
 void onBreakBox(){
-  sc.pause(false);
+  song1.pause(false);
+  song2.pause(false);
 }
 
 void onReconnectBox(){
-  sc.pause(true);
+  song1.pause(true);
+  song2.pause(true);
 }
 
 void mousePressed(){

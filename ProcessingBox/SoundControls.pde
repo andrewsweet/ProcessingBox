@@ -1,18 +1,18 @@
 import beads.*;
 import java.util.Arrays; 
 
-AudioContext ac;
-
-UGen rateUGen;
-SamplePlayer sp;
-Gain gain;
-
 class SoundControls {
+  
+  AudioContext ac;
+  
+  UGen rateUGen;
+  SamplePlayer sp;
+  Gain gain;
   
   void initialize() {
     ac = new AudioContext();
     
-    String sourceFile = dataPath("test.mp3");
+    String sourceFile = dataPath("coltrane.aif");
     
     println(sourceFile);
     
@@ -35,6 +35,9 @@ class SoundControls {
       gain.addInput(sp);
       ac.out.addInput(gain);
       ac.start();
+      
+      setPlaybackRate(1.0);
+      setVolume(1.0);
     } catch (Exception e) {
       //do anything you want to handle the exception
       println("DONE GOOFED");
