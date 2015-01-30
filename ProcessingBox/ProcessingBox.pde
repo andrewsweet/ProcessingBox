@@ -81,7 +81,6 @@ void mousePressed(){
 
 void mouseDragged(){
   box.mouseDragged();
-  tendrils.setEndPoint(new Point(mouseX, mouseY));
 }
 
 void mouseReleased(){
