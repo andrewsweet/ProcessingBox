@@ -16,8 +16,7 @@ class Tendrils
 	*/
 	public Tendrils(int c, 
 									float la, float ha, float lap, float hap,
-									float lf, float hf, float lfp, float hfp,
-									float l)
+									float lf, float hf, float lfp, float hfp)
 	{
 
 	  tendrils = new Tendril[c];
@@ -30,7 +29,7 @@ class Tendrils
 	    float pa = random(la,ha);
 	    float pf = random(lf,hf);
 
-	    tendrils[i] = new Tendril(p, p, pa, lap, hap, pf, lfp, hfp, l);
+	    tendrils[i] = new Tendril(p, p, pa, lap, hap, pf, lfp, hfp);
 	  }
 	}
 
