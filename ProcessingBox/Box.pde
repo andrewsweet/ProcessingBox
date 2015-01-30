@@ -112,6 +112,8 @@ public class Box {
   }
   
   public void setupCoordinates(){
+    coords = new ArrayList<Point>();
+    
     coords.add(new Point(this.center.x - radius, 
                          this.center.y - radius));
                          
@@ -374,9 +376,6 @@ public class Box {
   }
   
   void breakPieceOff(){
-
-    increasePullCount();
-    
     broken = true;
     
     poly = shape1;
@@ -396,13 +395,10 @@ public class Box {
   
   void mouseDragged(){
     if (startInsideShape){
-
       // Dragging only works if the drag started inside the shape
       Point p = new Point(mouseX, mouseY);
       
-      if (broken){ // Have box react to broken piece's movement
-        moveTendrils();
-      } else if (p.squareDistanceTo(startDragPoint) > 400){
+      if (!broken && p.squareDistanceTo(startDragPoint) > 400){
         breakPieceOff();
       }
     }
@@ -414,13 +410,11 @@ public class Box {
     
     if (piece != null){
       piece.stopDrag();
-      reconnect();
     }
   }
   
   public void reconnect(){
-    poly = border;
-    this.updateCoords();
+    setupCoordinates();
     
     border = null;
     piece = null;
@@ -470,6 +464,10 @@ public class Box {
     
     if (piece != null){
       piece.drawMe();
+      
+      if (piece.shouldReconnect){
+        reconnect();
+      }
     }
   }
 }
