@@ -57,7 +57,7 @@ class Box_Piece {
 
     moveTendrils(offset.addTo(startMouse));
     
-    Point t = new Point(offset.x + startMouse.x, offset.y + startMouse.y);
+    Point t = new Point(offset.x + boxCenter.x, offset.y + boxCenter.y);
   
     float a = boxCenter.getAngle(t) + angleOffset;
     angle = (a * PI)/180.0 ;
