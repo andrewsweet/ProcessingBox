@@ -399,6 +399,8 @@ public class Box {
     brightness = max(brightness - 15, 0);
     
     fillColor = color(brightness);
+    
+    onBreakBox();
   }
   
   void mouseDragged(){
@@ -432,6 +434,8 @@ public class Box {
     crackPoint = null;
     endPoints = null;
     startDragPoint = null;
+    
+    onReconnectBox();
   }
   
   public void draw(){

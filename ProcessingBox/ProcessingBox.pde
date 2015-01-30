@@ -12,8 +12,6 @@ static int tendrilLength = 300;
 
 static Point boxCenter;
 
-boolean shouldPause = true;
-
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
@@ -32,7 +30,8 @@ void setup() {
                           1000f, 10000f, 0.97f, 1f,
                           tendrilLength);
                           
-//  sc = new SoundControls();
+  sc = new SoundControls();
+  sc.pause(true);
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
@@ -54,15 +53,19 @@ void draw() {
   }
   
   box.draw();
-//  sc.update();
+  sc.update();
+}
+
+void onBreakBox(){
+  sc.pause(false);
+}
+
+void onReconnectBox(){
+  sc.pause(true);
 }
 
 void mousePressed(){
-  box.mousePressed();
-  
-//  sc.pause(shouldPause);
-  shouldPause = !shouldPause;
-  
+  box.mousePressed(); 
   isMouseDown = true;
 }
 
