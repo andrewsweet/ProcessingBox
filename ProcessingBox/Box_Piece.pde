@@ -5,6 +5,7 @@ class Box_Piece {
   boolean shouldReconnect;
 
   float angle;
+  float angleOffset = 0;
 
   Point pt;
   Point offset;
@@ -16,7 +17,11 @@ class Box_Piece {
     
     offset = new Point(0, 0);
     shouldReconnect = false;
-    angle = 0;
+    
+    Point t = new Point(offset.x + startMouse.x, offset.y + startMouse.y);
+    
+    angle = boxCenter.getAngle(t) + angleOffset;
+    angleOffset = -90 * angle/(360.0/4.0);
   }
   
   public void update(Point p){
@@ -54,8 +59,8 @@ class Box_Piece {
     
     Point t = new Point(offset.x + startMouse.x, offset.y + startMouse.y);
   
-    float a = boxCenter.getAngle(t);
-    angle = (a * PI)/180.0;
+    float a = boxCenter.getAngle(t) + angleOffset;
+    angle = (a * PI)/180.0 ;
 
     pushMatrix();
     translate(t.x, t.y);
