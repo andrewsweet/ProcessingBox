@@ -14,6 +14,8 @@ float MIN_CRACK_VERTEX_DISTANCE = 10;
  
  // Call .invalidate() any time the points change
 class Poly extends java.awt.Polygon{
+  private Point center;
+  
   public Poly(){
     super();
   }
@@ -22,11 +24,50 @@ class Poly extends java.awt.Polygon{
     //call the java.awt.Polygon constructor
     super(x,y,n);
   }
+  
+  void forceCenter(Point p){
+    center = p;
+  }
+  
+  Point center(){
+    if (center != null) return center;
+    
+    // Centroid of a Polygon (wikipedia)
+    float result = 0.0;
+    
+    for (int i = 0; i < npoints; i++){
+      result += (xpoints[i] * ypoints[(i+1) % npoints]) - (xpoints[(i+1) % npoints] * ypoints[i]);
+    }
+    
+    float signedArea = 0.5 * result;
+    
+    float x = 0.0;
+    float y = 0.0;
+    
+    for (int i = 0; i < npoints; i++){
+      float temp = (xpoints[i] * ypoints[(i+1) % npoints]) - (xpoints[(i+1) % npoints] * ypoints[i]);
+      
+      x += (xpoints[i] + xpoints[(i+1) % npoints]) * temp;
+      y += (ypoints[i] + ypoints[(i+1) % npoints]) * temp;
+    }
+    
+    x = 1.0/(6.0 * signedArea) * x;
+    y = 1.0/(6.0 * signedArea) * y;
+    
+    println(x, y);
+
+    center = new Point(x, y);
+    
+    return center;
+  }
  
   void drawMe(){
     beginShape();
+    
+    Point center = this.center();
+    
     for(int i=0; i<npoints; i++){
-      vertex(xpoints[i] - boxCenter.x, ypoints[i] - boxCenter.y);
+      vertex(xpoints[i] - center.x, ypoints[i] - center.y);
     }
     endShape(CLOSE);
   }
@@ -101,6 +142,14 @@ public class Box {
     }
     
     return 0;
+  }
+  
+  public Point pieceCoords(){
+    if (piece != null){
+      return piece.coords();
+    }
+    
+    return new Point(0, 0);
   }
 
   // From poly, update coords
@@ -387,6 +436,7 @@ public class Box {
     broken = true;
     
     poly = shape1;
+    shape1.forceCenter(boxCenter);
     updateCoords();
     
     piece = new Box_Piece(shape2, startDragPoint);

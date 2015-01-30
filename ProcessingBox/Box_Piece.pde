@@ -10,6 +10,8 @@ class Box_Piece {
   Point pt;
   Point offset;
   
+  Point rotatePoint;
+  
   public Box_Piece(Poly poly_, Point startMouse_) { 
     poly = poly_; 
     startMouse = startMouse_; 
@@ -55,18 +57,25 @@ class Box_Piece {
       }
     }
 
-    moveTendrils(offset.addTo(startMouse));
-    
-    Point t = new Point(offset.x + boxCenter.x, offset.y + boxCenter.y);
+    rotatePoint = poly.center(); //new Point(offset.x + boxCenter.x, offset.y + boxCenter.y);
   
-    float a = boxCenter.getAngle(t) + angleOffset;
+    float a = boxCenter.getAngle(rotatePoint.addTo(offset)) + angleOffset;
     angle = (a * PI)/180.0 ;
 
     pushMatrix();
-    translate(t.x, t.y);
+    translate(offset.x, offset.y);
+    pushMatrix();
+    translate(rotatePoint.x, rotatePoint.y);
     rotate(angle);
     poly.drawMe();
     popMatrix();
+    popMatrix();
+    
+    moveTendrils(this.coords());
+  }
+  
+  public Point coords(){
+    return this.rotatePoint.addTo(this.offset);
   }
 
   public void drawMe(){

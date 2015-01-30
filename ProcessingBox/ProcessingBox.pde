@@ -1,8 +1,8 @@
 Box box;
 Tendrils tendrils;
 ParticleSystem[] particleSystems;
-SoundControls song1;
-SoundControls song2;
+MusicPlayer song1;
+MusicPlayer song2;
 
 boolean isMouseDown;
 
@@ -14,11 +14,11 @@ static int tendrilLength = 300;
 static Point boxCenter;
 
 void setupAudio(){
-  song1 = new SoundControls();
-  song1.pause(true);
+  song1 = new MusicPlayer();
+  song1.pause();
   
-  song2 = new SoundControls();
-  song2.pause(true);
+  song2 = new MusicPlayer();
+  song2.pause();
 }
 
 // The statements in the setup() function 
@@ -62,16 +62,20 @@ void draw() {
   
   box.draw();
   song1.update();
+  
+  Point p = box.pieceCoords();
+  
+  ellipse(p.x, p.y, 5, 5);
 }
 
 void onBreakBox(){
-  song1.pause(false);
-  song2.pause(false);
+  song1.play();
+  song2.play();
 }
 
 void onReconnectBox(){
-  song1.pause(true);
-  song2.pause(true);
+  song1.pause();
+  song2.pause();
 }
 
 void mousePressed(){
