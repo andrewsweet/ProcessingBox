@@ -12,6 +12,12 @@ class Point {
     return dx*dx + dy*dy;
   }
   
+  float getAngle(Point p2) {
+    float deltaY = p2.y - this.y;
+    float deltaX = p2.x - this.x;
+    return atan2(deltaY, deltaX) * 180 / PI;
+  }
+  
   boolean isAlmostEqual(Point p){
     float epsilon = 0.1;
     

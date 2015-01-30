@@ -49,7 +49,10 @@ void draw() {
   for(int i = 0; i < particleSystems.length; i++)
     particleSystems[i].draw();
 
-  tendrils.draw();
+  if (box.broken){
+    tendrils.draw();
+  }
+  
   box.draw();
 //  sc.update();
 }

@@ -4,6 +4,8 @@ class Box_Piece {
   boolean isDragged;
   boolean shouldReconnect;
 
+  float angle;
+
   Point pt;
   Point offset;
   
@@ -14,6 +16,7 @@ class Box_Piece {
     
     offset = new Point(0, 0);
     shouldReconnect = false;
+    angle = 0;
   }
   
   public void update(Point p){
@@ -48,9 +51,15 @@ class Box_Piece {
     }
 
     moveTendrils(offset.addTo(startMouse));
+    
+    Point t = new Point(offset.x + startMouse.x, offset.y + startMouse.y);
+  
+    float a = boxCenter.getAngle(t);
+    angle = (a * PI)/180.0;
 
     pushMatrix();
-    translate(offset.x, offset.y);
+    translate(t.x, t.y);
+    rotate(angle);
     poly.drawMe();
     popMatrix();
   }

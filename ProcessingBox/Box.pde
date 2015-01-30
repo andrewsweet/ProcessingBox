@@ -26,7 +26,7 @@ class Poly extends java.awt.Polygon{
   void drawMe(){
     beginShape();
     for(int i=0; i<npoints; i++){
-      vertex(xpoints[i],ypoints[i]);
+      vertex(xpoints[i] - boxCenter.x, ypoints[i] - boxCenter.y);
     }
     endShape(CLOSE);
   }
@@ -427,6 +427,13 @@ public class Box {
   }
   
   public void draw(){
+    pushMatrix();
+    translate(boxCenter.x, boxCenter.y);
+    
+    if (piece != null){
+      rotate(piece.angle);
+    }
+    
     parent.fill(fillColor);
     parent.noStroke();
     
@@ -456,11 +463,13 @@ public class Box {
       int[] y = shape2.ypoints;
       
       beginShape();
+      
       for(int i=0; i<n; i++){
-        vertex(x[i], y[i]);
+        vertex(x[i]-boxCenter.x, y[i]-boxCenter.y);
       }
       endShape(CLOSE);
     }
+    popMatrix();
     
     if (piece != null){
       piece.drawMe();
