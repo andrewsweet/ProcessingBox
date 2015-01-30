@@ -64,11 +64,12 @@ class Particle {
     // decrease saturation and value as time goes on
     if(h != 0f)
     {
-      s = Math.max(origS - 30*(numberOfTimesPulled - startPhase), 0);
+      float tempS = Math.max(origS - 30*(numberOfTimesPulled - startPhase), 0f);
+      if(tempS >= 0f && s >= tempS)
+        s -= 1f;
       float tempV = origV - 10*(numberOfTimesPulled - startPhase);
-      if(tempV > 50)
-        v = tempV;
-
+      if(tempV >= 50f && v >= tempV)
+        v -= 1f;
     }
 
     fill(h, s, v);
@@ -142,7 +143,7 @@ class ParticleSystem {
                                            speed*random(0.7f,1.3f)*dy), 
                                  new Point(ax, ay), 
                                  particleWidth + random(-particleWidth/30f, particleWidth/30f), 
-                                 100+(int)random(-50,50), 
+                                 100+(int)random(-95,50), 
                                  percentRed));
       leftToGenCount--;
     }

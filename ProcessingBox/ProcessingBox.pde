@@ -1,6 +1,6 @@
 Box box;
 Tendrils tendrils;
-ParticleSystem[] particleSystems;
+ArrayList<ParticleSystem> particleSystems;
 SoundControls sc;
 int numberOfTimesPulled;
 
@@ -28,12 +28,7 @@ void setup() {
                           
   sc = new SoundControls();
 
-  particleSystems = new ParticleSystem[1];
-  for(int i = 0; i < particleSystems.length; i++)
-    particleSystems[i] = new ParticleSystem(
-                          new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), 
-                          new Point(300f,300f),
-                          4f, 20f, 100, 0.5f);
+  particleSystems = new ArrayList<ParticleSystem>();
   numberOfTimesPulled = 0;
 }
 
@@ -44,8 +39,8 @@ void setup() {
 void draw() {
   background(0); 
 
-  for(int i = 0; i < particleSystems.length; i++)
-    particleSystems[i].draw();
+  for(int i = 0; i < particleSystems.size(); i++)
+    particleSystems.get(i).draw();
 
   tendrils.draw();
   box.draw();
@@ -90,5 +85,6 @@ public float fastSqrt(float x) {
 public void increasePullCount()
 {
   updateTendril();
+  updateParticles();
   numberOfTimesPulled++;
 }
