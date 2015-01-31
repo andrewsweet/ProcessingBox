@@ -72,7 +72,7 @@ public void updateParticlesState()
  			p = new ParticleSystem(c, m, 1f, 20f, 100, 0.6f, 3, 100);
 			break;
 		case 7:
- 			p = new ParticleSystem(c, m, 1f, 20f, 100, 0.7f, 1, 40);
+ 			p = new ParticleSystem(c, m, 1f, 20f, 100, 1f, 1, 100);
 			break;
 	 	default:
 	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
