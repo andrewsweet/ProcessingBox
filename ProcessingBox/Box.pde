@@ -114,7 +114,7 @@ public class Box {
   Poly shape2;
   
   // Used to reconnect the pieces;
-  Poly border;
+  Poly border, hitTest;
   
   Box_Piece piece;
   
@@ -253,6 +253,8 @@ public class Box {
       v0 = v1;
     }
     
+    
+    
 //    intersections = randomlyMovePoints(intersections, 1.0);
     ArrayList<Point> c_coords = coords;//randomlyMovePoints(coords, 0);
     
@@ -266,6 +268,8 @@ public class Box {
     ArrayList<Point> borderPoints = new ArrayList<Point>();
     
     HashSet<Integer> seenIntersectionPairs = new HashSet<Integer>();
+    
+    ArrayList<Point> hitTestPoints = new ArrayList<Point>();
     
     for (int i = 0; i < numCoords; ++i){
       v1 = c_coords.get(i);
@@ -324,6 +328,7 @@ public class Box {
           shape1Points.add(intercept);
         } else {
           shape2Points.add(intercept);
+          hitTestPoints.add(intercept);
         }
       }
       
@@ -333,18 +338,21 @@ public class Box {
         shape1Points.add(v0);
       } else {
         shape2Points.add(v0);
+        hitTestPoints.add(v0);
       }
       
       borderPoints.add(v0);
+      
       
       if (c_seg.isPointOnSegment(intercept)){
         if (shouldAddToShape1){
           shape1Points.add(intercept);
         } else {
           shape2Points.add(intercept);
+          hitTestPoints.add(intercept);
         }
         
-        borderPoints.add(v0);
+        borderPoints.add(intercept);
         
         shouldAddToShape1 = !shouldAddToShape1;
       } else {
@@ -364,9 +372,12 @@ public class Box {
     }
     
     shape1 = createPoly(shape1Points);
+    hitTest = createPoly(hitTestPoints);
+    
+//    shape2 = createPoly(shape2Points);
     
     // Ensures shape 2 is the one interacting with the mouse
-    if (!shape1.contains(mouseP.x, mouseP.y)){
+    if (hitTest.contains(startDragPoint.x, startDragPoint.y)){
       shape2 = createPoly(shape2Points);
     } else {
       shape2 = shape1;
@@ -465,6 +476,12 @@ public class Box {
 
     broken = true;
     
+//    if (!shape2.contains(startDragPoint.x, startDragPoint.y)){
+//      Poly temp = shape1;
+//      shape1 = shape2;
+//      shape2 = temp;
+//    }
+    
     poly = shape1;
     shape1.forceCenter(boxCenter);
     updateCoords();
@@ -554,8 +571,6 @@ public class Box {
     
     poly.drawMe();
     
-//    parent.stroke(255, 0, 0);
-    
     // Draw the crack line
 //    if (crackPoint != null){
 //      parent.fill(255, 0, 0);
@@ -583,6 +598,7 @@ public class Box {
       }
       endShape(CLOSE);
     }
+    
     popMatrix();
     
     if (piece != null){
