@@ -81,7 +81,7 @@ void setup() {
   
   boxCenter = new Point(sketchWidth()/2.0, sketchHeight()/2.0);
   
-  box = new Box(this, boxCenter.x, boxCenter.y, 50);
+  box = new Box(this, boxCenter.x, boxCenter.y, 0.0625 * sketchHeight());
   tendrils = new Tendrils(10, 
                           2f, 7f, 0.1f, 2f,
                           1000f, 10000f, 0.97f, 1f,
