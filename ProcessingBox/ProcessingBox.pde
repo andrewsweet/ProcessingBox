@@ -15,6 +15,8 @@ static int maxTendrilLength = 300;
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
 
+static int MAX_NUM_BREAKS = 7;
+
 static Point boxCenter;
 
 void setupAudio(){
@@ -83,14 +85,14 @@ void draw() {
   
   for(int i = 0; i < particleSystems.size(); i++)
     particleSystems.get(i).draw();
-  if(particleSystems.size() > 0 && isMouseDown)
+  if(particleSystems.size() > 0)
   {
     ParticleSystem p = particleSystems.get(particleSystems.size()-1);
     if(p.isAlive())
-      p.setTarget(mouseX, mouseY);
+      p.setTarget(new Point(mouseX, mouseY));
   }
 
-  if (box.broken){
+  if (box.broken && !box.isDead){
     tendrils.draw();
   }
   
@@ -116,16 +118,22 @@ void onReconnectBox(){
 }
 
 void mousePressed(){
-  box.mousePressed(); 
+  if (!box.isDead){
+    box.mousePressed(); 
+  }
   isMouseDown = true;
 }
 
 void mouseDragged(){
-  box.mouseDragged();
+  if (!box.isDead){
+    box.mouseDragged();
+  }
 }
 
 void mouseReleased(){
-  box.mouseReleased();
+  if (!box.isDead){
+    box.mouseReleased();
+  }
   isMouseDown = false;
 }
 
@@ -144,8 +152,7 @@ public float fastSqrt(float x) {
 
 
 // increase the pulled count
-public void increasePullCount()
-{
+public void increasePullCount() {
   updateTendril();
   updateParticles();
   numberOfTimesPulled++;

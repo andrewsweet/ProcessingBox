@@ -90,6 +90,8 @@ public Poly createPoly(ArrayList<Point>points){
 }
 
 public class Box {
+  float numBreaks = 0;
+  
   PApplet parent;
   Point center;
   float radius;
@@ -101,6 +103,7 @@ public class Box {
   boolean startInsideShape;
   boolean broken = false;
   Point startDragPoint;
+  boolean isDead = false;
   
   ArrayList<Point> coords;
   Poly poly;
@@ -434,20 +437,27 @@ public class Box {
   }
   
   void mousePressed(){
-    didStartDrag = true;
-    
-    Point p = new Point(mouseX, mouseY);
-    startDragPoint = p;
-    
-    startInsideShape = isPointInsideShape(p);
-    
-    if (startInsideShape){
-      generateCrack(p);
+    if (!isDead){
+      didStartDrag = true;
+      
+      Point p = new Point(mouseX, mouseY);
+      startDragPoint = p;
+      
+      startInsideShape = isPointInsideShape(p);
+      
+      if (startInsideShape){
+        generateCrack(p);
+      }
     }
   }
   
+  void killBox(){
+    isDead = true;
+  }
+  
   void breakPieceOff(){
-      
+    numBreaks++;  
+    
     increasePullCount();
 
     broken = true;
@@ -469,10 +479,14 @@ public class Box {
     
     lastAngle = angle();
     onBreakBox();
+    
+    if (numBreaks >= MAX_NUM_BREAKS){
+      killBox();
+    }
   }
   
   void mouseDragged(){
-    if (startInsideShape){
+    if (startInsideShape && !isDead){
       // Dragging only works if the drag started inside the shape
       Point p = new Point(mouseX, mouseY);
       
@@ -496,7 +510,7 @@ public class Box {
     if (piece != null){
       piece.stopDrag();
     } else {
-      setCameraShake(0.2, 0.5);
+      setCameraShake(0.0, 0.5);
     }
   }
   
