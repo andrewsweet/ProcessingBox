@@ -559,7 +559,7 @@ public class Box {
     broken = false;
     crackPoint = null;
     endPoints = null;
-    startDragPoint = null;
+    startDragPoint = this.center;
     
     onReconnectBox();
   }

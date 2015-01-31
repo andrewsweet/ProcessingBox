@@ -150,7 +150,7 @@ class ParticleSystem {
                                    new Point(speed*random(0.7f,1.3f)*dx,
                                              speed*random(0.7f,1.3f)*dy), 
                                    new Point(ax, ay), 
-                                   particleWidth + random(-particleWidth/30f, particleWidth/30f), 
+                                   particleWidth + random(-particleWidth/3f, particleWidth/3f), 
                                    lifespan+(int)random(-95*lifespan/100,lifespan/2), 
                                    percentRed));
       }
@@ -161,15 +161,11 @@ class ParticleSystem {
   public void draw() {
 
     this.update();
-    noStroke();
-    rectMode(CENTER);
+    
 
-    colorMode(HSB, 100);
     for (int i = 0; i < particles.size(); i++) 
     {
       particles.get(i).draw();
     }
-    colorMode(RGB, 255);
-    rectMode(CORNER);
   }
 }

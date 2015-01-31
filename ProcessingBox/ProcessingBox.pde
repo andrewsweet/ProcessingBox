@@ -119,6 +119,7 @@ void draw() {
 
   pushMatrix();
   
+  // shake the camera
   if (!box.isDead){
     float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
     shakeAmount *= shakeAmount;
@@ -128,13 +129,19 @@ void draw() {
     shakeCamera(shakeAmount);
   }
   
+  // update the particle system
   updateParticlesPosition();
+  noStroke();
+  rectMode(CENTER);
+  colorMode(HSB, 100);
   for(int i = 0; i < particleSystems.size(); i++)
       particleSystems.get(i).draw();
 
   if (box.broken && !box.isDead){
     tendrils.draw();
   }
+  colorMode(RGB, 255);
+  rectMode(CORNER);
   
   box.draw();
   song1.update();

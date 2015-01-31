@@ -34,7 +34,7 @@ public void updateParticlesState()
 	 		break;
 		case 1:
 			//TODO
-	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
+	 		p = new ParticleSystem(c, m, 6f, 17f, 150, (float)box.numBreaks/7f, 3, 100);
 	 		break;
 		case 2:
 			//TODO
@@ -46,18 +46,17 @@ public void updateParticlesState()
 	 		break;
 		case 4:
 			//TODO
-	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
+	 		p = new ParticleSystem(c, m, 2f, 20f, 100, (float)box.numBreaks/7f, 7, 100);
 	 		break;
  		case 5:
- 			p = new ParticleSystem(c, m, 20f, 22f, 200, 1f, 10, 30);
+ 			p = new ParticleSystem(c, m, 20f, 15f, 200, 1f, 30, 40);
 			break;
 		case 6:
 			//TODO	
  			p = new ParticleSystem(c, m, 4f, 20f, 100, 0.6f, 3, 100);
 			break;
 		case 7:
-			//TODO	
- 			p = new ParticleSystem(c, m, 4f, 20f, 100, 1f, 3, 100);
+ 			p = new ParticleSystem(c, m, 1f, 20f, 100, 0.7f, 3, 100);
 			break;
 	 	default:
 	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
