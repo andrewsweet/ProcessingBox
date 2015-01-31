@@ -90,7 +90,7 @@ public Poly createPoly(ArrayList<Point>points){
 }
 
 public class Box {
-  float numBreaks = 0;
+  public int numBreaks = 0;
   
   PApplet parent;
   Point center;
@@ -480,7 +480,7 @@ public class Box {
     lastAngle = angle();
     onBreakBox();
     
-    if (numBreaks >= MAX_NUM_BREAKS){
+    if (numBreaks > MAX_NUM_BREAKS){
       killBox();
     }
   }
