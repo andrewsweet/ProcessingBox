@@ -7,6 +7,9 @@ class Point {
   }   
   
   float squareDistanceTo(Point p){
+    if(p == null)
+      return 0f;
+
   	float dx = p.x - x;
   	float dy = p.y - y;
     return dx*dx + dy*dy;

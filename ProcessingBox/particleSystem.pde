@@ -116,9 +116,10 @@ class ParticleSystem {
   }
 
 
-  public void setTarget(Point t)
+  public void setTarget(float x, float y)
   {
-    target = t;
+    target.x = x;
+    target.y = y;
   }
 
   public boolean isAlive()
@@ -132,24 +133,27 @@ class ParticleSystem {
     // add a point
     if(leftToGenCount > 0)
     {
-      // distance and direction
-      float dx = target.x - source.x;
-      float dy = target.y - source.y;
-      float sqrtDistance = fastSqrt(dx*dx + dy*dy);
-      dx = dx/sqrtDistance + random(-0.1,0.1);
-      dy = dy/sqrtDistance + random(-0.1,0.1);
+      for(int i = 0; i < 3; i++)
+      {
+        // distance and direction
+        float dx = target.x - source.x;
+        float dy = target.y - source.y;
+        float sqrtDistance = fastSqrt(dx*dx + dy*dy);
+        dx = dx/sqrtDistance + random(-0.1,0.1);
+        dy = dy/sqrtDistance + random(-0.1,0.1);
 
-      // acceleration
-      float ax = random(-0.01f, 0.01f);
-      float ay = random(-0.01f, 0.01f);
+        // acceleration
+        float ax = random(-0.01f, 0.01f);
+        float ay = random(-0.01f, 0.01f);
 
-      particles.add(new Particle(new Point(source.x, source.y), 
-                                 new Point(speed*random(0.7f,1.3f)*dx,
-                                           speed*random(0.7f,1.3f)*dy), 
-                                 new Point(ax, ay), 
-                                 particleWidth + random(-particleWidth/30f, particleWidth/30f), 
-                                 100+(int)random(-95,50), 
-                                 percentRed));
+        particles.add(new Particle(new Point(source.x, source.y), 
+                                   new Point(speed*random(0.7f,1.3f)*dx,
+                                             speed*random(0.7f,1.3f)*dy), 
+                                   new Point(ax, ay), 
+                                   particleWidth + random(-particleWidth/30f, particleWidth/30f), 
+                                   100+(int)random(-95,50), 
+                                   percentRed));
+      }
       leftToGenCount--;
     }
   }
