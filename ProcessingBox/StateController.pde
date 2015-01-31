@@ -22,9 +22,19 @@ public void updateTendril()
 
 public void updateParticles()
 {
-	ParticleSystem p = new ParticleSystem(
-                        new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), 
-                        new Point(mouseX, mouseY),
-                        4f, 20f, 100, (float)numberOfTimesPulled/7f);
-  particleSystems.add(p);
+	ParticleSystem p = null;
+	switch(numberOfTimesPulled)
+	{
+		case 0:
+	 		p = new ParticleSystem(
+	          new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), 
+	          new Point(mouseX, mouseY),
+	          4f, 20f, 100, (float)numberOfTimesPulled/7f, 3);
+	 		break;
+	 	default:
+	 		break;
+ 	}
+
+ 	if(p != null);
+  	particleSystems.add(p);
 }
