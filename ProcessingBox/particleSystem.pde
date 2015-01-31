@@ -94,6 +94,7 @@ class ParticleSystem {
   float particleWidth, speed;
   int leftToGenCount;
   float percentRed;
+  int particlePerSpew;
   
   /*
     source: source of target 
@@ -103,13 +104,14 @@ class ParticleSystem {
     c: number of particles of emit
     percentRed: proability of this being red (0f - 1f)
   */
-  ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed) {
+  ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed, int particlePerSpew) {
     this.source = source;
     this.target = target;
     this.speed = speed;
     this.particleWidth = w;
     this.leftToGenCount = c;
     this.percentRed = percentRed;
+    this.particlePerSpew = particlePerSpew;
 
     particles = new ArrayList<Particle>();
     particleWidth = w;
@@ -133,7 +135,7 @@ class ParticleSystem {
     // add a point
     if(leftToGenCount > 0)
     {
-      for(int i = 0; i < 3; i++)
+      for(int i = 0; i < particlePerSpew; i++)
       {
         // distance and direction
         float dx = target.x - source.x;
