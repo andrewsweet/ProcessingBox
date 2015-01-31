@@ -4,7 +4,7 @@ ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
 
-boolean DEBUG_SKIP_INTRO = false;
+boolean DEBUG_SKIP_INTRO = true;
 
 boolean isMouseDown;
 
@@ -31,6 +31,8 @@ static float[] maxScreenShake;
 static float[] defaultPlaybackRates;
 
 static PFont mainTitleFont;
+
+int finalTendrilsLeftCount;
 
 void setupAudio(){
   song1 = new MusicPlayer();
@@ -110,13 +112,18 @@ void setup() {
   setupAudio();
 
   particleSystems = new ArrayList<ParticleSystem>();
-  
+  finalTendrilsLeftCount = 10;
+
   targetTextBrightness = 280;
   
   if (DEBUG_SKIP_INTRO){
     box.disabled = false;
     box.fillColor = color(255);
   }
+
+  //TODO
+  box.numBreaks = 5;
+
 }
 
 void shakeCamera(float amount){  
@@ -237,6 +244,20 @@ void draw() {
   rectMode(CORNER);
 
   if (box.broken){
+
+    if(finalTendrilsLeftCount == 2 && 
+       0f < box.velocity() && box.velocity() < 0.1f)
+    {
+      tendrils.deleteTendrils(1);
+      finalTendrilsLeftCount--;
+    }
+    if(finalTendrilsLeftCount == 1 &&
+       0f < box.velocity() && box.velocity() < 0.01f)
+    {
+      tendrils.deleteTendrils(1); 
+      finalTendrilsLeftCount--;
+    }
+
     tendrils.draw();
   }
   
