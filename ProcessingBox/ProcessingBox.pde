@@ -139,7 +139,7 @@ void draw() {
   colorMode(RGB, 255);
   rectMode(CORNER);
 
-  if (box.broken && !box.isDead){
+  if (box.broken){
     tendrils.draw();
   }
   

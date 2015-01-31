@@ -17,7 +17,20 @@ public void updateTendrilState()
 			tendrils.setColor(100, 0, 0);
 			break;	
 		case 6:
-			tendrils.deleteTendrils(9);
+			tendrils.deleteTendrils(5);
+			tendrils.setAmplitude(1f, 5f);
+			tendrils.setAmplitudePercentage(0.9f, 1.1f);
+			tendrils.setFrequency(500f,1500f);
+			tendrils.setFrequencyPercentage(0.9f, 1.1f);
+			tendrils.setColor(50, 0, 0);
+			break;
+		case 7:
+			tendrils.deleteTendrils(3);
+			tendrils.setAmplitude(5f, 5f);
+			tendrils.setAmplitudePercentage(1f, 1f);
+			tendrils.setFrequency(1500f,1500f);
+			tendrils.setFrequencyPercentage(1f, 1f);
+			tendrils.setColor(25, 0, 0);
 		default:
 			break;
 	}
