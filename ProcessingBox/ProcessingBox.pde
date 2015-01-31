@@ -18,7 +18,7 @@ static int MAX_NUM_BREAKS = 6;
 
 static Point boxCenter;
 
-static int[] maxScreenShake;
+static float[] maxScreenShake;
 static float[] defaultPlaybackRates;
 
 void setupAudio(){
@@ -33,10 +33,11 @@ void setupAudio(){
 void initMaxScreenShake(){
   int numItems = MAX_NUM_BREAKS + 2;
   
-  maxScreenShake = new int[numItems];
+  maxScreenShake = new float[numItems];
   
   for (int i = 0; i < numItems; ++i){
-    maxScreenShake[i] = min(floor(abs(5 - abs(i - 0.75 * numItems)) * (9.0 / 6.0)), 8);
+    maxScreenShake[i] = min(abs(5 - abs(i - 0.75 * numItems)) * (9.0 / 6.0), 7.5)/7.5 + 0.1;
+    println(i, maxScreenShake[i]);
   }
 }
 
@@ -54,8 +55,6 @@ void initDefaultPlaybackRates(){
     else if (defaultPlaybackRates[i] < 0.5){
       defaultPlaybackRates[i] = 1.0 - defaultPlaybackRates[i];
     }
-    
-    println("GOGO", i, defaultPlaybackRates[i]);
   }
 }
 
@@ -90,10 +89,8 @@ void shakeCamera(float amount){
   
   amount = max(amount, cameraShakeOverride);
   
-  float shakeFactor = maxScreenShake[box.numBreaks];
-  
-  float x = random(-shakeFactor * amount, shakeFactor * amount);
-  float y = random(-shakeFactor * amount, shakeFactor * amount);
+  float x = random(-9 * amount, 9 * amount);
+  float y = random(-9 * amount, 9 * amount);
   
   translate(x, y);
   
@@ -110,13 +107,15 @@ void setCameraShake(float amount, float decayFactor){
 // sequence and after the last line is read, the first 
 // line is executed again.
 void draw() {
-  background(box.numBreaks * (30.0 / (MAX_NUM_BREAKS+1)), 0, 0); 
+  background(box.numBreaks * (40.0 / (MAX_NUM_BREAKS+1)), 0, 0); 
 
   pushMatrix();
   
   if (!box.isDead){
     float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
     shakeAmount *= shakeAmount;
+    
+    shakeAmount *= maxScreenShake[box.numBreaks];
     
     shakeCamera(shakeAmount);
   }
@@ -145,7 +144,13 @@ void onBreakBox(){
   song1.play();
   song2.play();
   
-  setCameraShake(1.0, 1.0/5.0);
+  float denominator = 7.0 + box.numBreaks;
+  
+  if (box.numBreaks == 5) {
+    denominator *= 7.8;
+  }
+  
+  setCameraShake(1.0, 1.0/denominator);
 }
 
 void onReconnectBox(){
