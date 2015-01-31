@@ -9,7 +9,7 @@ boolean isMouseDown;
 static int SCREEN_WIDTH = 1024;
 static int SCREEN_HEIGHT = 768;
 
-static int tendrilLength = 300;
+static int maxTendrilLength = 300;
 
 static Point boxCenter;
 
@@ -37,13 +37,20 @@ void setup() {
   tendrils = new Tendrils(10, 
                           2f, 7f, 0.1f, 2f,
                           1000f, 10000f, 0.97f, 1f,
-                          tendrilLength);
+                          maxTendrilLength);
                           
   setupAudio();
 
   particleSystems = new ParticleSystem[1];
   for(int i = 0; i < particleSystems.length; i++)
     particleSystems[i] = new ParticleSystem(new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), new Point(300f,300f),20f,1000);
+}
+
+void shakeCamera(float amount){
+  float x = random(-8 * amount, 8 * amount);
+  float y = random(-8 * amount, 8 * amount);
+  
+  translate(x, y);
 }
 
 // The statements in draw() are executed until the 
@@ -53,6 +60,13 @@ void setup() {
 void draw() {
   background(0); 
 
+  pushMatrix();
+  
+  float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
+  
+//  println(box.tendrilLength(), maxTendrilLength);
+  shakeCamera(shakeAmount);
+  
   for(int i = 0; i < particleSystems.length; i++)
     particleSystems[i].draw();
 
@@ -66,6 +80,7 @@ void draw() {
   Point p = box.pieceCoords();
   
   ellipse(p.x, p.y, 5, 5);
+  popMatrix();
 }
 
 void onBreakBox(){

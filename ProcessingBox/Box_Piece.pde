@@ -31,7 +31,7 @@ class Box_Piece {
     
     float len = sqrt(lineSeg.lengthSquared());
     
-    float tendrilLen = sqrt(tendrilLength * tendrilLength);
+    float tendrilLen = sqrt(maxTendrilLength * maxTendrilLength);
     
     if (len == 0) len = 1;
     

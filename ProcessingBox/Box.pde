@@ -53,8 +53,6 @@ class Poly extends java.awt.Polygon{
     
     x = 1.0/(6.0 * signedArea) * x;
     y = 1.0/(6.0 * signedArea) * y;
-    
-    println(x, y);
 
     center = new Point(x, y);
     
@@ -94,6 +92,8 @@ public class Box {
   Point center;
   float radius;
   color fillColor;
+  
+  float lastAngle;
   
   boolean didStartDrag;
   boolean startInsideShape;
@@ -450,6 +450,7 @@ public class Box {
     
     fillColor = color(brightness);
     
+    lastAngle = angle();
     onBreakBox();
   }
   
@@ -492,9 +493,20 @@ public class Box {
     pushMatrix();
     translate(boxCenter.x, boxCenter.y);
     
-    if (piece != null){
-      rotate(angle());
+    float angle = angle();
+    
+    if (abs(angle - lastAngle) > (PI/2.0)){
+      angle = (angle+lastAngle)/2.0 + PI;
+    } else {
+      float delayFactor = 0.27;
+      angle = ((delayFactor * angle) + ((1 - delayFactor) * lastAngle));//(angle + lastAngle) / 2.0;
     }
+    
+    if (piece != null){
+      rotate(angle);
+    }
+    
+    lastAngle = angle;
     
     parent.fill(fillColor);
     parent.noStroke();

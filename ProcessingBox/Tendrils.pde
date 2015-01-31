@@ -2,6 +2,9 @@ class Tendrils
 {
 	private Tendril[] tendrils;
 
+        Point pt1;
+        Point pt2;
+
 	/*
 	 c: number of tendrils
 	 la: amplitude min
@@ -16,20 +19,27 @@ class Tendrils
 	*/
 	public Tendrils(int c, 
 									float la, float ha, float lap, float hap,
-									float lf, float hf, float lfp, float hfp)
+									float lf, float hf, float lfp, float hfp,
+									float l)
 	{
 
+          float centerX = SCREEN_WIDTH/2.0;
+          float centerY = SCREEN_HEIGHT/2.0;
+          
+          pt1 = new Point(centerX, centerY);
+          pt2 = pt1;
+  
 	  tendrils = new Tendril[c];
 	  for(int i = 0; i < tendrils.length; i++)
 	  {
-	    float x = SCREEN_WIDTH/2.0 + random(-20,20);
-	    float y = SCREEN_HEIGHT/2.0 + random(-20,20);
+	    float x = centerX + random(-20,20);
+	    float y = centerY + random(-20,20);
 	    Point p = new Point(x,y);
 
 	    float pa = random(la,ha);
 	    float pf = random(lf,hf);
 
-	    tendrils[i] = new Tendril(p, p, pa, lap, hap, pf, lfp, hfp);
+	    tendrils[i] = new Tendril(p, p, pa, lap, hap, pf, lfp, hfp, l);
 	  }
 	}
 
@@ -73,6 +83,8 @@ class Tendrils
 	// set where the end point is (start point is always center of box)
 	public void setEndPoint(Point p)
 	{
+          pt2 = p;
+  
 	  for(int i = 0; i < tendrils.length; i++)
 	  {
 	    float x = p.x + random(-5,5);
@@ -89,5 +101,7 @@ class Tendrils
 	}
 
 
-
+        public float currentLengthSquared(){
+          return pt1.squareDistanceTo(pt2);
+        }
 }
