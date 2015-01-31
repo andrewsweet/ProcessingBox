@@ -466,6 +466,12 @@ public class Box {
     }
   }
   
+  public float velocity(){
+    if (piece == null || piece.lastPoint == null) return null;
+    
+    return sqrt(piece.offset.squareDistanceTo(piece.lastPoint));
+  }
+  
   void killBox(){
     isDead = true;
     piece.stopDrag();

@@ -30,12 +30,6 @@ class Box_Piece {
     rotatePoint = new Point(0, 0);
   }
   
-  public float velocity(){
-    if (lastPoint == null) return null;
-    
-    return sqrt(offset.squareDistanceTo(lastPoint));
-  }
-  
   public void update(Point p){
     LineSegment lineSeg = new LineSegment(boxCenter, p);
     
