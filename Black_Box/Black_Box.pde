@@ -121,9 +121,6 @@ void setup() {
     box.fillColor = color(255);
   }
 
-  //TODO
-  box.numBreaks = 5;
-
 }
 
 void shakeCamera(float amount){  
@@ -246,13 +243,13 @@ void draw() {
   if (box.broken){
 
     if(finalTendrilsLeftCount == 2 && 
-       0f < box.velocity() && box.velocity() < 0.1f)
+       0f < box.velocity() && box.velocity() < 2f)
     {
       tendrils.deleteTendrils(1);
       finalTendrilsLeftCount--;
     }
     if(finalTendrilsLeftCount == 1 &&
-       0f < box.velocity() && box.velocity() < 0.01f)
+       0f < box.velocity() && box.velocity() < 0.1f)
     {
       tendrils.deleteTendrils(1); 
       finalTendrilsLeftCount--;
