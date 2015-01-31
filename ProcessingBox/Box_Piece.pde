@@ -11,6 +11,7 @@ class Box_Piece {
   Point offset;
   
   Point killedTarget;
+  Point lastPosition;
   
   Point rotatePoint;
   
