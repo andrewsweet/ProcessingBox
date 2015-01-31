@@ -105,7 +105,7 @@ class Box_Piece {
     
     LineSegment seg = new LineSegment(boxCenter, pieceCenter);
     
-    float progress = 1.14 + random(0.12);
+    float progress = 1.27 + random(0.11);
     
     Point targetLocation = seg.pointAtProgress(progress);
     
