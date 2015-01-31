@@ -121,6 +121,11 @@ class ParticleSystem {
     target = t;
   }
 
+  public boolean isAlive()
+  {
+    return leftToGenCount > 0;
+  }
+
 
   public void update()
   {

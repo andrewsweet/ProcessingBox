@@ -83,6 +83,12 @@ void draw() {
   
   for(int i = 0; i < particleSystems.size(); i++)
     particleSystems.get(i).draw();
+  if(particleSystems.size() > 0)
+  {
+    ParticleSystem p = particleSystems.get(particleSystems.size()-1);
+    if(p.isAlive())
+      p.setTarget(new Point(mouseX, mouseY));
+  }
 
   if (box.broken){
     tendrils.draw();
