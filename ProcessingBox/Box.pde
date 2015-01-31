@@ -106,6 +106,8 @@ public class Box {
   boolean isDead = false;
   boolean adjustedStartPoint = false;
   
+  float pieceShake;
+  
   ArrayList<Point> coords;
   Poly poly;
   Point crackPoint;
@@ -528,6 +530,7 @@ public class Box {
             breakPieceOff();
           } else {
             setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0, 1.0/5.0);
+            pieceShake = (squareDist/TEAR_DISTANCE_SQUARED)/6.0;
           }
         }
       }
@@ -542,6 +545,7 @@ public class Box {
       piece.stopDrag();
     } else {
       setCameraShake(0.0, 0.5);
+      shape2 = null;
     }
   }
   
@@ -601,9 +605,14 @@ public class Box {
       int n = shape2.npoints;
       int[] x = shape2.xpoints;
       int[] y = shape2.ypoints;
+
+      int c = max(0, min((int)brightness(fillColor)+3, 252));
+      
+      parent.stroke(c);
+      
+      println(c, fillColor);
       
       beginShape();
-      
       for(int i=0; i<n; i++){
         vertex(x[i]-boxCenter.x, y[i]-boxCenter.y);
       }
