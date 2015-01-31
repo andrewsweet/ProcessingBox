@@ -92,6 +92,8 @@ public Poly createPoly(ArrayList<Point>points){
 public class Box {
   public int numBreaks = 0;
   
+  boolean disabled = true;
+  
   PApplet parent;
   Point center;
   float radius;
@@ -219,7 +221,7 @@ public class Box {
     startInsideShape = false;
     broken = false;
     
-    fillColor = color(255, 255, 255);
+    fillColor = color(2);
   }
   
   // based on psuedo-code from http://geomalgorithms.com/a13-_intersect-4.html
@@ -451,7 +453,7 @@ public class Box {
   }
   
   void mousePressed(){
-    if (!isDead){
+    if (!disabled && !isDead){
       didStartDrag = true;
       
       Point p = new Point(mouseX, mouseY);
