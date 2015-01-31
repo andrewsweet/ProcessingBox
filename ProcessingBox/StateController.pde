@@ -7,14 +7,17 @@ public void updateTendrilState()
 			tendrils.setAmplitudePercentage(0.1f, 2f);
 			tendrils.setFrequency(1000f,10000f);
 			tendrils.setFrequencyPercentage(0.97f, 1f);
+			tendrils.setColor(255, 255, 255);
 			break;	
 		case 5:
 			tendrils.setAmplitude(1f, 13f);
 			tendrils.setAmplitudePercentage(0.1f, 6f);
 			tendrils.setFrequency(1000f,5000f);
 			tendrils.setFrequencyPercentage(0.1f, 1.9f);
-			tendrils.setColor(255, 0, 0);
+			tendrils.setColor(100, 0, 0);
 			break;	
+		case 6:
+			tendrils.deleteTendrils(5);
 		default:
 			break;
 	}
@@ -42,7 +45,7 @@ public void updateParticlesState()
 	 		break;
 		case 3:
 			//TODO
-	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
+	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 1, 100);
 	 		break;
 		case 4:
 			//TODO
@@ -53,10 +56,10 @@ public void updateParticlesState()
 			break;
 		case 6:
 			//TODO	
- 			p = new ParticleSystem(c, m, 4f, 20f, 100, 0.6f, 3, 100);
+ 			p = new ParticleSystem(c, m, 1f, 20f, 100, 0.6f, 3, 100);
 			break;
 		case 7:
- 			p = new ParticleSystem(c, m, 1f, 20f, 100, 0.7f, 3, 100);
+ 			p = new ParticleSystem(c, m, 1f, 20f, 100, 0.7f, 1, 40);
 			break;
 	 	default:
 	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);

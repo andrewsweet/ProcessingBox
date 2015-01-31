@@ -136,12 +136,13 @@ void draw() {
   colorMode(HSB, 100);
   for(int i = 0; i < particleSystems.size(); i++)
       particleSystems.get(i).draw();
+  colorMode(RGB, 255);
+  rectMode(CORNER);
 
   if (box.broken && !box.isDead){
     tendrils.draw();
   }
-  colorMode(RGB, 255);
-  rectMode(CORNER);
+  
   
   box.draw();
   song1.update();

@@ -12,6 +12,8 @@ class Tendril
 	// color of tendril
 	private int r, g, b;
 
+	public boolean shouldDraw;
+
 	// point, end point, amplitude
 	public Tendril(Point p1, Point p2,
 								 float a, float lap, float hap, 
@@ -27,6 +29,7 @@ class Tendril
 		this.highFreqPercent = hfp;
 		this.frequency = f;
 		this.squaredLength = l*l;
+		this.shouldDraw = true;
 
 		this.r = 255;
 		this.g = 255;
@@ -47,6 +50,7 @@ class Tendril
 		this.r = r; this.g = g; this.b = b;
 	}
 	public void setSquareLength(float l) { squaredLength = l*l; }
+	public void setShouldDraw(boolean b) { shouldDraw = b; }
 
 	
 
@@ -57,6 +61,9 @@ class Tendril
 	// draws the tendril
 	public void draw()
 	{
+		if(!shouldDraw)
+			return;
+
 		stroke(r,g,b,150);
 		noFill();
 

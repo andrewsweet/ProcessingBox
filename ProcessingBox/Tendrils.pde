@@ -1,9 +1,8 @@
 class Tendrils
 {
 	private Tendril[] tendrils;
-
-        Point pt1;
-        Point pt2;
+  Point pt1;
+  Point pt2;
 
 	/*
 	 c: number of tendrils
@@ -11,7 +10,7 @@ class Tendrils
 	 ha: amplitude max
 	 lap: low amplitude percentage (for random movement)
 	 hap: high amplitude percentage (for random movement)
-	 lf: frequency min
+	 lf: frequency mino
 	 hf: frequency max
 	 lfp: low frequency percentage (for random movement)
 	 hfp: high frequency percentage (for random movement)
@@ -83,7 +82,7 @@ class Tendrils
 	// set where the end point is (start point is always center of box)
 	public void setEndPoint(Point p)
 	{
-          pt2 = p;
+    pt2 = p;
   
 	  for(int i = 0; i < tendrils.length; i++)
 	  {
@@ -93,15 +92,34 @@ class Tendrils
 	  }
 	}
 
+	// delete numToDelete number of tendrils
+	// if there are more than available, all of them will disappear
+	public void deleteTendrils(int numToDelete)
+	{
+  	for(int i = 0; i < tendrils.length; i++)
+  	{
+  		if(numToDelete <= 0)
+  			break;
+  		if(tendrils[i].shouldDraw)
+    		continue;
+    	tendrils[i].setShouldDraw(false);
+    	numToDelete--;
+    }
+	}
+
 	// draw the tendrils
 	public void draw()
 	{
   	for(int i = 0; i < tendrils.length; i++)
-    	tendrils[i].draw();
+  	{
+  		if(tendrils[i].shouldDraw)
+    		tendrils[i].draw();
+    }
 	}
 
 
-        public float currentLengthSquared(){
-          return pt1.squareDistanceTo(pt2);
-        }
+  public float currentLengthSquared()
+  {
+    return pt1.squareDistanceTo(pt2);
+  }
 }

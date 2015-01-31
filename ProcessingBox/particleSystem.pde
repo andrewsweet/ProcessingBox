@@ -100,6 +100,8 @@ class ParticleSystem {
     w: width of each particle
     c: number of particles of emit
     percentRed: proability of this being red (0f - 1f)
+    particlePerSpew: for each step in lifespan, how many particles to emit
+    lifespan: how long the particle lasts before splattering
   */
   ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed, int particlePerSpew, int lifespan) {
     this.source = source;
