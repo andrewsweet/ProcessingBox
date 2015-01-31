@@ -57,7 +57,6 @@ class MusicPlayer {
       
       targetVolume = distanceProgress;
     } else {
-      println("PROGRESS", sc.getRate());
       if (sc.getVolume() > 0.9){
         setTargetVolume(0.0, 0.01);
       } 

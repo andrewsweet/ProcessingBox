@@ -36,7 +36,6 @@ void initMaxScreenShake(){
   
   for (int i = 0; i < numItems; ++i){
     maxScreenShake[i] = min(floor(abs(6 - abs(i - 0.75 * numItems)) * (9.0 / 6.0)), 8);
-    println(i, maxScreenShake[i]);
   }
 }
 
