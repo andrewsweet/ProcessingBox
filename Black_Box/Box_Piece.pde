@@ -32,6 +32,8 @@ class Box_Piece {
   }
   
   public void update(Point p){
+    fill(box.fillColor);
+    
     LineSegment lineSeg = new LineSegment(boxCenter, p);
     
     float len = sqrt(lineSeg.lengthSquared());

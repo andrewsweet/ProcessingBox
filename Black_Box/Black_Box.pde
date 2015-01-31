@@ -11,12 +11,24 @@ static int maxTendrilLength;
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
 
+static float targetTextBrightness = 2;
+static float textBrightness = 2;
+static float textFadeEase = 0.02;
+
+static int ticksWaited = 0; 
+static int textFadeWait = 60;
+
+static int outroWaitTime = 10000;
+static int timeOfDeath;
+
 static int MAX_NUM_BREAKS = 7;
 
 static Point boxCenter;
 
 static float[] maxScreenShake;
 static float[] defaultPlaybackRates;
+
+static PFont mainTitleFont;
 
 void setupAudio(){
   song1 = new MusicPlayer();
@@ -71,6 +83,10 @@ void initDefaultPlaybackRates(){
 void setup() {
   randomSeed(1);
   
+  mainTitleFont = createFont("Avenir", 10);
+  
+  textAlign(CENTER, CENTER);
+  
   maxTendrilLength = (int)floor(0.375 * sketchHeight());
   
   initMaxScreenShake();
@@ -92,6 +108,8 @@ void setup() {
   setupAudio();
 
   particleSystems = new ArrayList<ParticleSystem>();
+  
+  targetTextBrightness = 280;
 }
 
 void shakeCamera(float amount){  
@@ -110,6 +128,68 @@ void shakeCamera(float amount){
 void setCameraShake(float amount, float decayFactor){
   cameraShakeOverride = amount;
   cameraShakeDecayFactor = decayFactor;
+}
+
+void startInteraction(){
+  box.disabled = false;
+  println("START INTERACTION");
+}
+
+void drawOutro(){
+  if (millis() - timeOfDeath > outroWaitTime)
+  textBrightness = ceil((textBrightness * (1 - textFadeEase)) + (targetTextBrightness * textFadeEase));
+
+  textBrightness = min(255, max(0, textBrightness));
+  
+  fill(255, 255, 255, textBrightness);
+  textFont(mainTitleFont);
+  
+  float x = sketchWidth()/2.0;
+  float h = sketchHeight();
+  
+  textSize(0.0875 * h);
+  text("black box", x, h/6.0);
+  
+  float textHeight = 0.0875 * h * 0.45;
+  
+  textSize(textHeight);
+  textLeading(textHeight * 1.4);
+  text("- animation -\nandrew sweet\ndave yan\n\n- music -\nthe father and the son and the holy ghost\nby john coltrane\n\n\ncreated for experimental animation\nat carnegie mellon, 2015", x, (5.0 * h)/8.0);
+}
+
+void drawIntro(){
+  if (textBrightness > 3){
+    fill(textBrightness);
+    textFont(mainTitleFont);
+    
+    textSize(0.0875 * sketchHeight());
+    text("black box", sketchWidth()/2.0, sketchHeight()/2.05);
+  }
+  
+  textBrightness = ceil((textBrightness * (1 - textFadeEase)) + (targetTextBrightness * textFadeEase));
+
+  textBrightness = min(255, max(0, textBrightness));
+
+  if (textBrightness > 250){
+    if (ticksWaited > textFadeWait){
+      targetTextBrightness = -52;
+    } else {
+      ticksWaited++;
+    }
+  } else if (textBrightness < 3) {
+    textBrightness = 0;
+    float targetFill = 300;
+    
+    float fill = ceil(((float)brightness(box.fillColor) * (1 - textFadeEase)) + (targetFill * textFadeEase));
+    fill = min(255, max(0, fill));
+    box.fillColor = color(fill);
+    
+    if (fill > 252){
+      box.fillColor = color(255);
+      
+      startInteraction();
+    }
+  }
 }
 
 // The statements in draw() are executed until the 
@@ -152,6 +232,14 @@ void draw() {
   
   song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
   popMatrix();
+  
+  if (box.disabled){
+    drawIntro();
+  }
+  
+  if (box.isDead){
+    drawOutro();
+  }
 }
 
 void onBreakBox(){
@@ -175,6 +263,11 @@ void onReconnectBox(){
 void onDeath(){
   song1.kill();
   song2.pause();
+  
+  timeOfDeath = millis();
+  
+  textBrightness = 0.0;
+  targetTextBrightness = 258;
 }
 
 void mousePressed(){
