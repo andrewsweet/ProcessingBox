@@ -142,26 +142,34 @@ void startInteraction(){
   println("START INTERACTION");
 }
 
-void drawOutro(){
-  if (millis() - timeOfDeath > outroWaitTime)
-  textBrightness = ceil((textBrightness * (1 - textFadeEase)) + (targetTextBrightness * textFadeEase));
+float outroProgress(){
+  if (!box.isDead) return 0.0;
+  
+  return max(0, min((float)textBrightness / 255.0, 1));
+}
 
-  textBrightness = min(255, max(0, textBrightness));
+void drawOutro(){
+  if (millis() - timeOfDeath > outroWaitTime){
+    
+    textBrightness = ceil((textBrightness * (1 - textFadeEase)) + (targetTextBrightness * textFadeEase));
   
-  fill(255, 255, 255, textBrightness);
-  textFont(mainTitleFont);
+    textBrightness = min(255, max(0, textBrightness));
   
-  float x = sketchWidth()/2.0;
-  float h = sketchHeight();
-  
-  textSize(0.0875 * h);
-  text("black box", x, h/6.0);
-  
-  float textHeight = 0.0875 * h * 0.45;
-  
-  textSize(textHeight);
-  textLeading(textHeight * 1.4);
-  text("- animation -\nandrew sweet\ndave yan\n\n- music -\nthe father and the son and the holy ghost\nby john coltrane\n\n\ncreated for experimental animation\nat carnegie mellon, 2015", x, (5.0 * h)/8.0);
+    fill(255, 255, 255, textBrightness);
+    textFont(mainTitleFont);
+    
+    float x = sketchWidth()/2.0;
+    float h = sketchHeight();
+    
+    textSize(0.0875 * h);
+    text("black box", x, h/6.0);
+    
+    float textHeight = 0.0875 * h * 0.45;
+    
+    textSize(textHeight);
+    textLeading(textHeight * 1.4);
+    text("- animation -\nandrew sweet\ndave yan\n\n- music -\nthe father and the son and the holy ghost\nby john coltrane\n\n\ncreated for experimental animation\nat carnegie mellon, 2015", x, (5.0 * h)/8.0);
+  }
 }
 
 void drawIntro(){
