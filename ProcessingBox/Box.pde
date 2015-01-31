@@ -610,8 +610,6 @@ public class Box {
       
       parent.stroke(c);
       
-      println(c, fillColor);
-      
       beginShape();
       for(int i=0; i<n; i++){
         vertex(x[i]-boxCenter.x, y[i]-boxCenter.y);
