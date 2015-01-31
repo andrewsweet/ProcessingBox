@@ -64,7 +64,7 @@ class SoundControls {
     setPlaybackRate(speed);
     setVolume(volume);
     
-    println(speed, gain.getGain());
+    //println(speed, gain.getGain());
   }
   
   void pause(boolean shouldPause){

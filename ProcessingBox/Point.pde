@@ -57,8 +57,8 @@ ArrayList<Point>randomlyMovePoints(ArrayList<Point>points, float maxDistance){
     result.add(p);
   }
   
-  print(points, "\n");
-  print(result, "\n\n");
+  //print(points, "\n");
+  //print(result, "\n\n");
   
   return result;
 }

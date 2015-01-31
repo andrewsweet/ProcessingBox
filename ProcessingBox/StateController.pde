@@ -32,7 +32,10 @@ public void updateParticles()
 	          4f, 20f, 100, (float)numberOfTimesPulled/7f, 3);
 	 		break;
 	 	default:
-	 		break;
+	 		p = new ParticleSystem(
+	          new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), 
+	          new Point(mouseX, mouseY),
+	          4f, 20f, 100, (float)numberOfTimesPulled/7f, 3);
  	}
 
  	if(p != null);

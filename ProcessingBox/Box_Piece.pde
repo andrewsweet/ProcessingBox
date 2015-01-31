@@ -24,6 +24,8 @@ class Box_Piece {
     
     angle = boxCenter.getAngle(t) + angleOffset;
     angleOffset = -90 * angle/(360.0/4.0);
+
+    rotatePoint = new Point(0, 0);
   }
   
   public void update(Point p){
@@ -75,6 +77,7 @@ class Box_Piece {
   }
   
   public Point coords(){
+
     return this.rotatePoint.addTo(this.offset);
   }
 
