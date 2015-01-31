@@ -60,7 +60,7 @@ void shakeCamera(float amount){
   
   translate(x, y);
   
-  cameraShakeOverride = cameraShakeOverride * cameraShakeDecayFactor;
+  cameraShakeOverride = cameraShakeOverride * (1 - cameraShakeDecayFactor);
 }
 
 void setCameraShake(float amount, float decayFactor){
@@ -103,7 +103,7 @@ void onBreakBox(){
   song1.play();
   song2.play();
   
-  setCameraShake(1.0, 4.0/5.0);
+  setCameraShake(1.0, 1.0/5.0);
 }
 
 void onReconnectBox(){
