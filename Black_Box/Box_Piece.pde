@@ -62,6 +62,8 @@ class Box_Piece {
         target = killedTarget;
       }
         
+      lastPosition = new Point(offset.x, offset.y);
+        
       offset.x = (0.96 * offset.x + 0.04 * target.x);
       offset.y = (0.96 * offset.y + 0.04 * target.y);
       
@@ -83,8 +85,6 @@ class Box_Piece {
     poly.drawMe();
     popMatrix();
     popMatrix();
-    
-    lastPosition = offset;
     
     moveTendrils(this.coords());
   }
