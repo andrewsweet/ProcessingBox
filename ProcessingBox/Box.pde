@@ -7,6 +7,8 @@ float MAX_CRACK_VARIATION = 1.4;
 // larger values lead to better performance, simplified polygons
 float MIN_CRACK_VERTEX_DISTANCE = 10;
 
+float TEAR_DISTANCE_SQUARED = 400.0;
+
 /*
  The class inherit all the fields, constructors and functions 
  of the java.awt.Polygon class, including contains(), xpoint,ypoint,npoint
@@ -141,7 +143,19 @@ public class Box {
       return piece.angle;
     }
     
-    return 0;
+    float delta = 0.0;
+    
+    for(int i = 0; i < 4; ++i){
+      if (abs((lastAngle) % (2 * PI) - delta) < PI){
+        return lastAngle/2.0 + delta;
+      }
+      
+      if (abs(lastAngle - delta) < 0.001) return 0;
+      
+      delta += PI/2.0;
+    }
+    
+    return lastAngle/2.0;
   }
   
   public Point pieceCoords(){
@@ -459,8 +473,15 @@ public class Box {
       // Dragging only works if the drag started inside the shape
       Point p = new Point(mouseX, mouseY);
       
-      if (!broken && p.squareDistanceTo(startDragPoint) > 400){
-        breakPieceOff();
+      if (!broken){
+        float squareDist = p.squareDistanceTo(startDragPoint);
+        
+        if (squareDist > TEAR_DISTANCE_SQUARED){
+          setCameraShake(0.0);
+          breakPieceOff();
+        } else {
+          setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0);
+        }
       }
     }
   }
@@ -471,6 +492,8 @@ public class Box {
     
     if (piece != null){
       piece.stopDrag();
+    } else {
+      setCameraShake(0.0);
     }
   }
   
@@ -502,9 +525,7 @@ public class Box {
       angle = ((delayFactor * angle) + ((1 - delayFactor) * lastAngle));//(angle + lastAngle) / 2.0;
     }
     
-    if (piece != null){
-      rotate(angle);
-    }
+    rotate(angle);
     
     lastAngle = angle;
     
@@ -513,7 +534,7 @@ public class Box {
     
     poly.drawMe();
     
-    parent.stroke(255, 0, 0);
+//    parent.stroke(255, 0, 0);
     
     // Draw the crack line
 //    if (crackPoint != null){
@@ -530,7 +551,6 @@ public class Box {
 //    }
     
     if (shape2 != null){
-      parent.fill(0, 255, 0);
       
       int n = shape2.npoints;
       int[] x = shape2.xpoints;

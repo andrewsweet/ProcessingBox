@@ -11,6 +11,8 @@ static int SCREEN_HEIGHT = 768;
 
 static int maxTendrilLength = 300;
 
+static float cameraShakeOverride = 0.0;
+
 static Point boxCenter;
 
 void setupAudio(){
@@ -47,10 +49,17 @@ void setup() {
 }
 
 void shakeCamera(float amount){
+  
+  amount = max(amount, cameraShakeOverride);
+  
   float x = random(-8 * amount, 8 * amount);
   float y = random(-8 * amount, 8 * amount);
   
   translate(x, y);
+}
+
+void setCameraShake(float amount){
+  cameraShakeOverride = amount;
 }
 
 // The statements in draw() are executed until the 
