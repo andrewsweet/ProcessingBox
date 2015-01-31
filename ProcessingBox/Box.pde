@@ -480,10 +480,10 @@ public class Box {
         float squareDist = p.squareDistanceTo(startDragPoint);
         
         if (squareDist > TEAR_DISTANCE_SQUARED){
-          setCameraShake(0.0);
+          setCameraShake(0.0, 4.0/5.0);
           breakPieceOff();
         } else {
-          setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0);
+          setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0, 4.0/5.0);
         }
       }
     }
@@ -496,7 +496,7 @@ public class Box {
     if (piece != null){
       piece.stopDrag();
     } else {
-      setCameraShake(0.0);
+      setCameraShake(0.0, 1.0);
     }
   }
   
