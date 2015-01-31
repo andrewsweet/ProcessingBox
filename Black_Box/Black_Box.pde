@@ -4,6 +4,8 @@ ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
 
+boolean DEBUG_SKIP_INTRO = false;
+
 boolean isMouseDown;
 
 static int maxTendrilLength;
@@ -110,6 +112,11 @@ void setup() {
   particleSystems = new ArrayList<ParticleSystem>();
   
   targetTextBrightness = 280;
+  
+  if (DEBUG_SKIP_INTRO){
+    box.disabled = false;
+    box.fillColor = color(255);
+  }
 }
 
 void shakeCamera(float amount){  
