@@ -50,12 +50,16 @@ void setup() {
 
 void shakeCamera(float amount){
   
+  if (cameraShakeOverride < 0.1) cameraShakeOverride = 0;
+  
   amount = max(amount, cameraShakeOverride);
   
   float x = random(-8 * amount, 8 * amount);
   float y = random(-8 * amount, 8 * amount);
   
   translate(x, y);
+  
+  cameraShakeOverride = (cameraShakeOverride * 7.0)/8.0;
 }
 
 void setCameraShake(float amount){
@@ -72,6 +76,7 @@ void draw() {
   pushMatrix();
   
   float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
+  shakeAmount *= shakeAmount;
   
 //  println(box.tendrilLength(), maxTendrilLength);
   shakeCamera(shakeAmount);
@@ -95,6 +100,8 @@ void draw() {
 void onBreakBox(){
   song1.play();
   song2.play();
+  
+  setCameraShake(1.0);
 }
 
 void onReconnectBox(){
