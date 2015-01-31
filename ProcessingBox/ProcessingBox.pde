@@ -1,8 +1,9 @@
 Box box;
 Tendrils tendrils;
-ParticleSystem[] particleSystems;
+ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
+int numberOfTimesPulled;
 
 boolean isMouseDown;
 
@@ -44,9 +45,7 @@ void setup() {
                           
   setupAudio();
 
-  particleSystems = new ParticleSystem[1];
-  for(int i = 0; i < particleSystems.length; i++)
-    particleSystems[i] = new ParticleSystem(new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f), new Point(300f,300f),20f,1000);
+  particleSystems = new ArrayList<ParticleSystem>();
 }
 
 void shakeCamera(float amount){
@@ -80,11 +79,10 @@ void draw() {
   float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
   shakeAmount *= shakeAmount;
   
-//  println(box.tendrilLength(), maxTendrilLength);
   shakeCamera(shakeAmount);
   
-  for(int i = 0; i < particleSystems.length; i++)
-    particleSystems[i].draw();
+  for(int i = 0; i < particleSystems.size(); i++)
+    particleSystems.get(i).draw();
 
   if (box.broken){
     tendrils.draw();
@@ -128,4 +126,21 @@ void mouseReleased(){
 void moveTendrils(Point p)
 {
   tendrils.setEndPoint(p);
+}
+
+// super hax fast sqrt function
+// source: http://forum.processing.org/one/topic/super-fast-square-root.html
+public float fastSqrt(float x) {
+  int i = Float.floatToRawIntBits(x);
+  i = 532676608 + (i >> 1);
+  return Float.intBitsToFloat(i);
+}
+
+
+// increase the pulled count
+public void increasePullCount()
+{
+  updateTendril();
+  updateParticles();
+  numberOfTimesPulled++;
 }

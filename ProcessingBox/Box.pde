@@ -447,6 +447,9 @@ public class Box {
   }
   
   void breakPieceOff(){
+      
+    increasePullCount();
+
     broken = true;
     
     poly = shape1;
