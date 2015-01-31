@@ -104,6 +104,7 @@ public class Box {
   boolean broken = false;
   Point startDragPoint;
   boolean isDead = false;
+  boolean adjustedStartPoint = false;
   
   ArrayList<Point> coords;
   Poly poly;
@@ -453,6 +454,7 @@ public class Box {
       
       Point p = new Point(mouseX, mouseY);
       startDragPoint = p;
+      adjustedStartPoint = false;
       
       startInsideShape = isPointInsideShape(p);
       
@@ -511,13 +513,22 @@ public class Box {
       Point p = new Point(mouseX, mouseY);
       
       if (!broken){
-        float squareDist = p.squareDistanceTo(startDragPoint);
-        
-        if (squareDist > TEAR_DISTANCE_SQUARED){
-          setCameraShake(0, 1.0/5.0);
-          breakPieceOff();
+        if (startDragPoint.squareDistanceTo(boxCenter) < 60){
+          startDragPoint = p;
+          adjustedStartPoint = true;
         } else {
-          setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0, 1.0/5.0);
+          if (adjustedStartPoint){
+            generateCrack(startDragPoint);
+          }
+          
+          float squareDist = p.squareDistanceTo(startDragPoint);
+          
+          if (squareDist > TEAR_DISTANCE_SQUARED){
+            setCameraShake(0, 1.0/5.0);
+            breakPieceOff();
+          } else {
+            setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0, 1.0/5.0);
+          }
         }
       }
     }
