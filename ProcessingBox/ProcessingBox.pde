@@ -18,6 +18,8 @@ static int MAX_NUM_BREAKS = 6;
 
 static Point boxCenter;
 
+static int[] maxScreenShake;
+
 void setupAudio(){
   song1 = new MusicPlayer();
   song1.pause();
@@ -27,10 +29,23 @@ void setupAudio(){
   song2.shouldAdjustRate = false;
 }
 
+void initMaxScreenShake(){
+  int numItems = MAX_NUM_BREAKS + 1;
+  
+  maxScreenShake = new int[numItems];
+  
+  for (int i = 0; i < numItems; ++i){
+    maxScreenShake[i] = min(floor(abs(6 - abs(i - 0.75 * numItems)) * (9.0 / 6.0)), 8);
+    println(i, maxScreenShake[i]);
+  }
+}
+
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
   randomSeed(1);
+  
+  initMaxScreenShake();
   
   size(SCREEN_WIDTH, SCREEN_HEIGHT);  // Size must be the first statement
   stroke(255);     // Set line drawing color to white
@@ -55,8 +70,10 @@ void shakeCamera(float amount){
   
   amount = max(amount, cameraShakeOverride);
   
-  float x = random(-8 * amount, 8 * amount);
-  float y = random(-8 * amount, 8 * amount);
+  float shakeFactor = maxScreenShake[box.numBreaks];
+  
+  float x = random(-shakeFactor * amount, shakeFactor * amount);
+  float y = random(-shakeFactor * amount, shakeFactor * amount);
   
   translate(x, y);
   
