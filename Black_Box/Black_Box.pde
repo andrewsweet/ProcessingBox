@@ -6,7 +6,7 @@ MusicPlayer song2;
 
 boolean isMouseDown;
 
-static int maxTendrilLength = 300;
+static int maxTendrilLength;
 
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
@@ -70,6 +70,8 @@ void initDefaultPlaybackRates(){
 // execute once when the program begins
 void setup() {
   randomSeed(1);
+  
+  maxTendrilLength = (int)floor(0.375 * sketchHeight());
   
   initMaxScreenShake();
   initDefaultPlaybackRates();
