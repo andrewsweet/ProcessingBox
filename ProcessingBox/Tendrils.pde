@@ -100,7 +100,7 @@ class Tendrils
   	{
   		if(numToDelete <= 0)
   			break;
-  		if(tendrils[i].shouldDraw)
+  		if(!(tendrils[i].shouldDraw))
     		continue;
     	tendrils[i].setShouldDraw(false);
     	numToDelete--;

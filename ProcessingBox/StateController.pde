@@ -17,7 +17,7 @@ public void updateTendrilState()
 			tendrils.setColor(100, 0, 0);
 			break;	
 		case 6:
-			tendrils.deleteTendrils(5);
+			tendrils.deleteTendrils(9);
 		default:
 			break;
 	}
