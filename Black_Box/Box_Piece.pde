@@ -36,9 +36,9 @@ class Box_Piece {
     
     LineSegment lineSeg = new LineSegment(boxCenter, p);
     
-    float len = sqrt(lineSeg.lengthSquared());
+    float len = fastSqrt(lineSeg.lengthSquared());
     
-    float tendrilLen = sqrt(maxTendrilLength * maxTendrilLength);
+    float tendrilLen = fastSqrt(maxTendrilLength * maxTendrilLength);
     
     if (len == 0) len = 1;
     

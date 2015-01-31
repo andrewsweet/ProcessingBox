@@ -471,7 +471,8 @@ public class Box {
   public float velocity(){
     if (piece == null || piece.lastPosition == null) return -1;
     
-    return sqrt(piece.offset.squareDistanceTo(piece.lastPosition));
+    println(piece.offset.squareDistanceTo(piece.lastPosition));
+    return fastSqrt(piece.offset.squareDistanceTo(piece.lastPosition));
   }
   
   void killBox(){

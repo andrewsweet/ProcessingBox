@@ -26,6 +26,7 @@ public void updateTendrilState()
 			break;
 		case 7:
 			tendrils.deleteTendrils(3);
+			finalTendrilsLeftCount = 2;
 			tendrils.setAmplitude(5f, 5f);
 			tendrils.setAmplitudePercentage(1f, 1f);
 			tendrils.setFrequency(1500f,1500f);
