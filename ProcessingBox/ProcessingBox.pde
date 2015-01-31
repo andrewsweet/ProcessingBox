@@ -6,9 +6,6 @@ MusicPlayer song2;
 
 boolean isMouseDown;
 
-static int SCREEN_WIDTH = 1024;
-static int SCREEN_HEIGHT = 768;
-
 static int maxTendrilLength = 300;
 
 static float cameraShakeOverride = 0.0;
@@ -28,6 +25,14 @@ void setupAudio(){
   song2 = new MusicPlayer();
   song2.pause();
   song2.shouldAdjustRate = false;
+}
+
+public int sketchWidth() {
+  return displayWidth;
+}
+
+public int sketchHeight() {
+  return displayHeight;
 }
 
 boolean sketchFullScreen() {
@@ -69,12 +74,12 @@ void setup() {
   initMaxScreenShake();
   initDefaultPlaybackRates();
   
-  size(SCREEN_WIDTH, SCREEN_HEIGHT);  // Size must be the first statement
+//  size(SCREEN_WIDTH, SCREEN_HEIGHT);  // Size must be the first statement
   stroke(255);     // Set line drawing color to white
   frameRate(30);
   background(0,0,0);
   
-  boxCenter = new Point(SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0);
+  boxCenter = new Point(sketchWidth()/2.0, sketchHeight()/2.0);
   
   box = new Box(this, boxCenter.x, boxCenter.y, 50);
   tendrils = new Tendrils(10, 
@@ -136,10 +141,6 @@ void draw() {
   song2.update();
   
   song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
-  
-  Point p = box.pieceCoords();
-  
-  ellipse(p.x, p.y, 5, 5);
   popMatrix();
 }
 

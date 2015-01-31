@@ -564,7 +564,7 @@ public class Box {
     onReconnectBox();
   }
   
-  public void draw(){
+  public void draw(){  
     pushMatrix();
     translate(boxCenter.x, boxCenter.y);
     
@@ -609,6 +609,7 @@ public class Box {
       int c = max(0, min((int)brightness(fillColor)+3, 252));
       
       parent.stroke(c);
+      parent.noFill();
       
       beginShape();
       for(int i=0; i<n; i++){

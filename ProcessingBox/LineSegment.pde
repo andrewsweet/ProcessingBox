@@ -14,7 +14,7 @@ class LineSegment {
       x1 = 0;
       x2 = 0;
       y1 = -10;
-      y2 = SCREEN_HEIGHT + 10;
+      y2 = sketchHeight() + 10;
     } else {
       x1 = -180;
       x2 = 180;

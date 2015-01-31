@@ -23,8 +23,8 @@ class Tendrils
 									float l)
 	{
 
-          float centerX = SCREEN_WIDTH/2.0;
-          float centerY = SCREEN_HEIGHT/2.0;
+          float centerX = sketchWidth()/2.0;
+          float centerY = sketchHeight()/2.0;
           
           pt1 = new Point(centerX, centerY);
           pt2 = pt1;

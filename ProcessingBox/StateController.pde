@@ -24,7 +24,7 @@ public void updateTendrilState()
 public void updateParticlesState()
 {
 	ParticleSystem p = null;
-	Point c = new Point(SCREEN_WIDTH/2f,SCREEN_HEIGHT/2f);
+	Point c = new Point(sketchWidth()/2f, sketchHeight()/2f);
 	Point m = new Point(mouseX, mouseY);
 
 	switch(box.numBreaks)
