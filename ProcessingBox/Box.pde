@@ -504,7 +504,7 @@ public class Box {
     lastAngle = angle();
     onBreakBox();
     
-    if (numBreaks > MAX_NUM_BREAKS){
+    if (numBreaks >= MAX_NUM_BREAKS){
       killBox();
     }
   }

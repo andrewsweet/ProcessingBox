@@ -11,7 +11,7 @@ static int maxTendrilLength = 300;
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
 
-static int MAX_NUM_BREAKS = 6;
+static int MAX_NUM_BREAKS = 7;
 
 static Point boxCenter;
 
