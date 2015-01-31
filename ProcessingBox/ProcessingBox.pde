@@ -30,6 +30,10 @@ void setupAudio(){
   song2.shouldAdjustRate = false;
 }
 
+boolean sketchFullScreen() {
+  return true;
+}
+
 void initMaxScreenShake(){
   int numItems = MAX_NUM_BREAKS + 2;
   
