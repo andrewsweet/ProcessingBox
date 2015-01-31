@@ -430,7 +430,7 @@ public class Box {
     float x2 = mouseP.x;
     float y2 = mouseP.y;
     
-    float r = random(0.3, 0.65);
+    float r = random(0.2, 0.55);
     
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
     
