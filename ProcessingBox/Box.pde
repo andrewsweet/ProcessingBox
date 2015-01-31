@@ -453,6 +453,7 @@ public class Box {
   
   void killBox(){
     isDead = true;
+    onDeath();
   }
   
   void breakPieceOff(){

@@ -3,6 +3,11 @@ class MusicPlayer {
   float targetPlaybackRate = 0.0;
   float targetVolume = 0.0;
   
+  float playbackEaseFactor = 0.6;
+  float volumeEaseFactor = 0.6;
+  
+  float killRate = 0;
+  
   Point prev;
   
   public MusicPlayer() {
@@ -18,34 +23,45 @@ class MusicPlayer {
   }
   
   public void update(){
-    float currentLenSq = tendrils.currentLengthSquared();
-    float distanceProgress = currentLenSq/(maxTendrilLength*maxTendrilLength);
-    
-    float minVolUncovered = 0.7;
-    
-    distanceProgress = max(distanceProgress, minVolUncovered);
-    
     Point p2 = box.pieceCoords();
     
-    if (prev != null){
-      float lenSq = prev.squareDistanceTo(p2);
+    if (!box.isDead){
+      float currentLenSq = tendrils.currentLengthSquared();
+      float distanceProgress = currentLenSq/(maxTendrilLength*maxTendrilLength);
       
-      float deltaProgress = lenSq / 90000.0;
+      float minVolUncovered = 0.7;
       
-      if (deltaProgress > 2.2){
-        deltaProgress = 1.0 / deltaProgress;
+      distanceProgress = max(distanceProgress, minVolUncovered);
+      
+      if (prev != null){
+        float lenSq = prev.squareDistanceTo(p2);
+        
+        float deltaProgress = lenSq / 90000.0;
+        
+        if (deltaProgress > 2.2){
+          deltaProgress = 1.0 / deltaProgress;
+        }
+        
+        targetPlaybackRate = deltaProgress + 0.8;
       }
       
-      targetPlaybackRate = deltaProgress + 0.8;
+      float maxLenSqForVolumeCap = 4200.0;
+      
+      if (currentLenSq < maxLenSqForVolumeCap) {
+        distanceProgress = minVolUncovered * (currentLenSq/maxLenSqForVolumeCap);
+      };
+      
+      targetVolume = distanceProgress;
+    } else {
+      println("PROGRESS", sc.getRate());
+      if (sc.getVolume() > 0.9){
+        setTargetVolume(0.0, 0.01);
+      } 
+//      else if (sc.getRate() > 0.7){
+//        setTargetPlaybackRate(0.0, 0.6);
+//        setTargetVolume(0.9, 0.6);
+//      }
     }
-    
-    float maxLenSqForVolumeCap = 4200.0;
-    
-    if (currentLenSq < maxLenSqForVolumeCap) {
-      distanceProgress = minVolUncovered * (currentLenSq/maxLenSqForVolumeCap);
-    };
-    
-    targetVolume = distanceProgress;
     
     updateVolume();
     updatePlaybackRate();
@@ -53,19 +69,21 @@ class MusicPlayer {
     prev = p2;
   }
   
-  void setTargetVolume(float progress){
+  void setTargetVolume(float progress, float easeFactor){
     targetVolume = progress;
+    volumeEaseFactor = easeFactor;
   }
   
-  void setTargetPlaybackRate(float progress){
+  void setTargetPlaybackRate(float progress, float easeFactor){
     targetPlaybackRate = progress;
+    playbackEaseFactor = easeFactor;
   }
   
   void updateVolume(){
     float currentVolume = sc.getVolume();
     
     float cVolume;
-    float easeFactor = 0.6;
+    float easeFactor = volumeEaseFactor;
     
     if (abs(targetVolume - currentVolume) < 0.01) {
       cVolume = targetVolume;
@@ -80,13 +98,13 @@ class MusicPlayer {
     float currentRate = sc.getRate();
     
     float cVolume;
-    float easeFactor = 0.65;
+    float easeFactor = playbackEaseFactor;
     
     float volume = sc.getVolume();
     
     float sine, sine2;
     
-    if (volume == 0.0){
+    if (volume == 0.0 || box.isDead){
       sine = 0.0;
       sine2 = 0.0;
     } else {
@@ -103,5 +121,10 @@ class MusicPlayer {
     }
     
     sc.setPlaybackRate(cVolume);
+  }
+  
+  void kill(){
+    setTargetPlaybackRate(killRate, 0.05);
+    setTargetVolume(1.0, 0.8);
   }
 }

@@ -14,7 +14,7 @@ static int maxTendrilLength = 300;
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
 
-static int MAX_NUM_BREAKS = 7;
+static int MAX_NUM_BREAKS = 1;
 
 static Point boxCenter;
 
@@ -49,8 +49,7 @@ void setup() {
   particleSystems = new ArrayList<ParticleSystem>();
 }
 
-void shakeCamera(float amount){
-  
+void shakeCamera(float amount){  
   if (cameraShakeOverride < 0.1) cameraShakeOverride = 0;
   
   amount = max(amount, cameraShakeOverride);
@@ -77,10 +76,12 @@ void draw() {
 
   pushMatrix();
   
-  float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
-  shakeAmount *= shakeAmount;
-  
-  shakeCamera(shakeAmount);
+  if (!box.isDead){
+    float shakeAmount = tendrils.currentLengthSquared()/(maxTendrilLength * maxTendrilLength);
+    shakeAmount *= shakeAmount;
+    
+    shakeCamera(shakeAmount);
+  }
   
   updateParticlesPosition();
   for(int i = 0; i < particleSystems.size(); i++)
@@ -109,6 +110,10 @@ void onBreakBox(){
 void onReconnectBox(){
   song1.pause();
   song2.pause();
+}
+
+void onDeath(){
+  song1.kill();
 }
 
 void mousePressed(){
