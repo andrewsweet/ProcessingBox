@@ -8,6 +8,8 @@ class MusicPlayer {
   
   float killRate = 0;
   
+  boolean shouldAdjustRate = true;
+  
   Point prev;
   
   public MusicPlayer() {
@@ -31,18 +33,20 @@ class MusicPlayer {
       
       float minVolUncovered = 0.7;
       
-      distanceProgress = max(distanceProgress, minVolUncovered);
-      
-      if (prev != null){
-        float lenSq = prev.squareDistanceTo(p2);
+      if (shouldAdjustRate){
+        distanceProgress = max(distanceProgress, minVolUncovered);
         
-        float deltaProgress = lenSq / 90000.0;
-        
-        if (deltaProgress > 2.2){
-          deltaProgress = 1.0 / deltaProgress;
+        if (prev != null){
+          float lenSq = prev.squareDistanceTo(p2);
+          
+          float deltaProgress = lenSq / 90000.0;
+          
+          if (deltaProgress > 2.2){
+            deltaProgress = 1.0 / deltaProgress;
+          }
+          
+          targetPlaybackRate = deltaProgress + 0.8;
         }
-        
-        targetPlaybackRate = deltaProgress + 0.8;
       }
       
       float maxLenSqForVolumeCap = 4200.0;
@@ -64,7 +68,10 @@ class MusicPlayer {
     }
     
     updateVolume();
-    updatePlaybackRate();
+    
+    if (shouldAdjustRate){
+      updatePlaybackRate();
+    }
     
     prev = p2;
   }
@@ -124,7 +131,7 @@ class MusicPlayer {
   }
   
   void kill(){
-    setTargetPlaybackRate(killRate, 0.05);
+    setTargetPlaybackRate(killRate, 0.1);
     setTargetVolume(1.0, 0.8);
   }
 }

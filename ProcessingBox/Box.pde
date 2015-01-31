@@ -453,6 +453,8 @@ public class Box {
   
   void killBox(){
     isDead = true;
+    piece.stopDrag();
+    piece.launch();
     onDeath();
   }
   
@@ -474,7 +476,7 @@ public class Box {
     
     float brightness = brightness(fillColor);
     
-    brightness = max(brightness - 15, 0);
+    brightness = max(brightness - (255.0/(MAX_NUM_BREAKS + 1)), 0);
     
     fillColor = color(brightness);
     
@@ -586,7 +588,7 @@ public class Box {
     if (piece != null){
       piece.drawMe();
       
-      if (piece.shouldReconnect){
+      if (piece.shouldReconnect && !box.isDead){
         reconnect();
       }
     }

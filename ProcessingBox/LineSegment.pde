@@ -38,6 +38,8 @@ class LineSegment {
   // progress is a float between 0.0 and 1.0 inclusive which states
   // how far between the points you'd like the new point to be
   Point pointAtProgress(float progress){
+    if (p1 == null || p2 == null) return null;
+    
     float x1 = p1.x;
     float y1 = p1.y;
     float x2 = p2.x;

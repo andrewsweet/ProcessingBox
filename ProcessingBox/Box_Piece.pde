@@ -10,6 +10,8 @@ class Box_Piece {
   Point pt;
   Point offset;
   
+  Point killedTarget;
+  
   Point rotatePoint;
   
   public Box_Piece(Poly poly_, Point startMouse_) { 
@@ -49,12 +51,18 @@ class Box_Piece {
       offset = new Point(0, 0);
       offset = startMouse.subtractFrom(pt);
     } else {
-      Point origin = new Point(0, 0);
+      Point target;
       
-      offset.x = (0.96 * offset.x + 0.04 * origin.x);
-      offset.y = (0.96 * offset.y + 0.04 * origin.y);
+      if (!box.isDead){
+        target = new Point(0, 0);
+      } else {
+        target = killedTarget;
+      }
+        
+      offset.x = (0.96 * offset.x + 0.04 * target.x);
+      offset.y = (0.96 * offset.y + 0.04 * target.y);
       
-      if (offset.squareDistanceTo(origin) < 14){
+      if (offset.squareDistanceTo(target) < 14 && !box.isDead){
         shouldReconnect = true;
       }
     }
@@ -77,7 +85,6 @@ class Box_Piece {
   }
   
   public Point coords(){
-
     return this.rotatePoint.addTo(this.offset);
   }
 
@@ -91,5 +98,17 @@ class Box_Piece {
   
   public void stopDrag(){
     isDragged = false;
+  }
+  
+  void launch(){
+    Point pieceCenter = coords();
+    
+    LineSegment seg = new LineSegment(boxCenter, pieceCenter);
+    
+    float progress = 1.04 + random(0.2);
+    
+    Point targetLocation = seg.pointAtProgress(progress);
+    
+    killedTarget = targetLocation;
   }
 }

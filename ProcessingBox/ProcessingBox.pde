@@ -14,7 +14,7 @@ static int maxTendrilLength = 300;
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
 
-static int MAX_NUM_BREAKS = 7;
+static int MAX_NUM_BREAKS = 6;
 
 static Point boxCenter;
 
@@ -24,6 +24,7 @@ void setupAudio(){
   
   song2 = new MusicPlayer();
   song2.pause();
+  song2.shouldAdjustRate = false;
 }
 
 // The statements in the setup() function 
@@ -72,7 +73,7 @@ void setCameraShake(float amount, float decayFactor){
 // sequence and after the last line is read, the first 
 // line is executed again.
 void draw() {
-  background(0); 
+  background(box.numBreaks * (30.0 / (MAX_NUM_BREAKS+1)), 0, 0); 
 
   pushMatrix();
   
@@ -93,6 +94,7 @@ void draw() {
   
   box.draw();
   song1.update();
+  song2.update();
   
   Point p = box.pieceCoords();
   
@@ -102,7 +104,7 @@ void draw() {
 
 void onBreakBox(){
   song1.play();
-//  song2.play();
+  song2.play();
   
   setCameraShake(1.0, 1.0/5.0);
 }
@@ -114,6 +116,7 @@ void onReconnectBox(){
 
 void onDeath(){
   song1.kill();
+  song2.pause();
 }
 
 void mousePressed(){
