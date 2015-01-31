@@ -67,10 +67,7 @@ class MusicPlayer {
     }
     
     updateVolume();
-    
-    if (shouldAdjustRate){
-      updatePlaybackRate();
-    }
+    updatePlaybackRate();
     
     prev = p2;
   }
@@ -108,22 +105,30 @@ class MusicPlayer {
     
     float volume = sc.getVolume();
     
-    float sine, sine2;
-    
-    if (volume == 0.0 || box.isDead){
-      sine = 0.0;
-      sine2 = 0.0;
+    if (shouldAdjustRate){
+      float sine, sine2;
+      
+      if (volume == 0.0 || box.isDead){
+        sine = 0.0;
+        sine2 = 0.0;
+      } else {
+        sine = sin(millis()/(600.0 * volume));
+        sine2 = sin(millis()/(81.0 * volume));
+      }
+      float sineFactor = 0.8 * volume;
+      float sineFactor2 = 0.4 * volume;
+      
+      if (abs(targetPlaybackRate - currentRate) < 0.01) {
+        cVolume = targetPlaybackRate;
+      } else {
+        cVolume = ((targetPlaybackRate + (sine2 * sineFactor2)) * easeFactor) + ((currentRate + (sine * sineFactor)) * (1.0 - easeFactor));
+      }
     } else {
-      sine = sin(millis()/(600.0 * volume));
-      sine2 = sin(millis()/(81.0 * volume));
-    }
-    float sineFactor = 0.8 * volume;
-    float sineFactor2 = 0.4 * volume;
-    
-    if (abs(targetPlaybackRate - currentRate) < 0.01) {
-      cVolume = targetPlaybackRate;
-    } else {
-      cVolume = ((targetPlaybackRate + (sine2 * sineFactor2)) * easeFactor) + ((currentRate + (sine * sineFactor)) * (1.0 - easeFactor));
+      if (abs(targetPlaybackRate - currentRate) < 0.01) {
+        cVolume = targetPlaybackRate;
+      } else {
+        cVolume = (targetPlaybackRate * easeFactor) + (currentRate * (1.0 - easeFactor));
+      }
     }
     
     sc.setPlaybackRate(cVolume);

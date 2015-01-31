@@ -19,6 +19,7 @@ static int MAX_NUM_BREAKS = 6;
 static Point boxCenter;
 
 static int[] maxScreenShake;
+static float[] defaultPlaybackRates;
 
 void setupAudio(){
   song1 = new MusicPlayer();
@@ -30,12 +31,31 @@ void setupAudio(){
 }
 
 void initMaxScreenShake(){
-  int numItems = MAX_NUM_BREAKS + 1;
+  int numItems = MAX_NUM_BREAKS + 2;
   
   maxScreenShake = new int[numItems];
   
   for (int i = 0; i < numItems; ++i){
-    maxScreenShake[i] = min(floor(abs(6 - abs(i - 0.75 * numItems)) * (9.0 / 6.0)), 8);
+    maxScreenShake[i] = min(floor(abs(5 - abs(i - 0.75 * numItems)) * (9.0 / 6.0)), 8);
+  }
+}
+
+void initDefaultPlaybackRates(){
+  int numItems = MAX_NUM_BREAKS + 2;
+  
+  defaultPlaybackRates = new float[numItems];
+  
+  for (int i = 0; i < numItems; ++i){
+    defaultPlaybackRates[i] = (abs(5 - abs(i - 0.75 * numItems)) * (2.0/11.0));
+    
+    if (defaultPlaybackRates[i] > 0.9){
+      defaultPlaybackRates[i] += 0.3;
+    }
+    else if (defaultPlaybackRates[i] < 0.5){
+      defaultPlaybackRates[i] = 1.0 - defaultPlaybackRates[i];
+    }
+    
+    println("GOGO", i, defaultPlaybackRates[i]);
   }
 }
 
@@ -45,6 +65,7 @@ void setup() {
   randomSeed(1);
   
   initMaxScreenShake();
+  initDefaultPlaybackRates();
   
   size(SCREEN_WIDTH, SCREEN_HEIGHT);  // Size must be the first statement
   stroke(255);     // Set line drawing color to white
@@ -111,6 +132,8 @@ void draw() {
   box.draw();
   song1.update();
   song2.update();
+  
+  song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
   
   Point p = box.pieceCoords();
   
