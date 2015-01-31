@@ -80,23 +80,26 @@ class MusicPlayer {
     float currentRate = sc.getRate();
     
     float cVolume;
-    float easeFactor = 0.4;
+    float easeFactor = 0.65;
     
     float volume = sc.getVolume();
     
-    float sine;
+    float sine, sine2;
     
     if (volume == 0.0){
       sine = 0.0;
+      sine2 = 0.0;
     } else {
-      sine = sin(millis()/(20.0 * volume));
+      sine = sin(millis()/(600.0 * volume));
+      sine2 = sin(millis()/(81.0 * volume));
     }
     float sineFactor = 0.8 * volume;
+    float sineFactor2 = 0.4 * volume;
     
     if (abs(targetPlaybackRate - currentRate) < 0.01) {
       cVolume = targetPlaybackRate;
     } else {
-      cVolume = (targetPlaybackRate * easeFactor) + ((currentRate + (sine * sineFactor)) * (1.0 - easeFactor));
+      cVolume = ((targetPlaybackRate + (sine2 * sineFactor2)) * easeFactor) + ((currentRate + (sine * sineFactor)) * (1.0 - easeFactor));
     }
     
     sc.setPlaybackRate(cVolume);
