@@ -3,7 +3,6 @@ Tendrils tendrils;
 ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
-int numberOfTimesPulled;
 
 boolean isMouseDown;
 
@@ -83,16 +82,9 @@ void draw() {
   
   shakeCamera(shakeAmount);
   
+  updateParticlesPosition();
   for(int i = 0; i < particleSystems.size(); i++)
       particleSystems.get(i).draw();
-
-  if(particleSystems.size() > 0)
-  {
-    ParticleSystem p = particleSystems.get(particleSystems.size()-1);
-    Point bp = box.pieceCoords();
-    if(p.isAlive())
-      p.setTarget(bp.x, bp.y);
-  }
 
   if (box.broken && !box.isDead){
     tendrils.draw();
@@ -144,6 +136,19 @@ void moveTendrils(Point p)
   tendrils.setEndPoint(p);
 }
 
+
+
+void updateParticlesPosition()
+{
+  if(particleSystems.size() > 0)
+  {
+    ParticleSystem p = particleSystems.get(particleSystems.size()-1);
+    Point bp = box.pieceCoords();
+    if(p.isAlive())
+      p.setTarget(bp.x, bp.y);
+  }
+}
+
 // super hax fast sqrt function
 // source: http://forum.processing.org/one/topic/super-fast-square-root.html
 public float fastSqrt(float x) {
@@ -155,7 +160,6 @@ public float fastSqrt(float x) {
 
 // increase the pulled count
 public void increasePullCount() {
-  updateTendril();
-  updateParticles();
-  numberOfTimesPulled++;
+  updateTendrilState();
+  updateParticlesState();
 }

@@ -4,7 +4,6 @@ class Particle {
   private int lifespan;
   private float h, s, v, origS, origV;
   private float angle, deltaAngle;
-  private int startPhase;
 
   Particle(Point p, Point v, Point a, float w, int l, float redPercentage) {
     // record property
@@ -13,8 +12,6 @@ class Particle {
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
-
-    this.startPhase = numberOfTimesPulled;
       
     // set rotation
     this.angle = random(0f,3.14f);
@@ -24,14 +21,14 @@ class Particle {
     if(random(0,1) < redPercentage)
     { 
       this.h = 0; 
-      this.s = 100; 
+      this.s = 100;
       this.v = random(70, 100); 
     } 
     else
     {
       this.h = random(100); 
-      this.s = random(75, 100); 
-      this.v = random(75, 100);
+      this.s = Math.max(random(75, 100) - 20*(box.numBreaks - 3), 0); 
+      this.v = random(75, 100) - Math.min(25, Math.max(10*(box.numBreaks - 3), 0));
     }
 
     this.origS = this.s;
@@ -64,10 +61,10 @@ class Particle {
     // decrease saturation and value as time goes on
     if(h != 0f)
     {
-      float tempS = Math.max(origS - 30*(numberOfTimesPulled - startPhase), 0f);
+      float tempS = Math.max(origS - 40*(box.numBreaks - 2), 0f);
       if(tempS >= 0f && s >= tempS)
         s -= 1f;
-      float tempV = origV - 10*(numberOfTimesPulled - startPhase);
+      float tempV = origV - 10*(box.numBreaks - 3);
       if(tempV >= 50f && v >= tempV)
         v -= 1f;
     }
@@ -92,7 +89,7 @@ class ParticleSystem {
   ArrayList<Particle> particles;
   public Point source, target;
   float particleWidth, speed;
-  int leftToGenCount;
+  int leftToGenCount, lifespan;
   float percentRed;
   int particlePerSpew;
   
@@ -104,7 +101,7 @@ class ParticleSystem {
     c: number of particles of emit
     percentRed: proability of this being red (0f - 1f)
   */
-  ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed, int particlePerSpew) {
+  ParticleSystem(Point source, Point target, float speed, float w, int c, float percentRed, int particlePerSpew, int lifespan) {
     this.source = source;
     this.target = target;
     this.speed = speed;
@@ -112,6 +109,7 @@ class ParticleSystem {
     this.leftToGenCount = c;
     this.percentRed = percentRed;
     this.particlePerSpew = particlePerSpew;
+    this.lifespan = lifespan;
 
     particles = new ArrayList<Particle>();
     particleWidth = w;
@@ -153,7 +151,7 @@ class ParticleSystem {
                                              speed*random(0.7f,1.3f)*dy), 
                                    new Point(ax, ay), 
                                    particleWidth + random(-particleWidth/30f, particleWidth/30f), 
-                                   100+(int)random(-95,50), 
+                                   lifespan+(int)random(-95*lifespan/100,lifespan/2), 
                                    percentRed));
       }
       leftToGenCount--;
