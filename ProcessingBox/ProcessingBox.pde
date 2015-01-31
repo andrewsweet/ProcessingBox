@@ -109,7 +109,7 @@ void draw() {
 
 void onBreakBox(){
   song1.play();
-  song2.play();
+//  song2.play();
   
   setCameraShake(1.0, 1.0/5.0);
 }

@@ -58,16 +58,24 @@ class SoundControls {
   }
   
   void update(){
-    float speed = 4.0 * ((float)mouseX - (width/2.0))/width;
-    float volume = (float)mouseY / (height * 1.0);
-    
-    setPlaybackRate(speed);
-    setVolume(volume);
+//    float speed = 4.0 * ((float)mouseX - (width/2.0))/width;
+//    float volume = (float)mouseY / (height * 1.0);
+//    
+//    setPlaybackRate(speed);
+//    setVolume(volume);
     
     //println(speed, gain.getGain());
   }
   
   void pause(boolean shouldPause){
     sp.pause(shouldPause);
+  }
+  
+  float getRate(){
+     return rateUGen.getValue();
+  }
+  
+  float getVolume(){
+    return gain.getGain();
   }
 }
