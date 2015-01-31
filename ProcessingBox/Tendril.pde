@@ -54,11 +54,6 @@ class Tendril
 		return p2;
 	}
 
-	// retracts tendril
-	public void update()
-	{
-	}
-
 	// draws the tendril
 	public void draw()
 	{
@@ -81,9 +76,5 @@ class Tendril
 	      }
 	    endShape();
 	  popMatrix();
-
-	  if(!isMouseDown) {
-	     this.update();
-          }
 	}
 }

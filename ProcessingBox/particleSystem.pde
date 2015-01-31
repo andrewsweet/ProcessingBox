@@ -4,7 +4,6 @@ class Particle {
   private int lifespan;
   private float h, s, v, origS, origV;
   private float angle, deltaAngle;
-  private int startPhase;
 
   Particle(Point p, Point v, Point a, float w, int l, float redPercentage) {
     // record property
@@ -13,8 +12,6 @@ class Particle {
     this.acceleration = a;
     this.particleWidth = w;
     this.lifespan = l;
-
-    this.startPhase = numberOfTimesPulled;
       
     // set rotation
     this.angle = random(0f,3.14f);
@@ -24,13 +21,13 @@ class Particle {
     if(random(0,1) < redPercentage)
     { 
       this.h = 0; 
-      this.s = 100; 
+      this.s = 100;
       this.v = random(70, 100); 
     } 
     else
     {
       this.h = random(100); 
-      this.s = random(75, 100); 
+      this.s = Math.max(random(75, 100) - 20*(numberOfTimesPulled - 3), 0); 
       this.v = random(75, 100);
     }
 
@@ -64,10 +61,10 @@ class Particle {
     // decrease saturation and value as time goes on
     if(h != 0f)
     {
-      float tempS = Math.max(origS - 30*(numberOfTimesPulled - startPhase), 0f);
+      float tempS = Math.max(origS - 35*(numberOfTimesPulled - 3), 0f);
       if(tempS >= 0f && s >= tempS)
         s -= 1f;
-      float tempV = origV - 10*(numberOfTimesPulled - startPhase);
+      float tempV = origV - 10*(numberOfTimesPulled - 3);
       if(tempV >= 50f && v >= tempV)
         v -= 1f;
     }
