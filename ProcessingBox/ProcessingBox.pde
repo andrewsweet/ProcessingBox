@@ -12,6 +12,7 @@ static int SCREEN_HEIGHT = 768;
 static int maxTendrilLength = 300;
 
 static float cameraShakeOverride = 0.0;
+static float cameraShakeDecayFactor = 1.0;
 
 static Point boxCenter;
 
@@ -59,11 +60,12 @@ void shakeCamera(float amount){
   
   translate(x, y);
   
-  cameraShakeOverride = (cameraShakeOverride * 7.0)/8.0;
+  cameraShakeOverride = cameraShakeOverride * cameraShakeDecayFactor;
 }
 
-void setCameraShake(float amount){
+void setCameraShake(float amount, float decayFactor){
   cameraShakeOverride = amount;
+  cameraShakeDecayFactor = decayFactor;
 }
 
 // The statements in draw() are executed until the 
@@ -101,7 +103,7 @@ void onBreakBox(){
   song1.play();
   song2.play();
   
-  setCameraShake(1.0);
+  setCameraShake(1.0, 4.0/5.0);
 }
 
 void onReconnectBox(){
