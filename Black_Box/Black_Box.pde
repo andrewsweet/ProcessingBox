@@ -38,6 +38,9 @@ static PFont mainTitleFont;
 
 int finalTendrilsLeftCount;
 
+// for splitting particle systems during retraction
+float twoFifthPI = 2*(float)(Math.PI)/5f;
+
 void setupAudio(){
   song1 = new MusicPlayer("coltrane.aif");
   song1.pause();
@@ -378,13 +381,16 @@ void updateParticlesPosition()
     ParticleSystem p2 = particleSystems.get(particleSystems.size()-2);
     Point bp = box.pieceCoords();
 
-    // cos (45 degrees) == 0.707
-    float b = 0.707f;
+    // start splitting at 10% (0.1f) time left
+    float sqD = maxTendrilLength*maxTendrilLength;
+    float angle = twoFifthPI * (1.1f - Math.min((tendrils.currentLengthSquared()/sqD)/0.1f, 1f));
 
     // apply rotation matrix
     Point v = new Point(bp.x-boxCenter.x, bp.y-boxCenter.y);
-    Point m1 = new Point(boxCenter.x + b*v.x - b*v.y, boxCenter.y + b*v.x + b*v.y);
-    Point m2 = new Point(boxCenter.x + b*v.x + b*v.y, boxCenter.y - b*v.x + b*v.y);
+    Point m1 = new Point(boxCenter.x + cos(angle)*v.x - sin(angle)*v.y, 
+                         boxCenter.y + sin(angle)*v.x + cos(angle)*v.y);
+    Point m2 = new Point(boxCenter.x + cos(-angle)*v.x - sin(-angle)*v.y, 
+                         boxCenter.y + sin(-angle)*v.x + cos(-angle)*v.y);
 
     if(p1.isAlive())
     {
