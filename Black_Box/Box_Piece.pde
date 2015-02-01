@@ -67,13 +67,14 @@ class Box_Piece {
         
       lastPosition = new Point(offset.x, offset.y);
         
-      offset.x += velocityVector.x;
-      offset.y += velocityVector.y;
-        
-      velocityVector.x *= acceleration;
-      velocityVector.y *= acceleration;
-//      offset.x = (0.96 * offset.x + 0.04 * target.x);
-//      offset.y = (0.96 * offset.y + 0.04 * target.y);
+//      offset.x += velocityVector.x;
+//      offset.y += velocityVector.y;
+//        
+//      velocityVector.x *= acceleration;
+//      velocityVector.y *= acceleration;
+
+      offset.x = (0.96 * offset.x + 0.04 * target.x);
+      offset.y = (0.96 * offset.y + 0.04 * target.y);
       
       if (offset.squareDistanceTo(target) < 400 && !box.isDead){
         shouldReconnect = true;
