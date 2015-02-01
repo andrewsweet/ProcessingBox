@@ -68,14 +68,11 @@ class Particle {
       if(tempV >= 50f && v >= tempV)
         v -= 1f;
 
-      float blackness = 0.3;
-
-      fill(h, s, v*(1f-(outroProgress() * blackness)));
+      fill(h, s, v*(1f-(outroProgress() * 0.3f)));
     }
     else
       fill(h, s, v);
-    
-    
+
     pushMatrix();
       translate(position.x,position.y);
       rotate(angle);
