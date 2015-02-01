@@ -3,6 +3,8 @@ import java.util.*;
 // Greater values increase disparity between split pieces
 float MAX_CRACK_VARIATION = 1.4;
 
+int MAX_HOLD_TIME = 12000;
+
 // Smaller values lead to more jagged edges, 
 // larger values lead to better performance, simplified polygons
 float MIN_CRACK_VERTEX_DISTANCE = 10;
@@ -98,6 +100,8 @@ public class Box {
   Point center;
   float radius;
   color fillColor;
+  
+  int startHoldTime;
   
   float lastAngle;
   
@@ -430,7 +434,7 @@ public class Box {
     float x2 = mouseP.x;
     float y2 = mouseP.y;
     
-    float r = random(0.3, 0.65);
+    float r = random(0.2, 0.55);
     
     crackPoint = new Point(x1+(x2-x1)*r, y1+(y2-y1)*r);
     
@@ -518,6 +522,12 @@ public class Box {
   
   void mouseDragged(){
     if (startInsideShape && !isDead){
+      
+      if (startHoldTime > -1 && millis() - startHoldTime > MAX_HOLD_TIME){
+        mouseReleased();
+        return;
+      }
+      
       // Dragging only works if the drag started inside the shape
       Point p = new Point(mouseX, mouseY);
       
@@ -535,6 +545,8 @@ public class Box {
           if (squareDist > TEAR_DISTANCE_SQUARED){
             setCameraShake(0, 1.0/5.0);
             breakPieceOff();
+            
+            startHoldTime = millis();
           } else {
             setCameraShake((squareDist/TEAR_DISTANCE_SQUARED)/6.0, 1.0/5.0);
             pieceShake = (squareDist/TEAR_DISTANCE_SQUARED)/6.0;
@@ -545,6 +557,7 @@ public class Box {
   }
   
   void mouseReleased(){
+    startHoldTime = -2;
     didStartDrag = false;
     startInsideShape = false;
     
