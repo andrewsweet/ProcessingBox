@@ -17,7 +17,7 @@ public void updateTendrilState()
 			tendrils.setAmplitudePercentage(0.1f, 4f);
 			tendrils.setFrequency(900f,5000f);
 			tendrils.setFrequencyPercentage(0.9f, 1.1f);
-			tendrils.setColor(255, 200, 200);
+			tendrils.setColor(255, 230, 230);
 			break;
 		case 3:
 			//TODO
@@ -25,7 +25,7 @@ public void updateTendrilState()
 			tendrils.setAmplitudePercentage(0.1f, 2f);
 			tendrils.setFrequency(1000f,10000f);
 			tendrils.setFrequencyPercentage(0.97f, 1f);
-			tendrils.setColor(200, 100, 100);
+			tendrils.setColor(230, 190, 190);
 			break;
 		case 4:
 			tendrils.setAmplitude(1f*screenRatio, 5f*screenRatio);

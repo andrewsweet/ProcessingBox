@@ -5,7 +5,7 @@ MusicPlayer song1;
 MusicPlayer song2;
 MusicPlayer screamControls;
 
-boolean DEBUG_SKIP_INTRO = false;
+boolean DEBUG_SKIP_INTRO = true;
 
 boolean isMouseDown;
 boolean introDone = false;
