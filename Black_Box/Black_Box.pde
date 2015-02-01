@@ -6,7 +6,7 @@ MusicPlayer song2;
 MusicPlayer screamControls;
 MusicPlayer introSound;
 
-boolean DEBUG_SKIP_INTRO = true;
+boolean DEBUG_SKIP_INTRO = false;
 boolean DEBUG_MUTE_SOUND = false;
 
 boolean isMouseDown;
@@ -121,8 +121,7 @@ void setup() {
   box = new Box(this, boxCenter.x, boxCenter.y, 0.0625 * sketchHeight());
   tendrils = new Tendrils(10, 
                           2f, 7f, 0.1f, 2f,
-                          1000f, 10000f, 0.97f, 1f,
-                          maxTendrilLength);
+                          1000f, 10000f, 0.97f, 1f);
                           
   setupAudio();
 
@@ -375,12 +374,31 @@ void moveTendrils(Point p)
 
 void updateParticlesPosition()
 {
-  if(particleSystems.size() > 0)
+  if(particleSystems.size() > 1)
   {
-    ParticleSystem p = particleSystems.get(particleSystems.size()-1);
+    ParticleSystem p1 = particleSystems.get(particleSystems.size()-1);
+    ParticleSystem p2 = particleSystems.get(particleSystems.size()-2);
     Point bp = box.pieceCoords();
-    if(p.isAlive())
-      p.setTarget(bp.x, bp.y);
+
+    // cos (45 degrees) == 0.707
+    float b = 0.707f;
+
+    // apply rotation matrix
+    Point v = new Point(bp.x-boxCenter.x, bp.y-boxCenter.y);
+    Point m1 = new Point(boxCenter.x + b*v.x - b*v.y, boxCenter.y + b*v.x + b*v.y);
+    Point m2 = new Point(boxCenter.x + b*v.x + b*v.y, boxCenter.y - b*v.x + b*v.y);
+
+    if(p1.isAlive())
+      p1.setTarget(m1.x, m1.y);
+    if(p2.isAlive())
+      p2.setTarget(m2.x, m2.y);
+
+    // stop particle emission once box is no longer broken
+    if(!box.broken)
+    {
+      p1.setLeftToGenCount(0);
+      p2.setLeftToGenCount(0);
+    }
   }
 }
 

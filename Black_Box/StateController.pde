@@ -12,27 +12,25 @@ public void updateTendrilState()
 			tendrils.setColor(255, 255, 255);
 			break;	
 		case 2:
-			//TODO
 			tendrils.setAmplitude(2f*screenRatio, 9f*screenRatio);
 			tendrils.setAmplitudePercentage(0.1f, 4f);
 			tendrils.setFrequency(900f,5000f);
 			tendrils.setFrequencyPercentage(0.9f, 1.1f);
-			tendrils.setColor(255, 200, 200);
+			tendrils.setColor(255, 230, 230);
 			break;
 		case 3:
-			//TODO
 			tendrils.setAmplitude(2f*screenRatio, 7f*screenRatio);
 			tendrils.setAmplitudePercentage(0.1f, 2f);
 			tendrils.setFrequency(1000f,10000f);
 			tendrils.setFrequencyPercentage(0.97f, 1f);
-			tendrils.setColor(200, 100, 100);
+			tendrils.setColor(230, 190, 190);
 			break;
 		case 4:
 			tendrils.setAmplitude(1f*screenRatio, 5f*screenRatio);
 			tendrils.setAmplitudePercentage(0.5f, 1.5f);
 			tendrils.setFrequency(1000f,200f);
 			tendrils.setFrequencyPercentage(0.9f, 1.1f);
-			tendrils.setColor(175, 75, 75);
+			tendrils.setColor(175, 125, 125);
 			break;
 		case 5:
 			tendrils.setAmplitude(1f*screenRatio, 13f*screenRatio);
@@ -65,45 +63,91 @@ public void updateTendrilState()
 
 public void updateParticlesState()
 {
-	ParticleSystem p = null;
-	Point c = new Point(sketchWidth()/2f, sketchHeight()/2f);
-	Point m = new Point(mouseX, mouseY);
+	ParticleSystem p1 = null;
+	ParticleSystem p2 = null;
+
+	// cos (45 degrees) == 0.707
+  float b = 0.707f;
+  Point v = new Point(mouseX-boxCenter.x, mouseY-boxCenter.y);
+  Point m1 = new Point(boxCenter.x + b*v.x - b*v.y, boxCenter.y + b*v.x + b*v.y);
+  Point m2 = new Point(boxCenter.x + b*v.x + b*v.y, boxCenter.y - b*v.x + b*v.y);
+
+
 	float screenRatio = (float)sketchHeight()/768f;
+
+	float speed = 0f;
+	float width = 0f;
+	int emitCount = 0;
+	float percentRed = 0f;
+	int particlePerSpew = 0;
+	int lifespan = 0;
 
 	switch(box.numBreaks)
 	{
 		case 1:
-	 		p = new ParticleSystem(c, m, 5f*screenRatio, 15f*screenRatio, 
-	 													 150, (float)box.numBreaks/7f, 7, 130);
+			speed = 5f*screenRatio;
+			width = 15f*screenRatio;
+			emitCount = 150;
+			percentRed = (float)box.numBreaks/7f;
+			particlePerSpew = 3;
+			lifespan = 130;
 	 		break;
 		case 2:
-	 		p = new ParticleSystem(c, m, 7f*screenRatio, 12f*screenRatio, 
-	 													 200, (float)box.numBreaks/7f, 10, 100);
+			speed = 7f*screenRatio;
+			width = 12f*screenRatio;
+			emitCount = 200;
+			percentRed = (float)box.numBreaks/7f;
+			particlePerSpew = 5;
+			lifespan = 100;
 	 		break;
 		case 3:
-	 		p = new ParticleSystem(c, m, 4f*screenRatio, 15f*screenRatio, 
-	 													 125, (float)box.numBreaks/7f, 4, 130);
+			speed = 4f*screenRatio;
+			width = 15f*screenRatio;
+			emitCount = 125;
+			percentRed = (float)box.numBreaks/7f;
+			particlePerSpew = 2;
+			lifespan = 130;
 	 		break;
 		case 4:
-	 		p = new ParticleSystem(c, m, 1.5f*screenRatio, 12f*screenRatio, 
-	 													 100, (float)box.numBreaks/7f, 1, 100);
+			speed = 1.5f*screenRatio;
+			width = 12f*screenRatio;
+			emitCount = 100;
+			percentRed = (float)box.numBreaks/7f;
+			particlePerSpew = 1;
+			lifespan = 100;
 	 		break;
  		case 5:
- 			p = new ParticleSystem(c, m, 20f*screenRatio, 10f*screenRatio, 
- 														 200, 1f, 30, 40);
+ 			speed = 20f*screenRatio;
+			width = 10f*screenRatio;
+			emitCount = 200;
+			percentRed = 1f;
+			particlePerSpew = 30;
+			lifespan = 40;
 			break;
 		case 6:
- 			p = new ParticleSystem(c, m, 3f*screenRatio, 15f*screenRatio, 
- 														 150, 0.8f, 20, 70);
+			speed = 3f*screenRatio;
+			width = 15f*screenRatio;
+			emitCount = 150;
+			percentRed = 0.8f;
+			particlePerSpew = 10;
+			lifespan = 70;
 			break;
 		case 7:
- 			p = new ParticleSystem(c, m, 1f*screenRatio, 12f*screenRatio, 
- 														 150, 1f, 1, 100);
+			speed = 1f*screenRatio;
+			width = 12f*screenRatio;
+			emitCount = 150;
+			percentRed = 1f;
+			particlePerSpew = 1;
+			lifespan = 100;
 			break;
 	 	default:
 	 		break;
  	}
 
- 	if(p != null);
-  	particleSystems.add(p);
+ 		p1 = new ParticleSystem(boxCenter, m1, speed, width, 
+ 													 	emitCount, percentRed, particlePerSpew, lifespan);
+		p2 = new ParticleSystem(boxCenter, m2, speed, width, 
+ 													 	emitCount, percentRed, particlePerSpew, lifespan);
+		particleSystems.add(p1);
+		particleSystems.add(p2);
 }

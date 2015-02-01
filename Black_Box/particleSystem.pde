@@ -135,9 +135,7 @@ class ParticleSystem {
   {
     return leftToGenCount > 0;
   }
-
-
-
+  
   public void update()
   {
     // add a point
