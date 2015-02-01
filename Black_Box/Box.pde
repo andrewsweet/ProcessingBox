@@ -7,7 +7,7 @@ int MAX_HOLD_TIME = 12000;
 
 // Smaller values lead to more jagged edges, 
 // larger values lead to better performance, simplified polygons
-float MIN_CRACK_VERTEX_DISTANCE = 10;
+float MIN_CRACK_VERTEX_DveISTANCE = 10;
 
 float TEAR_DISTANCE_SQUARED = 400.0;
 

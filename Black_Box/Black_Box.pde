@@ -8,6 +8,7 @@ MusicPlayer screamControls;
 boolean DEBUG_SKIP_INTRO = false;
 
 boolean isMouseDown;
+boolean introDone = false;
 
 static int maxTendrilLength;
 
@@ -126,6 +127,7 @@ void setup() {
   if (DEBUG_SKIP_INTRO){
     box.disabled = false;
     box.fillColor = color(255);
+    introDone = true;
   }
 
 }
@@ -211,10 +213,13 @@ void drawIntro(){
     fill = min(255, max(0, fill));
     box.fillColor = color(fill);
     
+    if (box.disabled && fill > 150){
+      startInteraction();
+    }
+    
     if (fill > 252){
       box.fillColor = color(255);
-      
-      startInteraction();
+      introDone = true;
     }
   }
 }
@@ -248,8 +253,7 @@ void draw() {
   colorMode(RGB, 255);
   rectMode(CORNER);
 
-  if (box.broken){
-
+  if (box.broken){    
     if(finalTendrilsLeftCount == 2 && 
        0f < box.velocity() && box.velocity() < 2f)
     {
@@ -277,7 +281,7 @@ void draw() {
   song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
   popMatrix();
   
-  if (box.disabled){
+  if (!introDone){
     drawIntro();
   }
   
@@ -297,6 +301,10 @@ void onBreakBox(){
     screamControls.play();
   }
   
+  if (box.numBreaks > 5){
+    screamControls.play();
+  }
+  
   setCameraShake(1.0, 1.0/denominator);
 }
 
@@ -309,6 +317,8 @@ void onReconnectBox(){
 void onDeath(){
   song1.kill();
   song2.pause();
+  screamControls.play();
+  screamControls.setShouldLoop(false);
   
   timeOfDeath = millis();
   
