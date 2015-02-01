@@ -62,9 +62,9 @@ class Tendril
 			return;
 
 		float randomPercentage = 0.2;
-		stroke(r*random(1-percentage,1+percentage),
-					 g*random(1-percentage,1+percentage),
-					 b*random(1-percentage,1+percentage),
+		stroke(r*random(1-randomPercentage,1+randomPercentage),
+					 g*random(1-randomPercentage,1+randomPercentage),
+					 b*random(1-randomPercentage,1+randomPercentage),
 					 200);
 		noFill();
 

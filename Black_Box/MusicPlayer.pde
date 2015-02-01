@@ -8,7 +8,7 @@ class MusicPlayer {
   
   float killRate = 0;
   
-  boolean shouldAdjustRate = true;
+  boolean shouldAdjustRate = false;
   
   Point prev;
   
