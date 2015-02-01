@@ -69,6 +69,8 @@ class Particle {
         v -= 1f;
     }
 
+    v *= outroProgress();
+
     fill(h, s, v);
     
     pushMatrix();
