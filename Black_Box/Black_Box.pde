@@ -303,6 +303,7 @@ void onBreakBox(){
 void onReconnectBox(){
   song1.pause();
   song2.pause();
+  screamControls.pause();
 }
 
 void onDeath(){
