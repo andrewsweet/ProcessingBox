@@ -12,6 +12,7 @@ boolean DEBUG_MUTE_SOUND = true;
 boolean isMouseDown;
 boolean introDone = false;
 
+static int[] maxTendrilLengths;
 static int maxTendrilLength;
 
 static float cameraShakeOverride = 0.0;
@@ -100,6 +101,46 @@ void initDefaultPlaybackRates(){
   }
 }
 
+void setupMaxTendrilLengths(){
+  int len = MAX_NUM_BREAKS + 1;
+
+  int baseLength = (int)floor(0.375 * sketchHeight());
+
+  maxTendrilLengths = new int[len];
+
+  if (MAX_NUM_BREAKS > 6){
+    maxTendrilLengths[0] = 0;
+    maxTendrilLengths[1] = ceil(baseLength * 1.16);
+    maxTendrilLengths[2] = ceil(baseLength * 1.82);
+    maxTendrilLengths[3] = ceil(baseLength * 0.87);
+    maxTendrilLengths[4] = ceil(baseLength * 1.1);
+    maxTendrilLengths[5] = ceil(baseLength * 0.6);
+    maxTendrilLengths[6] = ceil(baseLength * 1.3);
+
+    for (int i = 7; i < len; ++i){
+      maxTendrilLengths[i] = baseLength;
+    }
+  }
+}
+
+void updateTendrilLength(){
+  float easeFactor = 0.1;
+
+  // float factor = (float)box.numBreaks/(MAX_NUM_BREAKS-2);
+
+  if (box.numBreaks >= 5){
+    maxTendrilLength = ceil(maxTendrilLength * (1.0 + (box.numBreaks/2040.0)));
+  } else if (box.numBreaks == 4){
+    maxTendrilLength = floor(maxTendrilLength * (0.99999 - (box.numBreaks/640.0)));
+  } else if (box.numBreaks == 1) {
+    // do nothing
+  } else {
+    maxTendrilLength = ceil(maxTendrilLength * (0.99999 - (box.numBreaks/140.0)));
+  }
+
+  maxTendrilLength = max(maxTendrilLength, 60);
+}
+
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
@@ -109,7 +150,7 @@ void setup() {
   
   textAlign(CENTER, CENTER);
   
-  maxTendrilLength = (int)floor(0.375 * sketchHeight());
+  setupMaxTendrilLengths();
   
   initMaxScreenShake();
   initDefaultPlaybackRates();
@@ -290,6 +331,8 @@ void draw() {
   song1.update();
   song2.update();
   
+  updateTendrilLength();
+
   screamControls.update();
   
   song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
@@ -322,6 +365,8 @@ void onBreakBox(){
   if (box.numBreaks > 5 && !DEBUG_MUTE_SOUND){
     screamControls.play();
   }
+
+  maxTendrilLength = maxTendrilLengths[box.numBreaks];
   
   setCameraShake(1.0, 1.0/denominator);
 }
