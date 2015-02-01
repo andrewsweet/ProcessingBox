@@ -23,7 +23,7 @@ static int textFadeWait = 60;
 static int outroWaitTime = 10000;
 static int timeOfDeath;
 
-static int MAX_NUM_BREAKS = 7;
+static int MAX_NUM_BREAKS = 0;
 
 static Point boxCenter;
 
@@ -166,13 +166,14 @@ void drawOutro(){
     float h = sketchHeight();
     
     textSize(0.0875 * h);
-    text("black box", x, h/6.0);
+    text("black box", x, h/6.2);
     
-    float textHeight = 0.0875 * h * 0.45;
+    float textHeight = 0.0875 * h * 0.28;
     
     textSize(textHeight);
     textLeading(textHeight * 1.4);
-    text("- animation -\nandrew sweet\ndave yan\n\n- music -\nthe father and the son and the holy ghost\nby john coltrane\n\n\ncreated for experimental animation\nat carnegie mellon, 2015", x, (5.0 * h)/8.0);
+    text("- animation -\nandrew sweet\ndave yan\n\n- music -\nthe father and the son and the holy ghost\nby john coltrane\n\n\ncreated for experimental animation\nat carnegie mellon, 2015",
+          x, (8.0 * h)/15.0);
   }
 }
 
