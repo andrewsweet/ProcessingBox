@@ -7,7 +7,7 @@ MusicPlayer screamControls;
 MusicPlayer introSound;
 
 boolean DEBUG_SKIP_INTRO = true;
-boolean DEBUG_MUTE_SOUND = false;
+boolean DEBUG_MUTE_SOUND = true;
 
 boolean isMouseDown;
 boolean introDone = false;
@@ -276,7 +276,7 @@ void draw() {
       tendrils.deleteTendrils(1); 
       finalTendrilsLeftCount--;
       
-      screamControls.pause();
+      screamControls.setTargetVolume(-0.4, 0.1);
     }
 
     tendrils.draw();
@@ -336,8 +336,6 @@ void onDeath(){
   if (!DEBUG_MUTE_SOUND){
     screamControls.play();
   }
-  
-  screamControls.setShouldLoop(false);
   
   timeOfDeath = millis();
   

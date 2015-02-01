@@ -23,6 +23,10 @@ class MusicPlayer {
   public void play(){
     sc.pause(false);
   }
+
+  public void reset(){
+    sc.reset();
+  }
   
   public void update(){
     Point p2 = box.pieceCoords();

@@ -86,4 +86,8 @@ class SoundControls {
   float getVolume(){
     return gain.getGain();
   }
+
+  void reset(){
+    sp.reset();
+  }
 }
