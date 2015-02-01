@@ -35,7 +35,7 @@ class Box_Piece {
 
     rotatePoint = new Point(0, 0);
     
-    catchDistance = 4;
+    catchDistance = 2;
   }
   
   public void update(Point p){
