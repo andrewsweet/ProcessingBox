@@ -4,7 +4,7 @@ ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
 
-boolean DEBUG_SKIP_INTRO = true;
+boolean DEBUG_SKIP_INTRO = false;
 
 boolean isMouseDown;
 
