@@ -13,6 +13,7 @@ boolean isMouseDown;
 boolean introDone = false;
 
 static int maxTendrilLength;
+static int[] maxTendrilLengths;
 
 static float cameraShakeOverride = 0.0;
 static float cameraShakeDecayFactor = 1.0;
@@ -97,16 +98,41 @@ void initDefaultPlaybackRates(){
   }
 }
 
+void setupTendrilLengths(){
+  maxTendrilLengths = new int[MAX_NUM_BREAKS+1];
+  int baseLength = (int)floor(0.375 * sketchHeight());
+  
+  maxTendrilLength = baseLength;
+  
+  if (MAX_NUM_BREAKS > 6){
+    maxTendrilLengths[0] = floor(baseLength * 0.8);
+    maxTendrilLengths[1] = floor(baseLength * 0.7);
+    maxTendrilLengths[2] = floor(baseLength * 1.1);
+    maxTendrilLengths[3] = floor(baseLength * 0.6);
+    maxTendrilLengths[4] = floor(baseLength * 0.4);
+    maxTendrilLengths[5] = floor(baseLength * 1.2);
+    maxTendrilLengths[6] = floor(baseLength * 1.5);
+    
+    for (int i = 7; i < MAX_NUM_BREAKS+1; ++i){
+      maxTendrilLengths[i] = baseLength;
+    }
+  } else {
+    for (int i = 0; i < MAX_NUM_BREAKS+1; ++i){
+      maxTendrilLengths[i] = baseLength;
+    }
+  }
+}
+
 // The statements in the setup() function 
 // execute once when the program begins
 void setup() {
   randomSeed(1);
   
+  setupTendrilLengths();
+  
   mainTitleFont = createFont("Avenir", 10);
   
   textAlign(CENTER, CENTER);
-  
-  maxTendrilLength = (int)floor(0.375 * sketchHeight());
   
   initMaxScreenShake();
   initDefaultPlaybackRates();
@@ -320,6 +346,8 @@ void onBreakBox(){
   if (box.numBreaks > 5 && !DEBUG_MUTE_SOUND){
     screamControls.play();
   }
+  
+  maxTendrilLength = maxTendrilLengths[box.numBreaks-1];
   
   setCameraShake(1.0, 1.0/denominator);
 }
