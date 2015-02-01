@@ -55,6 +55,16 @@ class MusicPlayer {
         distanceProgress = minVolUncovered * (currentLenSq/maxLenSqForVolumeCap);
       };
       
+      distanceProgress = max(min(distanceProgress, 1), 0);
+      
+      float distanceCap = 0.1;
+      
+      if (distanceProgress < distanceCap){
+        distanceProgress = sin(((distanceProgress - 0.04)/distanceCap) * (PI/2.0)) * minVolUncovered;
+      } else {
+        distanceProgress = minVolUncovered;
+      }
+      
       targetVolume = distanceProgress;
     } else {
       if (sc.getVolume() > 0.9){

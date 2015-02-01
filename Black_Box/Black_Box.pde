@@ -6,7 +6,7 @@ MusicPlayer song2;
 MusicPlayer screamControls;
 MusicPlayer introSound;
 
-boolean DEBUG_SKIP_INTRO = false;
+boolean DEBUG_SKIP_INTRO = true;
 boolean DEBUG_MUTE_SOUND = false;
 
 boolean isMouseDown;
@@ -50,7 +50,6 @@ void setupAudio(){
 //  screamControls.shouldAdjustRate = false;
   screamControls.pause();
   screamControls.setShouldLoop(true);
-//  screamControls.setVolume(0.24);
 
   introSound = new MusicPlayer("intro.aif");
   introSound.pause();
@@ -122,7 +121,8 @@ void setup() {
   box = new Box(this, boxCenter.x, boxCenter.y, 0.0625 * sketchHeight());
   tendrils = new Tendrils(10, 
                           2f, 7f, 0.1f, 2f,
-                          1000f, 10000f, 0.97f, 1f);
+                          1000f, 10000f, 0.97f, 1f,
+                          maxTendrilLength);
                           
   setupAudio();
 
@@ -224,7 +224,7 @@ void drawIntro(){
     fill = min(255, max(0, fill));
     box.fillColor = color(fill);
     
-    if (box.disabled && fill > 150){
+    if (box.disabled && fill > 110){
       startInteraction();
     }
     
@@ -381,10 +381,6 @@ void updateParticlesPosition()
     Point bp = box.pieceCoords();
     if(p.isAlive())
       p.setTarget(bp.x, bp.y);
-
-    // stop particle emission once box is no longer broken
-    if(!box.broken)
-      p.setLeftToGenCount(0);
   }
 }
 

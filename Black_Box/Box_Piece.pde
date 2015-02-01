@@ -70,7 +70,8 @@ class Box_Piece {
       }
         
       lastPosition = new Point(offset.x, offset.y);
-        
+      
+      // Makes reconnect is FAST rather than a slow crawl
 //      offset.x += velocityVector.x;
 //      offset.y += velocityVector.y;
         
@@ -85,7 +86,7 @@ class Box_Piece {
       }
     }
 
-    rotatePoint = poly.center(); //new Point(offset.x + boxCenter.x, offset.y + boxCenter.y);
+    rotatePoint = poly.center();
   
     float a = boxCenter.getAngle(rotatePoint.addTo(offset)) + angleOffset;
     angle = (a * PI)/180.0 ;
@@ -125,6 +126,7 @@ class Box_Piece {
     
     float len = fastSqrt(lenSq);
     
+    // Used for if reconnect is FAST rather than a slow crawl
 //    catchDistance = len / 10.0;
   }
   
