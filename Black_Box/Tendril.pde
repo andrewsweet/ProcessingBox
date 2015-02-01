@@ -61,7 +61,11 @@ class Tendril
 		if(!shouldDraw)
 			return;
 
-		stroke(r,g,b,150);
+		float randomPercentage = 0.2;
+		stroke(r*random(1-randomPercentage,1+randomPercentage),
+					 g*random(1-randomPercentage,1+randomPercentage),
+					 b*random(1-randomPercentage,1+randomPercentage),
+					 200);
 		noFill();
 
 		// source: http://forum.processing.org/one/topic/draw-a-sine-curve-between-any-two-points.html
