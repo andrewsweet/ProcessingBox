@@ -10,6 +10,8 @@ class Box_Piece {
   float acceleration = 1.2;
   Point velocityVector;
 
+  float catchDistance;
+
   Point pt;
   Point offset;
   
@@ -65,18 +67,18 @@ class Box_Piece {
         target = killedTarget;
       }
         
-      lastPosition = new Point(offset.x, offset.y);
+//      lastPosition = new Point(offset.x, offset.y);
         
-//      offset.x += velocityVector.x;
-//      offset.y += velocityVector.y;
-//        
-//      velocityVector.x *= acceleration;
-//      velocityVector.y *= acceleration;
+      offset.x += velocityVector.x;
+      offset.y += velocityVector.y;
+        
+      velocityVector.x *= acceleration;
+      velocityVector.y *= acceleration;
 
       offset.x = (0.96 * offset.x + 0.04 * target.x);
       offset.y = (0.96 * offset.y + 0.04 * target.y);
       
-      if (offset.squareDistanceTo(target) < 400 && !box.isDead){
+      if (offset.squareDistanceTo(target) < (catchDistance * catchDistance) && !box.isDead){
         shouldReconnect = true;
       }
     }
@@ -116,6 +118,12 @@ class Box_Piece {
     LineSegment seg = new LineSegment(new Point(0,0), offset);
     
     velocityVector = seg.pointAtProgress(-0.04 + (box.numBreaks * 0.005));
+    
+    float lenSq = seg.lengthSquared();
+    
+    float len = fastSqrt(lenSq);
+    
+    catchDistance = len / 10.0;
   }
   
   void launch(){
