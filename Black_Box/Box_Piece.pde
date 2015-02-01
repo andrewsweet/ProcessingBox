@@ -34,6 +34,8 @@ class Box_Piece {
     angleOffset = -90 * angle/(360.0/4.0);
 
     rotatePoint = new Point(0, 0);
+    
+    catchDistance = 4;
   }
   
   public void update(Point p){
@@ -69,8 +71,8 @@ class Box_Piece {
         
       lastPosition = new Point(offset.x, offset.y);
         
-      offset.x += velocityVector.x;
-      offset.y += velocityVector.y;
+//      offset.x += velocityVector.x;
+//      offset.y += velocityVector.y;
         
       velocityVector.x *= acceleration;
       velocityVector.y *= acceleration;
@@ -123,7 +125,7 @@ class Box_Piece {
     
     float len = fastSqrt(lenSq);
     
-    catchDistance = len / 10.0;
+//    catchDistance = len / 10.0;
   }
   
   void launch(){
