@@ -126,10 +126,16 @@ class ParticleSystem {
     target.y = y;
   }
 
+  public void setLeftToGenCount(int l)
+  {
+    leftToGenCount = l;
+  }
+  
   public boolean isAlive()
   {
     return leftToGenCount > 0;
   }
+
 
 
   public void update()

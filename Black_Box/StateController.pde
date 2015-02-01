@@ -11,6 +11,29 @@ public void updateTendrilState()
 			tendrils.setFrequencyPercentage(0.97f, 1f);
 			tendrils.setColor(255, 255, 255);
 			break;	
+		case 2:
+			//TODO
+			tendrils.setAmplitude(2f*screenRatio, 9f*screenRatio);
+			tendrils.setAmplitudePercentage(0.1f, 4f);
+			tendrils.setFrequency(900f,5000f);
+			tendrils.setFrequencyPercentage(0.9f, 1.1f);
+			tendrils.setColor(255, 200, 200);
+			break;
+		case 3:
+			//TODO
+			tendrils.setAmplitude(2f*screenRatio, 7f*screenRatio);
+			tendrils.setAmplitudePercentage(0.1f, 2f);
+			tendrils.setFrequency(1000f,10000f);
+			tendrils.setFrequencyPercentage(0.97f, 1f);
+			tendrils.setColor(200, 100, 100);
+			break;
+		case 4:
+			tendrils.setAmplitude(1f*screenRatio, 5f*screenRatio);
+			tendrils.setAmplitudePercentage(0.5f, 1.5f);
+			tendrils.setFrequency(1000f,200f);
+			tendrils.setFrequencyPercentage(0.9f, 1.1f);
+			tendrils.setColor(175, 75, 75);
+			break;
 		case 5:
 			tendrils.setAmplitude(1f*screenRatio, 13f*screenRatio);
 			tendrils.setAmplitudePercentage(0.1f, 6f);
@@ -19,7 +42,7 @@ public void updateTendrilState()
 			tendrils.setColor(100, 0, 0);
 			break;	
 		case 6:
-			tendrils.deleteTendrils(5);
+			tendrils.deleteTendrils(4);
 			tendrils.setAmplitude(1f*screenRatio, 5f*screenRatio);
 			tendrils.setAmplitudePercentage(0.9f, 1.1f);
 			tendrils.setFrequency(500f,1500f);
@@ -27,7 +50,7 @@ public void updateTendrilState()
 			tendrils.setColor(50, 0, 0);
 			break;
 		case 7:
-			tendrils.deleteTendrils(3);
+			tendrils.deleteTendrils(4);
 			finalTendrilsLeftCount = 2;
 			tendrils.setAmplitude(5f*screenRatio, 5f*screenRatio);
 			tendrils.setAmplitudePercentage(1f, 1f);
@@ -50,16 +73,16 @@ public void updateParticlesState()
 	switch(box.numBreaks)
 	{
 		case 1:
-	 		p = new ParticleSystem(c, m, 4f*screenRatio, 15f*screenRatio, 
-	 													 100, (float)box.numBreaks/7f, 3, 100);
+	 		p = new ParticleSystem(c, m, 5f*screenRatio, 15f*screenRatio, 
+	 													 150, (float)box.numBreaks/7f, 7, 130);
 	 		break;
 		case 2:
-	 		p = new ParticleSystem(c, m, 6f*screenRatio, 12f*screenRatio, 
-	 													 150, (float)box.numBreaks/7f, 5, 100);
+	 		p = new ParticleSystem(c, m, 7f*screenRatio, 12f*screenRatio, 
+	 													 200, (float)box.numBreaks/7f, 10, 100);
 	 		break;
 		case 3:
 	 		p = new ParticleSystem(c, m, 4f*screenRatio, 15f*screenRatio, 
-	 													 125, (float)box.numBreaks/7f, 3, 130);
+	 													 125, (float)box.numBreaks/7f, 4, 130);
 	 		break;
 		case 4:
 	 		p = new ParticleSystem(c, m, 1.5f*screenRatio, 12f*screenRatio, 
@@ -71,11 +94,11 @@ public void updateParticlesState()
 			break;
 		case 6:
  			p = new ParticleSystem(c, m, 3f*screenRatio, 15f*screenRatio, 
- 														 100, 0.6f, 3, 100);
+ 														 150, 0.8f, 20, 70);
 			break;
 		case 7:
  			p = new ParticleSystem(c, m, 1f*screenRatio, 12f*screenRatio, 
- 														 100, 1f, 1, 100);
+ 														 150, 1f, 1, 100);
 			break;
 	 	default:
 	 		break;

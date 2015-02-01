@@ -360,6 +360,10 @@ void updateParticlesPosition()
     Point bp = box.pieceCoords();
     if(p.isAlive())
       p.setTarget(bp.x, bp.y);
+
+    // stop particle emission once box is no longer broken
+    if(!box.broken)
+      p.setLeftToGenCount(0);
   }
 }
 
