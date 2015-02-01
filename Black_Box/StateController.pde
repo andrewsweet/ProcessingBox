@@ -46,13 +46,13 @@ public void updateParticlesState()
 
 	switch(box.numBreaks)
 	{
-		case 0:
-	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
-	 		break;
 		case 1:
-			//TODO
-	 		p = new ParticleSystem(c, m, 6f, 17f, 150, (float)box.numBreaks/7f, 3, 100);
+	 		p = new ParticleSystem(c, m, 4f, 20f*sketchHeight()/1024, 100, (float)box.numBreaks/7f, 3, 100);
 	 		break;
+		//case 1:
+			//TODO
+	 		//p = new ParticleSystem(c, m, 6f, 17f, 150, (float)box.numBreaks/7f, 3, 100);
+	 		//break;
 		case 2:
 			//TODO
 	 		p = new ParticleSystem(c, m, 4f, 20f, 100, (float)box.numBreaks/7f, 3, 100);
