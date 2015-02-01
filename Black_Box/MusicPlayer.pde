@@ -12,8 +12,8 @@ class MusicPlayer {
   
   Point prev;
   
-  public MusicPlayer() {
-    sc = new SoundControls();
+  public MusicPlayer(String fileName) {
+    sc = new SoundControls(fileName);
   }
   
   public void pause(){
@@ -132,6 +132,10 @@ class MusicPlayer {
     }
     
     sc.setPlaybackRate(cVolume);
+  }
+  
+  public void setShouldLoop(boolean shouldLoop){
+    sc.setShouldLoop(shouldLoop);
   }
   
   void kill(){

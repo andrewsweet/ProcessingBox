@@ -9,10 +9,10 @@ class SoundControls {
   SamplePlayer sp;
   Gain gain;
   
-  void initialize() {
+  void initialize(String fileName) {
     ac = new AudioContext();
     
-    String sourceFile = dataPath("coltrane.aif");
+    String sourceFile = dataPath(fileName);
     
     println(sourceFile);
     
@@ -44,9 +44,17 @@ class SoundControls {
     } 
   }
   
+  public void setShouldLoop(boolean shouldLoop){
+    if (shouldLoop){
+      sp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+    } else {
+      sp.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+    }
+  }
+  
   public float x, y;
-  public SoundControls() {
-    this.initialize();
+  public SoundControls(String fileName) {
+    this.initialize(fileName);
   }
   
   void setPlaybackRate(float speed){
