@@ -3,6 +3,7 @@ Tendrils tendrils;
 ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
+MusicPlayer screamControls;
 
 boolean DEBUG_SKIP_INTRO = true;
 
@@ -20,10 +21,10 @@ static float textFadeEase = 0.02;
 static int ticksWaited = 0; 
 static int textFadeWait = 60;
 
-static int outroWaitTime = 10000;
+static int outroWaitTime = 11000;
 static int timeOfDeath;
 
-static int MAX_NUM_BREAKS = 0;
+static int MAX_NUM_BREAKS = 7;
 
 static Point boxCenter;
 
@@ -35,12 +36,18 @@ static PFont mainTitleFont;
 int finalTendrilsLeftCount;
 
 void setupAudio(){
-  song1 = new MusicPlayer();
+  song1 = new MusicPlayer("coltrane.aif");
   song1.pause();
   
-  song2 = new MusicPlayer();
+  song2 = new MusicPlayer("coltrane.aif");
   song2.pause();
   song2.shouldAdjustRate = false;
+  
+  screamControls = new MusicPlayer("scream2.aif");
+//  screamControls.shouldAdjustRate = false;
+  screamControls.pause();
+//  screamControls.setShouldLoop(false);
+//  screamControls.setVolume(0.24);
 }
 
 public int sketchWidth() {
@@ -254,6 +261,8 @@ void draw() {
     {
       tendrils.deleteTendrils(1); 
       finalTendrilsLeftCount--;
+      
+      screamControls.pause();
     }
 
     tendrils.draw();
@@ -263,6 +272,7 @@ void draw() {
   box.draw();
   song1.update();
   song2.update();
+  screamControls.update();
   
   song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
   popMatrix();
@@ -284,6 +294,7 @@ void onBreakBox(){
   
   if (box.numBreaks == 5) {
     denominator *= 7.8;
+    screamControls.play();
   }
   
   setCameraShake(1.0, 1.0/denominator);
