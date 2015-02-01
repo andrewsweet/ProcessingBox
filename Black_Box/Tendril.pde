@@ -4,7 +4,7 @@ class Tendril
 	private Point p1, p2;
 
 	// how crazy the tendril is
-	private float amplitude, frequency, squaredLength;
+	private float amplitude, frequency;
 
 	// 
 	private float lowAmpPercent, highAmpPercent, lowFreqPercent, highFreqPercent;
@@ -17,8 +17,7 @@ class Tendril
 	// point, end point, amplitude
 	public Tendril(Point p1, Point p2,
 								 float a, float lap, float hap, 
-								 float f, float lfp, float hfp,
-								 float l)
+								 float f, float lfp, float hfp)
 	{
 		this.p1	= p1;
 		this.p2	= p2;
@@ -28,7 +27,6 @@ class Tendril
 		this.lowFreqPercent = lfp;
 		this.highFreqPercent = hfp;
 		this.frequency = f;
-		this.squaredLength = l*l;
 		this.shouldDraw = true;
 
 		this.r = 255;
@@ -49,7 +47,6 @@ class Tendril
 	{
 		this.r = r; this.g = g; this.b = b;
 	}
-	public void setSquareLength(float l) { squaredLength = l*l; }
 	public void setShouldDraw(boolean b) { shouldDraw = b; }
 
 	
@@ -69,17 +66,20 @@ class Tendril
 
 		// source: http://forum.processing.org/one/topic/draw-a-sine-curve-between-any-two-points.html
 	  float d = p1.squareDistanceTo(p2);
-	  d = min(d,squaredLength);
 
 	  float a = atan2(p2.y-p1.y,p2.x-p1.x);
 	  pushMatrix();
 	    translate(p1.x,p1.y);
 	    rotate(a);
 	    beginShape();
-	      for (float i = 0; i*i <= d; i += 1) {
+	      for (float i = 0f; i*i <= d; i += 1f) {
 	      	float ra = random(lowAmpPercent,highAmpPercent);
 	      	float rf = random(lowFreqPercent,highFreqPercent);
-	        vertex(i,sin(i*TWO_PI*frequency/d+rf)*ra*amplitude);
+
+	      	// when tendril retracts, it gets smaller by this ratio
+	      	float rad = Math.min(d/(TEAR_DISTANCE_SQUARED*30f), 1f);
+
+	        vertex(i,sin(i*TWO_PI*frequency/d+rf)*ra*amplitude*rad);
 	      }
 	    endShape();
 	  popMatrix();

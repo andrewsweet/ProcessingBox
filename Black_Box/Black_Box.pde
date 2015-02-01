@@ -114,8 +114,7 @@ void setup() {
   box = new Box(this, boxCenter.x, boxCenter.y, 0.0625 * sketchHeight());
   tendrils = new Tendrils(10, 
                           2f, 7f, 0.1f, 2f,
-                          1000f, 10000f, 0.97f, 1f,
-                          maxTendrilLength);
+                          1000f, 10000f, 0.97f, 1f);
                           
   setupAudio();
 
