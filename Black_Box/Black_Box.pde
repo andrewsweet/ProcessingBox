@@ -4,8 +4,10 @@ ArrayList<ParticleSystem> particleSystems;
 MusicPlayer song1;
 MusicPlayer song2;
 MusicPlayer screamControls;
+MusicPlayer introSound;
 
 boolean DEBUG_SKIP_INTRO = false;
+boolean DEBUG_MUTE_SOUND = false;
 
 boolean isMouseDown;
 boolean introDone = false;
@@ -44,11 +46,17 @@ void setupAudio(){
   song2.pause();
   song2.shouldAdjustRate = false;
   
-  screamControls = new MusicPlayer("scream2.aif");
+  screamControls = new MusicPlayer("scream.aif");
 //  screamControls.shouldAdjustRate = false;
   screamControls.pause();
-//  screamControls.setShouldLoop(false);
+  screamControls.setShouldLoop(true);
 //  screamControls.setVolume(0.24);
+
+  introSound = new MusicPlayer("intro.aif");
+  introSound.pause();
+  introSound.shouldAdjustRate = false;
+  introSound.setShouldLoop(false);
+  introSound.setTargetVolume(1,1);
 }
 
 public int sketchWidth() {
@@ -128,8 +136,11 @@ void setup() {
     box.disabled = false;
     box.fillColor = color(255);
     introDone = true;
+  } else {
+    if (!DEBUG_MUTE_SOUND){
+      introSound.play();
+    }
   }
-
 }
 
 void shakeCamera(float amount){  
@@ -202,6 +213,7 @@ void drawIntro(){
   if (textBrightness > 250){
     if (ticksWaited > textFadeWait){
       targetTextBrightness = -52;
+      introSound.setTargetVolume(-52/255.0, textFadeEase);
     } else {
       ticksWaited++;
     }
@@ -276,12 +288,15 @@ void draw() {
   box.draw();
   song1.update();
   song2.update();
+  
   screamControls.update();
   
   song2.setTargetPlaybackRate(defaultPlaybackRates[box.numBreaks], 0.3);
   popMatrix();
   
   if (!introDone){
+    introSound.updateVolume();
+//    println();
     drawIntro();
   }
   
@@ -291,17 +306,19 @@ void draw() {
 }
 
 void onBreakBox(){
-  song1.play();
-  song2.play();
+  if (!DEBUG_MUTE_SOUND){
+    song1.play();
+    song2.play();
+  }
   
   float denominator = 7.0 + box.numBreaks;
   
-  if (box.numBreaks == 5) {
+  if (box.numBreaks == 5 && !DEBUG_MUTE_SOUND) {
     denominator *= 7.8;
     screamControls.play();
   }
   
-  if (box.numBreaks > 5){
+  if (box.numBreaks > 5 && !DEBUG_MUTE_SOUND){
     screamControls.play();
   }
   
@@ -317,7 +334,11 @@ void onReconnectBox(){
 void onDeath(){
   song1.kill();
   song2.pause();
-  screamControls.play();
+  
+  if (!DEBUG_MUTE_SOUND){
+    screamControls.play();
+  }
+  
   screamControls.setShouldLoop(false);
   
   timeOfDeath = millis();
