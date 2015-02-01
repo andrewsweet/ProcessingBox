@@ -67,11 +67,12 @@ class Particle {
       float tempV = origV - 10*(box.numBreaks - 3);
       if(tempV >= 50f && v >= tempV)
         v -= 1f;
+
+      fill(h, s, v*(1f-outroProgress()));
     }
-
-    v *= outroProgress();
-
-    fill(h, s, v);
+    else
+      fill(h, s, v);
+    
     
     pushMatrix();
       translate(position.x,position.y);
