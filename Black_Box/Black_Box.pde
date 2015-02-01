@@ -249,9 +249,6 @@ void draw() {
   rectMode(CORNER);
 
   if (box.broken){
-
-    println(box.velocity());
-    
     if(finalTendrilsLeftCount == 2 && 
        0f < box.velocity() && box.velocity() < 2f)
     {

@@ -473,10 +473,6 @@ public class Box {
   }
   
   public float velocity(){
-    print("piece=", piece, "");
-    if (piece!= null){
-    println("lastPosition=", piece.lastPosition);
-    }
     if (piece == null || piece.lastPosition == null) return -1;
     return fastSqrt(piece.offset.squareDistanceTo(piece.lastPosition));
   }
