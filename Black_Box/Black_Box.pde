@@ -250,6 +250,8 @@ void draw() {
 
   if (box.broken){
 
+    println(box.velocity());
+    
     if(finalTendrilsLeftCount == 2 && 
        0f < box.velocity() && box.velocity() < 2f)
     {
@@ -297,6 +299,10 @@ void onBreakBox(){
     screamControls.play();
   }
   
+  if (box.numBreaks > 5){
+    screamControls.play();
+  }
+  
   setCameraShake(1.0, 1.0/denominator);
 }
 
@@ -309,6 +315,8 @@ void onReconnectBox(){
 void onDeath(){
   song1.kill();
   song2.pause();
+  screamControls.play();
+  screamControls.setShouldLoop(false);
   
   timeOfDeath = millis();
   

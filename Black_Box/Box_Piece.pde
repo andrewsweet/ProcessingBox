@@ -67,7 +67,7 @@ class Box_Piece {
         target = killedTarget;
       }
         
-//      lastPosition = new Point(offset.x, offset.y);
+      lastPosition = new Point(offset.x, offset.y);
         
       offset.x += velocityVector.x;
       offset.y += velocityVector.y;

@@ -68,7 +68,9 @@ class Particle {
       if(tempV >= 50f && v >= tempV)
         v -= 1f;
 
-      fill(h, s, v*(1f-outroProgress()));
+      float blackness = 0.3;
+
+      fill(h, s, v*(1f-(outroProgress() * blackness)));
     }
     else
       fill(h, s, v);
