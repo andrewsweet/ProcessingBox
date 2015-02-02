@@ -6,8 +6,8 @@ MusicPlayer song2;
 MusicPlayer screamControls;
 MusicPlayer introSound;
 
-boolean DEBUG_SKIP_INTRO = true;
-boolean DEBUG_MUTE_SOUND = true;
+boolean DEBUG_SKIP_INTRO = false;
+boolean DEBUG_MUTE_SOUND = false;
 
 boolean isMouseDown;
 boolean introDone = false;
@@ -56,11 +56,12 @@ void setupAudio(){
   screamControls.pause();
   screamControls.setShouldLoop(true);
 
-  introSound = new MusicPlayer("intro.aif");
+  introSound = new MusicPlayer("intro2.aif");
   introSound.pause();
   introSound.shouldAdjustRate = false;
-  introSound.setShouldLoop(false);
-  introSound.setTargetVolume(1,1);
+  introSound.setShouldLoop(true);
+  introSound.setTargetVolume(0, 1);
+  introSound.updateVolume();
 }
 
 public int sketchWidth() {
@@ -183,6 +184,7 @@ void setup() {
   } else {
     if (!DEBUG_MUTE_SOUND){
       introSound.play();
+      introSound.setTargetVolume(0.4, 0.07);
     }
   }
 }
@@ -257,7 +259,6 @@ void drawIntro(){
   if (textBrightness > 250){
     if (ticksWaited > textFadeWait){
       targetTextBrightness = -52;
-      introSound.setTargetVolume(-52/255.0, textFadeEase);
     } else {
       ticksWaited++;
     }
@@ -270,6 +271,7 @@ void drawIntro(){
     box.fillColor = color(fill);
     
     if (box.disabled && fill > 110){
+      introSound.setTargetVolume(-0.3, textFadeEase/2.0);
       startInteraction();
     }
     
@@ -322,7 +324,7 @@ void draw() {
       tendrils.deleteTendrils(1); 
       finalTendrilsLeftCount--;
       
-      screamControls.setTargetVolume(-0.4, 0.1);
+      screamControls.setTargetVolume(-0.4, 0.6);
     }
 
     tendrils.draw();
