@@ -94,6 +94,7 @@ class ParticleSystem {
   int leftToGenCount, lifespan;
   float percentRed;
   int particlePerSpew;
+  boolean isDead;
   
   /*
     source: source of target 
@@ -117,6 +118,8 @@ class ParticleSystem {
 
     particles = new ArrayList<Particle>();
     particleWidth = w;
+
+    this.isDead = false;
   }
 
 
@@ -133,7 +136,7 @@ class ParticleSystem {
   
   public boolean isAlive()
   {
-    return leftToGenCount > 0;
+    return !isDead;
   }
   
   public void update()
@@ -163,7 +166,16 @@ class ParticleSystem {
                                    percentRed));
       }
       leftToGenCount--;
+    } else if (!isDead){
+      
+      isDead = true;
+
+      onDeath();
     }
+  }
+
+  public void onDeath(){
+    box.mouseReleased();
   }
 
   public void draw() {

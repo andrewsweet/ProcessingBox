@@ -3,7 +3,7 @@ import java.util.*;
 // Greater values increase disparity between split pieces
 float MAX_CRACK_VARIATION = 1.4;
 
-int MAX_HOLD_TIME = 12000;
+static int MAX_HOLD_TIME = 12000;
 
 // Smaller values lead to more jagged edges, 
 // larger values lead to better performance, simplified polygons
@@ -522,12 +522,6 @@ public class Box {
   
   void mouseDragged(){
     if (startInsideShape && !isDead){
-      
-      if (startHoldTime > -1 && millis() - startHoldTime > MAX_HOLD_TIME){
-        mouseReleased();
-        return;
-      }
-      
       // Dragging only works if the drag started inside the shape
       Point p = new Point(mouseX, mouseY);
       
@@ -585,6 +579,11 @@ public class Box {
   }
   
   public void draw(){  
+    if (startHoldTime > -1 && millis() - startHoldTime > MAX_HOLD_TIME){
+      mouseReleased();
+      // return;
+    }
+    
     pushMatrix();
     translate(boxCenter.x, boxCenter.y);
     

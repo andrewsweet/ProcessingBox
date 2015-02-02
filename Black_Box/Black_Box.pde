@@ -29,6 +29,7 @@ static int outroWaitTime = 11000;
 static int timeOfDeath;
 
 static int MAX_NUM_BREAKS = 7;
+static int DEFAULT_MAX_TENDRIL_LENGTH;
 
 static Point boxCenter;
 
@@ -104,7 +105,8 @@ void initDefaultPlaybackRates(){
 void setupMaxTendrilLengths(){
   int len = MAX_NUM_BREAKS + 1;
 
-  int baseLength = (int)floor(0.375 * sketchHeight());
+  DEFAULT_MAX_TENDRIL_LENGTH = (int)floor(0.375 * sketchHeight());
+  int baseLength = DEFAULT_MAX_TENDRIL_LENGTH;
 
   maxTendrilLengths = new int[len];
 
@@ -427,7 +429,9 @@ void updateParticlesPosition()
     Point bp = box.pieceCoords();
 
     // start splitting at 10% (0.1f) time left
-    float sqD = maxTendrilLength*maxTendrilLength;
+    float len = DEFAULT_MAX_TENDRIL_LENGTH - 80;
+
+    float sqD = len * len;
     float angle = twoFifthPI * (1.1f - Math.min((tendrils.currentLengthSquared()/sqD)/0.1f, 1f));
 
     // apply rotation matrix
