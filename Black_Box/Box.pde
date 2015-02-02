@@ -646,6 +646,7 @@ public class Box {
     popMatrix();
     
     if (piece != null){
+      parent.fill(fillColor);
       piece.drawMe();
       
       if (piece.shouldReconnect && !box.isDead){
