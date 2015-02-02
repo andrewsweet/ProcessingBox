@@ -19,7 +19,12 @@ class Box_Piece {
   Point lastPosition;
   
   Point rotatePoint;
+
+  Point lastMouse;
+  Point lastLastMouse;
   
+  boolean isLaunching = false;
+
   public Box_Piece(Poly poly_, Point startMouse_) { 
     poly = poly_; 
     startMouse = startMouse_; 
@@ -39,6 +44,10 @@ class Box_Piece {
   }
   
   public void update(Point p){
+    if (isLaunching){
+      launch();
+    }
+
     fill(box.fillColor);
     
     LineSegment lineSeg = new LineSegment(boxCenter, p);
@@ -78,8 +87,10 @@ class Box_Piece {
       velocityVector.x *= acceleration;
       velocityVector.y *= acceleration;
 
-      offset.x = (0.96 * offset.x + 0.04 * target.x);
-      offset.y = (0.96 * offset.y + 0.04 * target.y);
+      if (target != null){
+        offset.x = (0.96 * offset.x + 0.04 * target.x);
+        offset.y = (0.96 * offset.y + 0.04 * target.y);
+      }
       
       if (offset.squareDistanceTo(target) < (catchDistance * catchDistance) && !box.isDead){
         shouldReconnect = true;
@@ -89,8 +100,24 @@ class Box_Piece {
     rotatePoint = poly.center();
   
     float a = boxCenter.getAngle(rotatePoint.addTo(offset)) + angleOffset;
-    angle = (a * PI)/180.0 ;
+    angle = (a * PI)/180.0;
+    
+    moveTendrils(this.coords());
+  }
+  
+  public Point coords(){
+    return this.rotatePoint.addTo(this.offset);
+  }
+  
+  public void update(){
+    if (isDragged){
+      update(new Point(mouseX, mouseY));
+    } else {
+      update(pt);
+    }
+  }
 
+  public void drawMe(){
     pushMatrix();
     translate(offset.x, offset.y);
     pushMatrix();
@@ -99,20 +126,6 @@ class Box_Piece {
     poly.drawMe();
     popMatrix();
     popMatrix();
-    
-    moveTendrils(this.coords());
-  }
-  
-  public Point coords(){
-    return this.rotatePoint.addTo(this.offset);
-  }
-
-  public void drawMe(){
-    if (isDragged){
-      update(new Point(mouseX, mouseY));
-    } else {
-      update(pt);
-    }
   }
   
   public void stopDrag(){
@@ -131,14 +144,49 @@ class Box_Piece {
   }
   
   void launch(){
-    Point pieceCenter = coords();
-    
-    LineSegment seg = new LineSegment(boxCenter, pieceCenter);
-    
-    float progress = 1.27 + random(0.11);
-    
-    Point targetLocation = seg.pointAtProgress(progress);
-    
-    killedTarget = targetLocation;
+    isLaunching = true;
+
+    Point mouse = new Point(mouseX, mouseY);
+
+    if (lastLastMouse != null){
+      isLaunching = false;
+      stopDrag();
+
+      Point pieceCenter = coords();
+      
+      LineSegment seg = new LineSegment(lastLastMouse, mouse);
+      
+      float lenSq = seg.lengthSquared();
+
+      if (lenSq > 80){
+
+        float progress;
+
+        if (lenSq > 20000){
+          progress = 20000.0/lenSq;
+        } else {
+          progress = 1.01 + min((30.0/lenSq), 0.3);
+        }
+
+        Point targetLocation = seg.pointAtProgress(progress);
+        
+        targetLocation.x -= boxCenter.x;
+        targetLocation.y -= boxCenter.y;
+
+        killedTarget = targetLocation;
+      } else {
+        float progress = 1.5; //1.27 + random(0.11);
+        
+        Point targetLocation = seg.pointAtProgress(progress);
+        
+        targetLocation.x -= boxCenter.x;
+        targetLocation.y -= boxCenter.y;
+
+        killedTarget = targetLocation;
+      }
+    }
+
+    lastLastMouse = lastMouse;
+    lastMouse = mouse;
   }
 }

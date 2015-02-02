@@ -478,8 +478,8 @@ public class Box {
   }
   
   void killBox(){
+    fillColor = color(0);
     isDead = true;
-    piece.stopDrag();
     piece.launch();
     onDeath();
   }
@@ -576,6 +576,12 @@ public class Box {
     startDragPoint = this.center;
     
     onReconnectBox();
+  }
+  
+  public void update(){
+    if (piece != null){
+      piece.update();
+    }
   }
   
   public void draw(){  

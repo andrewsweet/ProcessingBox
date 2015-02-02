@@ -25,7 +25,7 @@ static float textFadeEase = 0.02;
 static int ticksWaited = 0; 
 static int textFadeWait = 60;
 
-static int outroWaitTime = 11000;
+static int outroWaitTime = 10000;
 static int timeOfDeath;
 
 static int MAX_NUM_BREAKS = 7;
@@ -209,7 +209,6 @@ void setCameraShake(float amount, float decayFactor){
 
 void startInteraction(){
   box.disabled = false;
-  println("START INTERACTION");
 }
 
 float outroProgress(){
@@ -326,7 +325,7 @@ void draw() {
       
       screamControls.setTargetVolume(-0.4, 0.6);
     }
-
+    box.update();
     tendrils.draw();
   }
   
